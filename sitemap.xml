@@ -2,14 +2,14 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://www.devlong.com/categories/index.html</loc>
+    <loc>http://www.devlong.com/timeline/index.html</loc>
     
     <lastmod>2018-12-02T02:37:45.656Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.devlong.com/timeline/index.html</loc>
+    <loc>http://www.devlong.com/categories/index.html</loc>
     
     <lastmod>2018-12-02T02:37:45.656Z</lastmod>
     
@@ -44,13 +44,6 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2017/09/30/raspbian-install-vscode/</loc>
-    
-    <lastmod>2018-12-02T02:37:45.635Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.devlong.com/2018/05/14/opencv-go/</loc>
     
     <lastmod>2018-12-02T02:37:45.635Z</lastmod>
@@ -72,14 +65,14 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2017/08/12/swift-access-control/</loc>
+    <loc>http://www.devlong.com/2017/09/30/raspbian-install-vscode/</loc>
     
-    <lastmod>2018-12-02T02:37:45.634Z</lastmod>
+    <lastmod>2018-12-02T02:37:45.635Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2017/09/24/pull-to-refresh-component/</loc>
+    <loc>http://www.devlong.com/2017/08/07/swift-generic/</loc>
     
     <lastmod>2018-12-02T02:37:45.634Z</lastmod>
     
@@ -93,16 +86,16 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2017/08/07/swift-generic/</loc>
+    <loc>http://www.devlong.com/2017/09/24/pull-to-refresh-component/</loc>
     
     <lastmod>2018-12-02T02:37:45.634Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2017/07/29/vim-tips/</loc>
+    <loc>http://www.devlong.com/2017/08/12/swift-access-control/</loc>
     
-    <lastmod>2018-12-02T02:37:45.633Z</lastmod>
+    <lastmod>2018-12-02T02:37:45.634Z</lastmod>
     
   </url>
   
@@ -128,7 +121,21 @@
   </url>
   
   <url>
+    <loc>http://www.devlong.com/2017/07/29/vim-tips/</loc>
+    
+    <lastmod>2018-12-02T02:37:45.633Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.devlong.com/2017/03/12/pod-setup-wait-too-long-time/</loc>
+    
+    <lastmod>2018-12-02T02:37:45.632Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.devlong.com/2017/03/12/ios-facebook-shre/</loc>
     
     <lastmod>2018-12-02T02:37:45.632Z</lastmod>
     
@@ -143,13 +150,6 @@
   
   <url>
     <loc>http://www.devlong.com/2016/12/08/swift-3-extensions/</loc>
-    
-    <lastmod>2018-12-02T02:37:45.632Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devlong.com/2017/03/12/ios-facebook-shre/</loc>
     
     <lastmod>2018-12-02T02:37:45.632Z</lastmod>
     
@@ -177,7 +177,7 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2016/05/25/create-xcode-plugin-in-three-minutes/</loc>
+    <loc>http://www.devlong.com/2016/08/13/spring-circle-animation/</loc>
     
     <lastmod>2018-12-02T02:37:45.630Z</lastmod>
     
@@ -191,13 +191,6 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2016/08/13/spring-circle-animation/</loc>
-    
-    <lastmod>2018-12-02T02:37:45.630Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.devlong.com/2016/05/17/library-share/</loc>
     
     <lastmod>2018-12-02T02:37:45.630Z</lastmod>
@@ -205,14 +198,14 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2016/04/30/xcode-plugin/</loc>
+    <loc>http://www.devlong.com/2016/05/25/create-xcode-plugin-in-three-minutes/</loc>
     
-    <lastmod>2018-12-02T02:37:45.629Z</lastmod>
+    <lastmod>2018-12-02T02:37:45.630Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2016/04/30/library-share/</loc>
+    <loc>http://www.devlong.com/2016/04/30/xcode-plugin/</loc>
     
     <lastmod>2018-12-02T02:37:45.629Z</lastmod>
     
@@ -233,9 +226,9 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2016/04/21/clean-mac-ssd/</loc>
+    <loc>http://www.devlong.com/2016/04/30/library-share/</loc>
     
-    <lastmod>2018-12-02T02:37:45.628Z</lastmod>
+    <lastmod>2018-12-02T02:37:45.629Z</lastmod>
     
   </url>
   
@@ -255,6 +248,13 @@
   
   <url>
     <loc>http://www.devlong.com/2016/04/19/setting-page-link/</loc>
+    
+    <lastmod>2018-12-02T02:37:45.628Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://www.devlong.com/2016/04/21/clean-mac-ssd/</loc>
     
     <lastmod>2018-12-02T02:37:45.628Z</lastmod>
     
@@ -296,6 +296,13 @@
   </url>
   
   <url>
+    <loc>http://www.devlong.com/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/</loc>
+    
+    <lastmod>2018-12-02T02:37:45.626Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://www.devlong.com/2015/01/17/shu-chu-jing-tai-ku-he-frameworkxu-yao-zhu-yi-de-shi/</loc>
     
     <lastmod>2018-12-02T02:37:45.626Z</lastmod>
@@ -303,9 +310,9 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/</loc>
+    <loc>http://www.devlong.com/2014/05/14/gem-install-rails-chu-xian-cuo-wu-cannot-load-such-file-openssl/</loc>
     
-    <lastmod>2018-12-02T02:37:45.626Z</lastmod>
+    <lastmod>2018-12-02T02:37:45.625Z</lastmod>
     
   </url>
   
@@ -324,13 +331,6 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2014/05/14/gem-install-rails-chu-xian-cuo-wu-cannot-load-such-file-openssl/</loc>
-    
-    <lastmod>2018-12-02T02:37:45.625Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://www.devlong.com/2014/03/24/heng-ping-shu-ping-zi-gua-ying-zong-jie/</loc>
     
     <lastmod>2018-12-02T02:37:45.625Z</lastmod>
@@ -338,14 +338,14 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2013/04/10/dot-netde-datetimeshi-jian-ge-shi-zhuan-cheng-nsdate/</loc>
+    <loc>http://www.devlong.com/2013/04/10/zi-ding-yi-uitextfieldbei-jing/</loc>
     
     <lastmod>2018-12-02T02:37:45.624Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2013/04/10/zi-ding-yi-uitextfieldbei-jing/</loc>
+    <loc>http://www.devlong.com/2013/04/10/dot-netde-datetimeshi-jian-ge-shi-zhuan-cheng-nsdate/</loc>
     
     <lastmod>2018-12-02T02:37:45.624Z</lastmod>
     
@@ -373,14 +373,14 @@
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2012/05/22/at-class-vs-number-import,liang-chong-fang-shi-de-tao-lun/</loc>
+    <loc>http://www.devlong.com/2012/05/22/geng-gai-navigationcontroller-pushhe-popjie-mian-qie-huan-dong-hua/</loc>
     
     <lastmod>2018-12-02T02:37:45.622Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://www.devlong.com/2012/05/22/geng-gai-navigationcontroller-pushhe-popjie-mian-qie-huan-dong-hua/</loc>
+    <loc>http://www.devlong.com/2012/05/22/at-class-vs-number-import,liang-chong-fang-shi-de-tao-lun/</loc>
     
     <lastmod>2018-12-02T02:37:45.622Z</lastmod>
     
@@ -404,13 +404,6 @@
     <loc>http://www.devlong.com/404.html</loc>
     
     <lastmod>2018-12-02T02:37:45.621Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://www.devlong.com/vocabulary/index.html</loc>
-    
-    <lastmod>2018-12-02T02:25:34.165Z</lastmod>
     
   </url>
   
