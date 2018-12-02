@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>iOS进阶之编写弹性动画 | Mellong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="前言之前在iOS开发干货 第1期中提到过一个挺有意思的数字转变动画NumberMorphView , 如下图：">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS进阶之编写弹性动画">
+<meta property="og:url" content="http://www.devlong.com/2016/08/13/spring-circle-animation/index.html">
+<meta property="og:site_name" content="Mellong">
+<meta property="og:description" content="前言之前在iOS开发干货 第1期中提到过一个挺有意思的数字转变动画NumberMorphView , 如下图：">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/me-abhinav/NumberMorphView/dev/sample.gif">
+<meta property="og:updated_time" content="2018-12-02T02:37:45.630Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS进阶之编写弹性动画">
+<meta name="twitter:description" content="前言之前在iOS开发干货 第1期中提到过一个挺有意思的数字转变动画NumberMorphView , 如下图：">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/me-abhinav/NumberMorphView/dev/sample.gif">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34848996-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b29f4457115392934213d1aef151efff";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2699452970228638",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mellong</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">列表</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">列表</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+            <h2 id="name">Mellong</h2>
+            <h3 id="title">简单就好</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Zhuhai, China</span>
+            <a id="follow" target="_blank" href="http://github.com/MellongLau">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                53
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                33
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/MellongLau" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-spring-circle-animation" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            iOS进阶之编写弹性动画
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/08/13/spring-circle-animation/">
+            <time datetime="2016-08-13T14:07:12.000Z" itemprop="datePublished">2016-08-13</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/iOS/">iOS</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                
+                    <div id="toc" class="toc-article">
+                    <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#要做些什么"><span class="toc-number">2.</span> <span class="toc-text">要做些什么</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#开始"><span class="toc-number">3.</span> <span class="toc-text">开始</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#准备工作"><span class="toc-number">3.1.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动手来画个圆"><span class="toc-number">3.2.</span> <span class="toc-text">动手来画个圆</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#加入弹性效果"><span class="toc-number">3.3.</span> <span class="toc-text">加入弹性效果</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol>
+                    </div>
+                
+            
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>之前在<a href="http://blog.devlong.com/2016/04/30/library-share/" target="_blank" rel="noopener">iOS开发干货 第1期</a>中提到过一个挺有意思的数字转变动画<a href="https://github.com/me-abhinav/NumberMorphView" target="_blank" rel="noopener">NumberMorphView</a> , 如下图：</p>
+<p><img src="https://raw.githubusercontent.com/me-abhinav/NumberMorphView/dev/sample.gif" alt="NumberMorphView"></p>
+<a id="more"></a>
+<p>我将通过几篇文章对这个开源库做一些分析，当然，这篇文章不会对它做全面的解析，而是利用这个库的一些技术概念来做一些简单的示例，也算是一个引子，后面会抽时间再写一篇对这个库的代码分析，敬请期待。</p>
+<h2 id="要做些什么"><a href="#要做些什么" class="headerlink" title="要做些什么"></a>要做些什么</h2><p>我们将会使用CADisplayLink + CAShapeLayer + UIBezierPath结合制作一个毫秒级的画圆动画，不同的是，这个动画具有弹性效果，下面先来看看制作的效果：</p>
+<p><img src="/blogImages/step_01.gif" alt="效果预览"></p>
+<h2 id="开始"><a href="#开始" class="headerlink" title="开始"></a>开始</h2><h3 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h3><ol>
+<li>先新建一个Single View Application项目，在项目中添加类RRCircleAnimationView，继承于UIView。</li>
+<li>打开Main.storyboard，将唯一的一个ViewController的view custom class修改为RRCircleAnimationView。<br>至此，准备工作已经完成。</li>
+</ol>
+<h3 id="动手来画个圆"><a href="#动手来画个圆" class="headerlink" title="动手来画个圆"></a>动手来画个圆</h3><p>先来个简单任务，我们来实现画圆动画。</p>
+<p>第一步，为RRCircleAnimationView添加属性：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">RRCircleAnimationView</span></span></span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CADisplayLink</span> *_displayLink; <span class="comment">// CADisplayLink可以确保系统渲染每一帧的时候我们的方法都被调用, 从而保证了动画的流畅性，毫秒级动画就靠他。</span></span><br><span class="line">    <span class="built_in">UIBezierPath</span> *_path; <span class="comment">// 用于创建基于矢量的路径</span></span><br><span class="line">    <span class="built_in">CGPoint</span> _beginPoint; <span class="comment">// 开始触摸位置</span></span><br><span class="line">    <span class="built_in">CGPoint</span> _endPoint;  <span class="comment">// 触摸结束的位置</span></span><br><span class="line">    <span class="built_in">CAShapeLayer</span> *_shapeLayer; <span class="comment">// 可以结合UIBezierPath进行绘画</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接着初始化实例变量，由于我们用的是storyboard进行加载，所以可以在awakeFromNib方法里面初始化</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 注意这里我们是直接从xib加载当前view。</span></span><br><span class="line">- (<span class="keyword">void</span>)awakeFromNib</span><br><span class="line">&#123;</span><br><span class="line">    _shapeLayer = [<span class="built_in">CAShapeLayer</span> layer];</span><br><span class="line">    [<span class="keyword">self</span>.layer addSublayer:_shapeLayer];</span><br><span class="line">    _shapeLayer.fillColor = [<span class="built_in">UIColor</span> colorWithRed:<span class="number">0.400</span> green:<span class="number">0.400</span> blue:<span class="number">1.000</span> alpha:<span class="number">1.000</span>].CGColor;</span><br><span class="line">    _displayLink = [<span class="built_in">CADisplayLink</span> displayLinkWithTarget:<span class="keyword">self</span> selector:<span class="keyword">@selector</span>(updateFrame)];</span><br><span class="line">    [_displayLink addToRunLoop:[<span class="built_in">NSRunLoop</span> currentRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接下来实现上面CADisplayLink要不停调用的<code>updateFrame</code>方法，我们在此方法内不断地画圆。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)updateFrame &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 画圆</span></span><br><span class="line">    _path = [<span class="built_in">UIBezierPath</span> bezierPathWithArcCenter:_beginPoint radius:[<span class="keyword">self</span> getRadius] startAngle:<span class="number">0</span> endAngle:M_PI*<span class="number">2</span> clockwise:<span class="literal">YES</span>];</span><br><span class="line">    _shapeLayer.path = _path.CGPath;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面我们用开始触摸的点的位置作为圆心的位置，再根据特定的半径进行绘制一个圆，这个半径是根据我们触摸的开始点和结束点进行计算出来的，开始触摸点到结束点的距离就是这个圆的半径。</p>
+<p>我们先把触摸的起始和结束点给找到：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesBegan:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">UITouch</span> *touch = [touches anyObject];</span><br><span class="line">    <span class="built_in">CGPoint</span> point = [touch locationInView:<span class="keyword">self</span>];</span><br><span class="line">    _beginPoint = point;</span><br><span class="line">    _endPoint = point;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)touchesMoved:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">UITouch</span> *touch = [touches anyObject];</span><br><span class="line">    <span class="built_in">CGPoint</span> point = [touch locationInView:<span class="keyword">self</span>];</span><br><span class="line">    _endPoint = point;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后计算用上我们中学的数学知识，根据两点坐标距离公式</p>
+<p><img src="/blogImages/distance.jpg" alt="两点坐标距离公式"></p>
+<p>可以得到我们起始和结束两点的距离，也就是圆的半径是：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGFloat</span>)getRadius</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> result = sqrt(pow(_endPoint.x - _beginPoint.x, <span class="number">2</span>) + pow(_endPoint.y - _beginPoint.y, <span class="number">2</span>));</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>到这里画圆动画完成。</p>
+<h3 id="加入弹性效果"><a href="#加入弹性效果" class="headerlink" title="加入弹性效果"></a>加入弹性效果</h3><p>上面只是的画圆动画看起来是没什么问题了，不过总感觉缺少动感，接下来我们来帮他加入些活力！</p>
+<ol>
+<li><p>添加一下成员变量到RRCircleAnimationView类中。</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">BOOL</span> _isTouchEnd; <span class="comment">// 触摸结束标志</span></span><br><span class="line"><span class="keyword">int</span> _currentFrame; <span class="comment">// 当前的帧数</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在<code>- (void)touchesBegan:(NSSet&lt;UITouch *&gt; *)touches withEvent:(UIEvent *)event</code>方法内添加以下代码：</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">_isTouchEnd = <span class="literal">NO</span>; <span class="comment">//重置触摸状态</span></span><br><span class="line">_currentFrame = <span class="number">1</span>; <span class="comment">//重置当前的帧数</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>添加以下方法：</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)touchesEnded:(<span class="built_in">NSSet</span>&lt;<span class="built_in">UITouch</span> *&gt; *)touches withEvent:(<span class="built_in">UIEvent</span> *)event</span><br><span class="line">&#123;</span><br><span class="line">    _isTouchEnd = <span class="literal">YES</span>; <span class="comment">//触摸结束，更新触摸状态</span></span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将方法<code>- (CGFloat)getRadius</code>修改如下：</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGFloat</span>)getRadius</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> result = sqrt(pow(_endPoint.x-_beginPoint.x, <span class="number">2</span>)+pow(_endPoint.y-_beginPoint.y, <span class="number">2</span>));</span><br><span class="line">    <span class="keyword">if</span> (_isTouchEnd) &#123;</span><br><span class="line">        <span class="built_in">CGFloat</span> animationDuration = <span class="number">1.0</span>; <span class="comment">// 弹簧动画持续的时间</span></span><br><span class="line">        <span class="keyword">int</span> maxFrames = animationDuration / _displayLink.duration;</span><br><span class="line">        _currentFrame++;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (_currentFrame &lt;= maxFrames) &#123;</span><br><span class="line">                <span class="built_in">CGFloat</span> factor = [<span class="keyword">self</span> getSpringInterpolation:(<span class="built_in">CGFloat</span>)(_currentFrame) / (<span class="built_in">CGFloat</span>)(maxFrames)]; <span class="comment">//根据公式计算出弹簧因子</span></span><br><span class="line">                <span class="keyword">return</span> MAX_RADIUS + (result - MAX_RADIUS) * factor; <span class="comment">// 根据弹簧因子计算当前帧的圆半径</span></span><br><span class="line">            &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">return</span> MAX_RADIUS;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>最后加入神奇的公式：</p>
+ <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">CGFloat</span>)getSpringInterpolation:(<span class="built_in">CGFloat</span>)x</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">CGFloat</span> tension = <span class="number">0.3</span>; <span class="comment">// 张力系数</span></span><br><span class="line">    <span class="keyword">return</span> pow(<span class="number">2</span>, <span class="number">-10</span> * x) * sin((x - tension / <span class="number">4</span>) * (<span class="number">2</span> * M_PI) / tension);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>这个公式用数学符号表达出来是：</p>
+<p><img src="/blogImages/math_spring.png" alt="Math"></p>
+<p>可以用Mac OS X自带的软件叫<code>Grapher</code>画出此函数的的图像，如下图：</p>
+<p><img src="/blogImages/math_graph.png" alt="Grapher"></p>
+<p>这个函数的作用其实就是通过x值，也就是当前帧数除以允许的最大帧数。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">(<span class="built_in">CGFloat</span>)(_currentFrame) / (<span class="built_in">CGFloat</span>)(maxFrames)</span><br></pre></td></tr></table></figure>
+<p>因此，x的值的范围也就是(0, 1]。</p>
+<p>我们所要的动画效果是把圆拉大到超过或者小于设定的目标半径<code>MAX_RADIUS</code>时，需要一个弹性动画逐渐回到设定好的目标半径。</p>
+<p>回头再看一下实时计算动画半径的公式：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">MAX_RADIUS + (result - MAX_RADIUS) * factor</span><br></pre></td></tr></table></figure>
+<p>为了让x = 1的时候，半径 = MAX_RADIUS，所以这时factor就应该为0，也就是f(1) = 0。</p>
+<p>再看看刚才的函数图像，在x = 0到1之前振动，随着x的增加振幅逐渐减少，当x = 1的时候，y值为0。</p>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>这篇文章讲述了如何自己实现具有弹性的帧动画，如果能理解好这种动画制作原理，对动画效果开发是很有帮助的，后面有时间会继续写其他的一些动画制作的方法，实现更多的动画效果。</p>
+<p>差点忘了说了，目前这个动画已经放到github上面，传送门：<a href="https://github.com/MellongLau/RRongAnimation" target="_blank" rel="noopener">RRongAnimation</a></p>
+<p><img src="https://raw.github.com/MellongLau/RRongAnimation/master/Screenshots/screenshot.gif" alt="RRongAnimation"></p>
+<p><em>The End</em></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.devlong.com/2016/08/13/spring-circle-animation/" data-id="cjp6avtgf002jddfyly3zhrrb" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="/2016/08/13/spring-circle-animation/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="/2016/08/13/spring-circle-animation/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/10/25/swift3-migration-unused-result/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    迁移到Swift 3.0之@discardableResult
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/05/25/create-xcode-plugin-in-three-minutes/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">三分钟编写一款Xcode插件</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/monkey/" class="title">读《别让猴子跳回背上》</a></p>
+                            <p class="item-date"><time datetime="2018-07-18T01:40:44.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/shell-study-note/" class="title">Shell 的一些笔记</a></p>
+                            <p class="item-date"><time datetime="2018-07-17T20:06:52.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/05/14/opencv-go/" class="title">使用 go 进行 OpenCV 学习与开发</a></p>
+                            <p class="item-date"><time datetime="2018-05-14T02:13:50.000Z" itemprop="datePublished">2018-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/04/29/particle-animation-ios/" class="title">iOS 物理引擎实践之模拟粒子运动</a></p>
+                            <p class="item-date"><time datetime="2018-04-29T02:13:50.000Z" itemprop="datePublished">2018-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/03/07/swift_singleton/" class="title">Swift 中定义单例</a></p>
+                            <p class="item-date"><time datetime="2018-03-07T02:13:50.000Z" itemprop="datePublished">2018-03-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/">Object C</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/iOS/">iOS</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sencha-Touch/">Sencha Touch</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode插件/">Xcode插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pi/">pi</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode插件/">Xcode插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/book/">book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firebug/">firebug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macbook/">macbook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-c/">object-c</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sourcetree/">sourcetree</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssd/">ssd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/">terminal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/">vscode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webbrowser/">webbrowser</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xcode/">xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/加密/">加密</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小车/">小车</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派/">树梅派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树莓派/">树莓派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/腾讯qq/">腾讯qq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动避障/">自动避障</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Swift/" style="font-size: 16px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 14px;">Xcode</a> <a href="/tags/Xcode插件/" style="font-size: 10px;">Xcode插件</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/firebug/" style="font-size: 10px;">firebug</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/macbook/" style="font-size: 10px;">macbook</a> <a href="/tags/object-c/" style="font-size: 10px;">object-c</a> <a href="/tags/shell/" style="font-size: 14px;">shell</a> <a href="/tags/sourcetree/" style="font-size: 10px;">sourcetree</a> <a href="/tags/ssd/" style="font-size: 10px;">ssd</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/swift/" style="font-size: 18px;">swift</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/webbrowser/" style="font-size: 10px;">webbrowser</a> <a href="/tags/xcode/" style="font-size: 10px;">xcode</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/小车/" style="font-size: 10px;">小车</a> <a href="/tags/树梅派/" style="font-size: 10px;">树梅派</a> <a href="/tags/树莓派/" style="font-size: 10px;">树莓派</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/腾讯qq/" style="font-size: 10px;">腾讯qq</a> <a href="/tags/自动避障/" style="font-size: 10px;">自动避障</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Mellong<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'mellongblog';
+    
+    
+    var disqus_url = 'http://www.devlong.com/2016/08/13/spring-circle-animation/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>iOS开发大神必备的Xcode插件 | Mellong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="写在前面工欲善其事，必先利其器，iOS开发中不仅要学会Xcode的基本操作，而且还得学会一些Xcode的使用技巧，如掌握常用的快捷键等，还有就是今天要说到的Xcode插件，下面我就为大家介绍几款开发中比较常用的Xcode插件（此处应有掌声）。">
+<meta name="keywords" content="Xcode插件">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发大神必备的Xcode插件">
+<meta property="og:url" content="http://www.devlong.com/2016/04/30/xcode-plugin/index.html">
+<meta property="og:site_name" content="Mellong">
+<meta property="og:description" content="写在前面工欲善其事，必先利其器，iOS开发中不仅要学会Xcode的基本操作，而且还得学会一些Xcode的使用技巧，如掌握常用的快捷键等，还有就是今天要说到的Xcode插件，下面我就为大家介绍几款开发中比较常用的Xcode插件（此处应有掌声）。">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://camo.githubusercontent.com/5c97f9833b75c4da7cc3c4e3d6f65e27b7cdecb0/68747470733a2f2f7261772e6769746875622e636f6d2f4d656c6c6f6e674c61752f414d4170704578706f7274546f4950412d58636f64652d506c7567696e2f6d61737465722f53637265656e73686f74732f73637265656e73686f742e676966">
+<meta property="og:updated_time" content="2018-12-02T02:37:45.629Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发大神必备的Xcode插件">
+<meta name="twitter:description" content="写在前面工欲善其事，必先利其器，iOS开发中不仅要学会Xcode的基本操作，而且还得学会一些Xcode的使用技巧，如掌握常用的快捷键等，还有就是今天要说到的Xcode插件，下面我就为大家介绍几款开发中比较常用的Xcode插件（此处应有掌声）。">
+<meta name="twitter:image" content="https://camo.githubusercontent.com/5c97f9833b75c4da7cc3c4e3d6f65e27b7cdecb0/68747470733a2f2f7261772e6769746875622e636f6d2f4d656c6c6f6e674c61752f414d4170704578706f7274546f4950412d58636f64652d506c7567696e2f6d61737465722f53637265656e73686f74732f73637265656e73686f742e676966">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34848996-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b29f4457115392934213d1aef151efff";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2699452970228638",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mellong</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">列表</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">列表</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+            <h2 id="name">Mellong</h2>
+            <h3 id="title">简单就好</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Zhuhai, China</span>
+            <a id="follow" target="_blank" href="http://github.com/MellongLau">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                53
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                33
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/MellongLau" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-xcode-plugin" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            iOS开发大神必备的Xcode插件
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/04/30/xcode-plugin/">
+            <time datetime="2016-04-30T04:27:52.000Z" itemprop="datePublished">2016-04-30</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Xcode插件/">Xcode插件</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                
+                    <div id="toc" class="toc-article">
+                    <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#插件推荐"><span class="toc-number">2.</span> <span class="toc-text">插件推荐</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-AMAppExportToIPA"><span class="toc-number">2.1.</span> <span class="toc-text">1. AMAppExportToIPA</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-HOStringSense"><span class="toc-number">2.2.</span> <span class="toc-text">2. HOStringSense</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-MCLog"><span class="toc-number">2.3.</span> <span class="toc-text">3. MCLog</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-AMMethod2Implement"><span class="toc-number">2.4.</span> <span class="toc-text">4. AMMethod2Implement</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-Auto-Importer"><span class="toc-number">2.5.</span> <span class="toc-text">5. Auto-Importer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-ColorSense"><span class="toc-number">2.6.</span> <span class="toc-text">6. ColorSense</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-VVDocumenter"><span class="toc-number">2.7.</span> <span class="toc-text">7. VVDocumenter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8-AMLocalizedStringBuilder"><span class="toc-number">2.8.</span> <span class="toc-text">8. AMLocalizedStringBuilder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9-R-swift"><span class="toc-number">2.9.</span> <span class="toc-text">9. R.swift</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#10-CopyIssue"><span class="toc-number">2.10.</span> <span class="toc-text">10. CopyIssue</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何安装"><span class="toc-number">3.</span> <span class="toc-text">如何安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">4.</span> <span class="toc-text">最后</span></a></li></ol>
+                    </div>
+                
+            
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><p>工欲善其事，必先利其器，iOS开发中不仅要学会Xcode的基本操作，而且还得学会一些Xcode的使用技巧，如掌握常用的快捷键等，还有就是今天要说到的Xcode插件，下面我就为大家介绍几款开发中比较常用的Xcode插件（此处应有掌声）。</p>
+<a id="more"></a>
+<h2 id="插件推荐"><a href="#插件推荐" class="headerlink" title="插件推荐"></a>插件推荐</h2><h3 id="1-AMAppExportToIPA"><a href="#1-AMAppExportToIPA" class="headerlink" title="1. AMAppExportToIPA"></a>1. AMAppExportToIPA</h3><ul>
+<li><p>简介：<br>AMAppExportToIPA 是一款可以让你在Xcode的project navigator界面中直接右键点击xxx.app -&gt; Export IPA就可以生成对应的IPA文件的Xcode插件。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/5c97f9833b75c4da7cc3c4e3d6f65e27b7cdecb0/68747470733a2f2f7261772e6769746875622e636f6d2f4d656c6c6f6e674c61752f414d4170704578706f7274546f4950412d58636f64652d506c7567696e2f6d61737465722f53637265656e73686f74732f73637265656e73686f742e676966" alt="AMAppExportToIPA"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/MellongLau/AMAppExportToIPA-Xcode-Plugin" target="_blank" rel="noopener">https://github.com/MellongLau/AMAppExportToIPA-Xcode-Plugin</a></li>
+</ul>
+<h3 id="2-HOStringSense"><a href="#2-HOStringSense" class="headerlink" title="2. HOStringSense"></a>2. HOStringSense</h3><ul>
+<li><p>简介：<br>可以完美编辑正则表达式，多行文本，HTML等字符串，还提供字符串长度快速提示。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://github.com/holtwick/HOStringSense-for-Xcode/raw/master/StringDemoAnimation.gif" alt="HOStringSense"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/holtwick/HOStringSense-for-Xcode" target="_blank" rel="noopener">https://github.com/holtwick/HOStringSense-for-Xcode</a></li>
+</ul>
+<h3 id="3-MCLog"><a href="#3-MCLog" class="headerlink" title="3. MCLog"></a>3. MCLog</h3><ul>
+<li><p>简介：<br>MCLog 是一款可以让你轻松过滤Xcode控制台日志输出的Xcode插件。虽然目前已经可以搜索到控制台日志输出的文本，但是仍然还有大量你不感兴趣的日志。MCLog是对此问题的一个简单解决方案。使用简单的字符串来过滤控制台，并显示你真正想看到的日志。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/ecbdebd01af366c9a7d3c3d0850a164f127030a9/68747470733a2f2f7261776769746875622e636f6d2f79756875612d6368656e2f4d434c6f672f6d61737465722f4d434c6f6753637265656e73686f742e676966" alt="MCLog"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/yuhua-chen/MCLog" target="_blank" rel="noopener">https://github.com/yuhua-chen/MCLog</a></li>
+</ul>
+<h3 id="4-AMMethod2Implement"><a href="#4-AMMethod2Implement" class="headerlink" title="4. AMMethod2Implement"></a>4. AMMethod2Implement</h3><ul>
+<li><p>简介：<br>可以自动的将.h或者.m .mm里边需要写入的方法自动填充进来。可以选择要导入的方法，然后按 <code>Ctrl+A</code> 或者 <code>Edit &gt; AMMethod2Implement &gt; Implement Method</code>.就会自动填充方法.也可以自行设置快捷键。<br>目前版本支持h文件声明方法自动生成实现，m或者mm文件已写好的方法生成方法声明到h文件， <code>extern NSString * const</code>， <code>@select(method:)</code> 和 <code>[self methodName]</code> 实现代码生成。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/a4204f4a68198d87e1b46059d38536ae374a7e5a/68747470733a2f2f7261772e6769746875622e636f6d2f4d656c6c6f6e674c61752f414d4d6574686f6432496d706c656d656e742f6d61737465722f53637265656e73686f74732f696d706c656d656e745f73656c6563746f722e676966" alt="AMMethod2Implement"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/MellongLau/AMMethod2Implement" target="_blank" rel="noopener">https://github.com/MellongLau/AMMethod2Implement</a></li>
+</ul>
+<h3 id="5-Auto-Importer"><a href="#5-Auto-Importer" class="headerlink" title="5. Auto-Importer"></a>5. Auto-Importer</h3><ul>
+<li><p>简介：<br>可以搜索和自动导入头文件的一款Xcode插件。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://github.com/citrusbyte/Auto-Importer-for-Xcode/raw/master/demo.gif" alt="Auto-Importer"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/citrusbyte/Auto-Importer-for-Xcode" target="_blank" rel="noopener">https://github.com/citrusbyte/Auto-Importer-for-Xcode</a></li>
+</ul>
+<h3 id="6-ColorSense"><a href="#6-ColorSense" class="headerlink" title="6. ColorSense"></a>6. ColorSense</h3><ul>
+<li><p>简介：<br>具有可以用颜色选择面板直接插入颜色代码和颜色代码显示颜色预览功能。</p>
+</li>
+<li><p>Github地址：<a href="https://github.com/omz/ColorSense-for-Xcode" target="_blank" rel="noopener">https://github.com/omz/ColorSense-for-Xcode</a></p>
+</li>
+</ul>
+<h3 id="7-VVDocumenter"><a href="#7-VVDocumenter" class="headerlink" title="7. VVDocumenter"></a>7. VVDocumenter</h3><ul>
+<li><p>简介：<br>VVDocumenter是一款输入<code>///</code>就会自动生成javadoc风格注释的Xcode插件。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/ca5518c9872e15b8a95b9d8c5f44bc331977d710/68747470733a2f2f7261772e6769746875622e636f6d2f6f6e65766361742f5656446f63756d656e7465722d58636f64652f6d61737465722f53637265656e53686f742e676966" alt="VVDocumenter"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/onevcat/VVDocumenter-Xcode" target="_blank" rel="noopener">https://github.com/onevcat/VVDocumenter-Xcode</a></li>
+</ul>
+<h3 id="8-AMLocalizedStringBuilder"><a href="#8-AMLocalizedStringBuilder" class="headerlink" title="8. AMLocalizedStringBuilder"></a>8. AMLocalizedStringBuilder</h3><ul>
+<li><p>简介：<br>AMLocalizedStringBuilder 是可以帮助你将语言本地化文件Localizable.strings生成object-c的类AMLocalizedString的Xcode插件，这样可以直接使用R_String.am_&lt;#你的本地化字符串key#&gt;获取对应key的值，还可以随时点击Alt或Option按键查看当前字符串的值。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://camo.githubusercontent.com/75d5f8f86f8e9173d0e5d2e7a3515150f771ec76/68747470733a2f2f7261772e6769746875622e636f6d2f4d656c6c6f6e674c61752f414d4c6f63616c697a6564537472696e674275696c6465722d58636f64652d506c7567696e2f6d61737465722f53637265656e73686f74732f73637265656e73686f742e676966" alt="AMLocalizedStringBuilder"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/MellongLau/AMLocalizedStringBuilder-Xcode-Plugin" target="_blank" rel="noopener">https://github.com/MellongLau/AMLocalizedStringBuilder-Xcode-Plugin</a></li>
+</ul>
+<h3 id="9-R-swift"><a href="#9-R-swift" class="headerlink" title="9. R.swift"></a>9. R.swift</h3><ul>
+<li><p>简介：<br>类似AMLocalizedStringBuilder，不过是swift版本的，功能也更丰富，不仅支持Localized strings映射，还支持其他资源的映射，支持的列表如下：</p>
+<ul>
+<li>Images</li>
+<li>Custom fonts</li>
+<li>Resource files</li>
+<li>Colors</li>
+<li>Localized strings</li>
+<li>Storyboards</li>
+<li>Segues</li>
+<li>Nibs</li>
+<li>Reusable cells</li>
+</ul>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://github.com/mac-cain13/R.swift/raw/master/Documentation/Images/DemoUseImage.gif" alt="R.swift"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/mac-cain13/R.swift" target="_blank" rel="noopener">https://github.com/mac-cain13/R.swift</a></li>
+</ul>
+<h3 id="10-CopyIssue"><a href="#10-CopyIssue" class="headerlink" title="10. CopyIssue"></a>10. CopyIssue</h3><ul>
+<li><p>简介：<br>方便你搜索的任何错误或警告的问题，可以复制完整的问题描述，或者可以自动打开你的默认浏览器并通过Google（默认快捷⇧⌥G）或Stackoverflow（默认快捷⇧⌥S）搜索你选择的问题。</p>
+</li>
+<li><p>演示图片：</p>
+</li>
+</ul>
+<p><img src="https://github.com/hanton/CopyIssue-Xcode-Plugin/raw/master/screenshots/ScreenShot.png?raw=true" alt="CopyIssue"></p>
+<ul>
+<li>Github地址：<a href="https://github.com/hanton/CopyIssue-Xcode-Plugin" target="_blank" rel="noopener">https://github.com/hanton/CopyIssue-Xcode-Plugin</a></li>
+</ul>
+<h2 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h2><p>安装方法目前有两种：</p>
+<ol>
+<li><p>从github下载源代码进行安装  </p>
+<ul>
+<li>$ git clone <a href="mailto:git@github.com" target="_blank" rel="noopener">git@github.com</a>:插件地址<ul>
+<li>打开插件项目运行，运行成功后程序会自动把插件文件拷贝到这个路径下：<br><code>~/Library/Application Support/Developer/Shared/Xcode/Plug-ins</code>。</li>
+</ul>
+</li>
+<li>重新启动Xcode使插件生效。</li>
+</ul>
+</li>
+<li><p>通过Xcode插件管理器 <code>Alcatraz</code> 进行安装，安装完成后也要重新启动Xcode使插件生效。</p>
+</li>
+</ol>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>随着Xcode的发展和iOS开发的红火，现在Xcode插件越来越多了，插件越来越多当然是好事，毕竟选择就更多，功能也更丰富了，不过，安装太多插件容易造成Xcode运行不稳定，因此，安装插件还是要根据自身需求选择稳定性比较好的插件（此处应有掌声）。</p>
+<p><em>The End</em></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.devlong.com/2016/04/30/xcode-plugin/" data-id="cjp6avtg70028ddfym0ukavjt" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="/2016/04/30/xcode-plugin/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="/2016/04/30/xcode-plugin/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/04/30/library-share/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    iOS开发干货 第1期
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/04/28/docker-setup/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">神器Docker入门之安装配置篇</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/monkey/" class="title">读《别让猴子跳回背上》</a></p>
+                            <p class="item-date"><time datetime="2018-07-18T01:40:44.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/shell-study-note/" class="title">Shell 的一些笔记</a></p>
+                            <p class="item-date"><time datetime="2018-07-17T20:06:52.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/05/14/opencv-go/" class="title">使用 go 进行 OpenCV 学习与开发</a></p>
+                            <p class="item-date"><time datetime="2018-05-14T02:13:50.000Z" itemprop="datePublished">2018-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/04/29/particle-animation-ios/" class="title">iOS 物理引擎实践之模拟粒子运动</a></p>
+                            <p class="item-date"><time datetime="2018-04-29T02:13:50.000Z" itemprop="datePublished">2018-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/03/07/swift_singleton/" class="title">Swift 中定义单例</a></p>
+                            <p class="item-date"><time datetime="2018-03-07T02:13:50.000Z" itemprop="datePublished">2018-03-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/">Object C</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/iOS/">iOS</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sencha-Touch/">Sencha Touch</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode插件/">Xcode插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pi/">pi</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode插件/">Xcode插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/book/">book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firebug/">firebug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macbook/">macbook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-c/">object-c</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sourcetree/">sourcetree</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssd/">ssd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/">terminal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/">vscode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webbrowser/">webbrowser</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xcode/">xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/加密/">加密</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小车/">小车</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派/">树梅派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树莓派/">树莓派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/腾讯qq/">腾讯qq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动避障/">自动避障</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Swift/" style="font-size: 16px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 14px;">Xcode</a> <a href="/tags/Xcode插件/" style="font-size: 10px;">Xcode插件</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/firebug/" style="font-size: 10px;">firebug</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/macbook/" style="font-size: 10px;">macbook</a> <a href="/tags/object-c/" style="font-size: 10px;">object-c</a> <a href="/tags/shell/" style="font-size: 14px;">shell</a> <a href="/tags/sourcetree/" style="font-size: 10px;">sourcetree</a> <a href="/tags/ssd/" style="font-size: 10px;">ssd</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/swift/" style="font-size: 18px;">swift</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/webbrowser/" style="font-size: 10px;">webbrowser</a> <a href="/tags/xcode/" style="font-size: 10px;">xcode</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/小车/" style="font-size: 10px;">小车</a> <a href="/tags/树梅派/" style="font-size: 10px;">树梅派</a> <a href="/tags/树莓派/" style="font-size: 10px;">树莓派</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/腾讯qq/" style="font-size: 10px;">腾讯qq</a> <a href="/tags/自动避障/" style="font-size: 10px;">自动避障</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Mellong<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'mellongblog';
+    
+    
+    var disqus_url = 'http://www.devlong.com/2016/04/30/xcode-plugin/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

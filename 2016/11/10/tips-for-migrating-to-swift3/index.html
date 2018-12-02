@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>迁移到swift3.0有用的技巧 | Mellong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="不久之前swift3.0发布了，新版本可以在Xcode 8中使用了，或者你可以直接从swift.org下载编译器。 从代码可读性来看，新版本有很多提升，函数调用的连续性，更好的命名约定和移除了部分c风格的元素。 从代码可读性来来看，NS前缀已经从Foundation类型中移除，例如NSBundle.mainBundle()现在改为Bundle.mainBundle().">
+<meta name="keywords" content="swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="迁移到swift3.0有用的技巧">
+<meta property="og:url" content="http://www.devlong.com/2016/11/10/tips-for-migrating-to-swift3/index.html">
+<meta property="og:site_name" content="Mellong">
+<meta property="og:description" content="不久之前swift3.0发布了，新版本可以在Xcode 8中使用了，或者你可以直接从swift.org下载编译器。 从代码可读性来看，新版本有很多提升，函数调用的连续性，更好的命名约定和移除了部分c风格的元素。 从代码可读性来来看，NS前缀已经从Foundation类型中移除，例如NSBundle.mainBundle()现在改为Bundle.mainBundle().">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://rainsoft.io/content/images/2016/09/1-1.png">
+<meta property="og:updated_time" content="2018-12-02T02:37:45.631Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="迁移到swift3.0有用的技巧">
+<meta name="twitter:description" content="不久之前swift3.0发布了，新版本可以在Xcode 8中使用了，或者你可以直接从swift.org下载编译器。 从代码可读性来看，新版本有很多提升，函数调用的连续性，更好的命名约定和移除了部分c风格的元素。 从代码可读性来来看，NS前缀已经从Foundation类型中移除，例如NSBundle.mainBundle()现在改为Bundle.mainBundle().">
+<meta name="twitter:image" content="https://rainsoft.io/content/images/2016/09/1-1.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34848996-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b29f4457115392934213d1aef151efff";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2699452970228638",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mellong</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">列表</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">列表</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+            <h2 id="name">Mellong</h2>
+            <h3 id="title">简单就好</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Zhuhai, China</span>
+            <a id="follow" target="_blank" href="http://github.com/MellongLau">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                53
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                33
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/MellongLau" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-tips-for-migrating-to-swift3" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            迁移到swift3.0有用的技巧
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2016/11/10/tips-for-migrating-to-swift3/">
+            <time datetime="2016-11-10T15:09:02.000Z" itemprop="datePublished">2016-11-10</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/swift/">swift</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                
+                    <div id="toc" class="toc-article">
+                    <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-如何迁移-for-loop-到-for-in"><span class="toc-number">1.</span> <span class="toc-text">1. 如何迁移 for-loop 到 for-in</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-如何迁移-for-loop-到-stride"><span class="toc-number">2.</span> <span class="toc-text">2. 如何迁移 for-loop 到 stride</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-其他情况坚持使用while"><span class="toc-number">3.</span> <span class="toc-text">3. 其他情况坚持使用while</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-统一参数标签行为"><span class="toc-number">4.</span> <span class="toc-text">4. 统一参数标签行为</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-总结"><span class="toc-number">5.</span> <span class="toc-text">5. 总结</span></a></li></ol>
+                    </div>
+                
+            
+            <p>不久之前swift3.0发布了，新版本可以在Xcode 8中使用了，或者你可以直接从swift.org下载编译器。</p>
+<p>从代码可读性来看，新版本有很多提升，函数调用的连续性，更好的命名约定和移除了部分c风格的元素。</p>
+<p>从代码可读性来来看，<code>NS</code>前缀已经从<code>Foundation</code>类型中移除，例如<code>NSBundle.mainBundle()</code>现在改为<code>Bundle.mainBundle()</code>.</p>
+<a id="more"></a>
+<p>c风格的一元操作符<code>++</code>和<code>--</code>在3.0中已经不适用了：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only in Swift 2.2 and earlier</span></span><br><span class="line"><span class="keyword">var</span> number = <span class="number">10</span>  </span><br><span class="line">number++  </span><br><span class="line">++number</span><br><span class="line">number--  </span><br><span class="line">--number</span><br></pre></td></tr></table></figure>
+<p>相对应的表达方式是<code>number += 1</code> or <code>number -= 1</code>.</p>
+<p>另外一个有趣的变化是移除了c风格的<code>for-loop</code>,我记得在学校中（使用c语言）写这种循环：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only in Swift 2.2 and earlier</span></span><br><span class="line"><span class="keyword">let</span> steps = <span class="number">5</span>  </span><br><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> step = <span class="number">0</span>; step &lt; steps; step++ &#123;  </span><br><span class="line">  <span class="built_in">print</span>(step)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 0 1 2 3 4</span></span><br></pre></td></tr></table></figure>
+<p>主要的原因是存在了更好的对应写循环的方法<code>for-in</code>和<code>stride()</code>.<code>for-loop</code>在理解上比较困难和缺少<code>swift</code>风格。当新的方法出现后，<code>for-loop</code>已经很少在代码库中使用了。</p>
+<p>这篇文章将讲解典型的<code>for-loop</code>使用场景，同时说明迁移到 <code>for-in, stride()</code>或者简单的<code>while() {}</code>.</p>
+<h3 id="1-如何迁移-for-loop-到-for-in"><a href="#1-如何迁移-for-loop-到-for-in" class="headerlink" title="1. 如何迁移 for-loop 到 for-in"></a>1. 如何迁移 for-loop 到 for-in</h3><p><code>for-loop</code> 应用的典型场景在一个数字区间内迭代。这些数字可以是数组的索引等.</p>
+<p>例如，让我们遍历数组的每一个元素：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only in Swift 2.3 and earlier</span></span><br><span class="line"><span class="keyword">let</span> birds = [<span class="string">"pigeon"</span>, <span class="string">"sparrow"</span>, <span class="string">"titmouse"</span>]  </span><br><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> index = <span class="number">0</span>; index &lt; birds.<span class="built_in">count</span>; index++ &#123;  </span><br><span class="line">  <span class="built_in">print</span>(birds[index])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// "pigeon" "sparrow" "titmouse"</span></span><br></pre></td></tr></table></figure>
+<p>可见，<code>let index = 0; index &lt; birds.count; index++</code> 的循环部分是冗长的。许多元素是多余的，整个表达式可以简化的。替换为手动的增量，整个操作可以用更具表达性的语法来自动化。</p>
+<p><img src="https://rainsoft.io/content/images/2016/09/1-1.png" alt="Image"></p>
+<p><code>for-in</code> 循环更简短和更具表达性。让我们迁移上面的代码：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> birds = ['pigeon', 'sparrow', 'titmouse']  </span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="number">0</span>..&lt;birds.<span class="built_in">count</span> &#123;  </span><br><span class="line">  <span class="built_in">print</span>(birds[index])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 'pigeon', 'sparrow', 'titmouse'</span></span><br></pre></td></tr></table></figure>
+<p>现在感觉好很多了。<code>index in 0..&lt;birds.count</code> 更容易阅读和理解。<code>0..&lt;birds.count</code> 这部分定义一个半开区间的 Range 类型。for-in 循环迭代0，1和2的范围值（不包括上限3）。</p>
+<p>这不是全部！ 你甚至可以跳过索引并直接访问数组元素：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> birds = [<span class="string">"pigeon"</span>, <span class="string">"sparrow"</span>, <span class="string">"titmouse"</span>]  </span><br><span class="line"><span class="keyword">for</span> bird <span class="keyword">in</span> birds &#123;  </span><br><span class="line">  <span class="built_in">print</span>(bird)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// "pigeon" "sparrow" "titmouse"</span></span><br></pre></td></tr></table></figure>
+<p>可以看出，对于标准数组或集合迭代<code>for-in</code>对于<code>for-loop</code>是一个更好的替代。 至少在这种情况下，在Swift 3.0中删除<code>for-loop</code>的决定是合理的。</p>
+<h3 id="2-如何迁移-for-loop-到-stride"><a href="#2-如何迁移-for-loop-到-stride" class="headerlink" title="2. 如何迁移 for-loop 到 stride"></a>2. 如何迁移 for-loop 到 stride</h3><p>你可以合理地要求for-loop虽然是冗长的，但仍然是灵活的。 它对于更复杂的迭代是有用的。</p>
+<p>让我们尝试一个场景。你要打印一个具有奇数索引元素的元素数组。一个 for-loop 可能看起来像这样：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only in Swift 2.3 and earlier</span></span><br><span class="line"><span class="keyword">let</span> colors = [<span class="string">"blue"</span>, <span class="string">"green"</span>, <span class="string">"red"</span>, <span class="string">"white"</span>, <span class="string">"black"</span>]  </span><br><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> index = <span class="number">0</span>; index &lt; colors.<span class="built_in">count</span>; index += <span class="number">2</span> &#123;  </span><br><span class="line">  <span class="built_in">print</span>(colors[index])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// =&gt; "blue" "red" "black"</span></span><br></pre></td></tr></table></figure>
+<p>由于索引根据表达式 index += 2而每次增加2，所以只有奇数索引的元素会被显示：”blue”, “red” and “black”.</p>
+<p>你可以尝试使用 for-in 并定义一个范围。但是需要奇数索引加上附加的验证：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> colors = [<span class="string">"blue"</span>, <span class="string">"green"</span>, <span class="string">"red"</span>, <span class="string">"white"</span>, <span class="string">"black"</span>]  </span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="number">0</span>..&lt;colors.<span class="built_in">count</span> &#123;  </span><br><span class="line">  <span class="keyword">if</span> (index % <span class="number">2</span> == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">print</span>(colors[index])</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// =&gt; "blue" "red" "black"</span></span><br></pre></td></tr></table></figure>
+<p>的确， <code>if (index % 2 == 0) { ... }</code> 条件句在这里看起来怎么样。</p>
+<p>这种情况很符合使用 Swift 的stride(from: value, to: value, by: value)函数。定义开始，结束（不包括上限）和步长值，函数返回相应的数字序列。</p>
+<p>让我们在我们的场景中应用stride：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> colors = [<span class="string">"blue"</span>, <span class="string">"green"</span>, <span class="string">"red"</span>, <span class="string">"white"</span>, <span class="string">"black"</span>]  </span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="built_in">stride</span>(from: <span class="number">0</span>, to: colors.<span class="built_in">count</span>, by: <span class="number">2</span>) &#123;  </span><br><span class="line">  <span class="built_in">print</span>(colors[index])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// =&gt; "blue" "red" "black"</span></span><br></pre></td></tr></table></figure>
+<p><code>stride(from: 0, to: colors.count, by: 2)</code> 返回以0开始到5的数字（上限不包含5），步长为2。对于 for-loop，这是一个好的替代。</p>
+<p>如果上限必须包含进来，这里有另外一种函数格式：<br><code>stride(from: value, through: value, by: value)</code>。第二个参数的标签是 <code>through</code>， 这个标签是用以指明是包含上限的。</p>
+<h3 id="3-其他情况坚持使用while"><a href="#3-其他情况坚持使用while" class="headerlink" title="3. 其他情况坚持使用while"></a>3. 其他情况坚持使用while</h3><p>c风格for-loop的每个组件都有一个很好的属性：初始化，跳出严重和完全可配置的增量：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> &lt;initialization&gt;; &lt;verification&gt;; &lt;increment&gt; &#123;  </span><br><span class="line">  <span class="comment">// loop body</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>此外，你可以省略其中的任何组件，要是你能在for-loop的循环块打破循环。</p>
+<p>例如，让我们打印一个数字数组的元素，直到数字0被遇到。可以使用C风格的for-loop:</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only in Swift 2.2 and earlier</span></span><br><span class="line"><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">7</span>], nCount = numbers.<span class="built_in">count</span>  </span><br><span class="line"><span class="keyword">for</span> <span class="keyword">var</span> index = <span class="number">0</span>; index &lt; nCount &amp;&amp; numbers[index] != <span class="number">0</span>; index++ &#123;  </span><br><span class="line">  <span class="built_in">print</span>(numbers[index])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// =&gt; 1 6 2</span></span><br></pre></td></tr></table></figure>
+<p>验证部分 <code>index &lt; nCount &amp;&amp; numbers[index] != 0</code> 是用以检查是否0在数组中出现。如果出现，则跳出循环。<br>所以只有0之前的数字被打印出来：1，6和2。</p>
+<p><code>for var index in 0..&lt;nCount</code> 是一个迁移选项。你只是需要使用条件 <code>if numbers[index] == 0</code> ，当0出现的时候跳出循环：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">7</span>], nCount = numbers.<span class="built_in">count</span>  </span><br><span class="line"><span class="keyword">for</span> index <span class="keyword">in</span> <span class="number">0</span>..&lt;nCount &#123;  </span><br><span class="line">  <span class="keyword">if</span> (numbers[index] == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">break</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">print</span>(numbers[index])</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// =&gt; 1 6 2</span></span><br></pre></td></tr></table></figure>
+<p>但 break 语句出现，它会轻微减少阅读流程。但是我想要容易地阅读代码流程！</p>
+<p><code>while(&lt;condition&gt;) {...}</code> 循环可能是一个更好的替代方案。让我们看看上一个例子是如果被修改的：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> numbers = [<span class="number">1</span>, <span class="number">6</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">7</span>], nCount = numbers.<span class="built_in">count</span>  </span><br><span class="line"><span class="keyword">var</span> index = <span class="number">0</span>  </span><br><span class="line"><span class="keyword">while</span> (index &lt; nCount &amp;&amp; numbers[index] != <span class="number">0</span>) &#123;  </span><br><span class="line">  <span class="built_in">print</span>(numbers[index])</span><br><span class="line">  index += <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// =&gt; 1 6 2</span></span><br></pre></td></tr></table></figure>
+<p>如果你有的情况无法使用 for-in 或者 <code>stride()</code>, 那么我推荐你使用 <code>while(){}</code>。</p>
+<h3 id="4-统一参数标签行为"><a href="#4-统一参数标签行为" class="headerlink" title="4. 统一参数标签行为"></a>4. 统一参数标签行为</h3><p>在Swift 2.2 和更早版本你可以在调用函数的时候忽略第一个参数的标签：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Only in Swift 2.2 and earlier</span></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(firstItem: Int, secondItem: Int)</span></span> -&gt; <span class="type">Int</span> &#123;  </span><br><span class="line">  <span class="keyword">return</span> firstItem + secondItem</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">5</span>, secondItem: <span class="number">2</span>) <span class="comment">// =&gt; 7</span></span><br></pre></td></tr></table></figure>
+<p>对于我来说，这个忽略的做法给我带来困扰。你不得不忽略第一个参数的标签，然而剩下的参数却还保持有标签。这是一种不自然的规则。</p>
+<p><img src="https://rainsoft.io/content/images/2016/09/2-2.png" alt="Image"></p>
+<p>幸运的是从3.0版本开始，所有参数将强制拥有标签。<br>让我们来迁移上一个例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(firstItem: Int, secondItem: Int)</span></span> -&gt; <span class="type">Int</span> &#123;  </span><br><span class="line">  <span class="keyword">return</span> firstItem + secondItem</span><br><span class="line">&#125;</span><br><span class="line">sum(firstItem: <span class="number">5</span>, secondItem: <span class="number">2</span>) <span class="comment">// =&gt; 7</span></span><br></pre></td></tr></table></figure>
+<p><code>myFun(firstParam: 1, secondParam: 2)</code>看起来更好。你知道严格的参数含义。简单，一致和清晰的方式。</p>
+<p>如果你因为某些原因想在Swift 3.0中调用函数的时候忽略第一个标签，使用_ 作为那个参数的参数标签：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">sum</span><span class="params">(<span class="number">_</span> firstItem: Int, secondItem: Int)</span></span> -&gt; <span class="type">Int</span> &#123;  </span><br><span class="line">  <span class="keyword">return</span> firstItem + secondItem</span><br><span class="line">&#125;</span><br><span class="line">sum(<span class="number">5</span>, secondItem: <span class="number">2</span>) <span class="comment">// =&gt; 7</span></span><br></pre></td></tr></table></figure>
+<p>然而从长远来看我不推荐这种做法。他破坏了Swift代码中函数/方法调用的一致性。</p>
+<p>Swift 命名向导 有很多有用的命名方面的建议。</p>
+<h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. 总结</h3><p>Swift 3.0 做了一个很好的修改列表。其中大部分是重大的修改，所以你必须花些功夫来迁移Swift 2.3或者更旧的代码。</p>
+<p>Swift 的制造者花了很多功夫来使这门语言用起来尽可能的舒服。<br>有时候，这个过程产生重大更改。幸运的是相比提高代码的可读性和跨语言语法的一致性来说，这是一个相对小的代价。</p>
+<p>C风格的元素如for-loop，一元增量和减量运算被删除。对于这些结构Swift提供了更好的选择。<br>例如C语言风格的for循环很容易由for-in所取代。你可以使用<code>stride()</code>函数来进行更多可配置的迭代。</p>
+<p>我最喜欢的改进是Swift 3.0引入了函数参数标签的一致性和清晰度。简单易记的规则：始终指明参数的标签。</p>
+<p>我建议你也访问Swift 3.0官方的迁移向导。</p>
+<blockquote>
+<p><em>英文原文链接：<a href="https://rainsoft.io/useful-tips-for-migrating-to-swift-3-0/" target="_blank" rel="noopener">https://rainsoft.io/useful-tips-for-migrating-to-swift-3-0/</a></em></p>
+</blockquote>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.devlong.com/2016/11/10/tips-for-migrating-to-swift3/" data-id="cjp6avtir0056ddfypfdrnnk6" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="/2016/11/10/tips-for-migrating-to-swift3/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="/2016/11/10/tips-for-migrating-to-swift3/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/12/08/swift-3-extensions/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Swift 3.0之扩展
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2016/11/06/closures/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">Swift 3.0之闭包</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/monkey/" class="title">读《别让猴子跳回背上》</a></p>
+                            <p class="item-date"><time datetime="2018-07-18T01:40:44.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/shell-study-note/" class="title">Shell 的一些笔记</a></p>
+                            <p class="item-date"><time datetime="2018-07-17T20:06:52.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/05/14/opencv-go/" class="title">使用 go 进行 OpenCV 学习与开发</a></p>
+                            <p class="item-date"><time datetime="2018-05-14T02:13:50.000Z" itemprop="datePublished">2018-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/04/29/particle-animation-ios/" class="title">iOS 物理引擎实践之模拟粒子运动</a></p>
+                            <p class="item-date"><time datetime="2018-04-29T02:13:50.000Z" itemprop="datePublished">2018-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/03/07/swift_singleton/" class="title">Swift 中定义单例</a></p>
+                            <p class="item-date"><time datetime="2018-03-07T02:13:50.000Z" itemprop="datePublished">2018-03-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/">Object C</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/iOS/">iOS</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sencha-Touch/">Sencha Touch</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode插件/">Xcode插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pi/">pi</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode插件/">Xcode插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/book/">book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firebug/">firebug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macbook/">macbook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-c/">object-c</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sourcetree/">sourcetree</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssd/">ssd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/">terminal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/">vscode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webbrowser/">webbrowser</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xcode/">xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/加密/">加密</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小车/">小车</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派/">树梅派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树莓派/">树莓派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/腾讯qq/">腾讯qq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动避障/">自动避障</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Swift/" style="font-size: 16px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 14px;">Xcode</a> <a href="/tags/Xcode插件/" style="font-size: 10px;">Xcode插件</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/firebug/" style="font-size: 10px;">firebug</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/macbook/" style="font-size: 10px;">macbook</a> <a href="/tags/object-c/" style="font-size: 10px;">object-c</a> <a href="/tags/shell/" style="font-size: 14px;">shell</a> <a href="/tags/sourcetree/" style="font-size: 10px;">sourcetree</a> <a href="/tags/ssd/" style="font-size: 10px;">ssd</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/swift/" style="font-size: 18px;">swift</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/webbrowser/" style="font-size: 10px;">webbrowser</a> <a href="/tags/xcode/" style="font-size: 10px;">xcode</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/小车/" style="font-size: 10px;">小车</a> <a href="/tags/树梅派/" style="font-size: 10px;">树梅派</a> <a href="/tags/树莓派/" style="font-size: 10px;">树莓派</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/腾讯qq/" style="font-size: 10px;">腾讯qq</a> <a href="/tags/自动避障/" style="font-size: 10px;">自动避障</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Mellong<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'mellongblog';
+    
+    
+    var disqus_url = 'http://www.devlong.com/2016/11/10/tips-for-migrating-to-swift3/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

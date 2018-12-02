@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>自制自动布局约束开源库Lite Auto Layout | Mellong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="首先，贴上这个库的源码地址：https://github.com/MellongLau/LiteAutoLayout 这个库也写了好长一段时间了，由于最近忙，一直都没时间把它更新好放上来，特别是文档，拖了这么久总算是补全了一点了。至于好不好用，那就见仁见智了，我之前比较习惯用IB拖auto layout的约束，也是根据IB的使用概念来实现的这个库，下面也有提到这一点，所以，个人认为，习惯使用IB来">
+<meta name="keywords" content="iOS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自制自动布局约束开源库Lite Auto Layout">
+<meta property="og:url" content="http://www.devlong.com/2017/06/07/lite-auto-layout-introduction/index.html">
+<meta property="og:site_name" content="Mellong">
+<meta property="og:description" content="首先，贴上这个库的源码地址：https://github.com/MellongLau/LiteAutoLayout 这个库也写了好长一段时间了，由于最近忙，一直都没时间把它更新好放上来，特别是文档，拖了这么久总算是补全了一点了。至于好不好用，那就见仁见智了，我之前比较习惯用IB拖auto layout的约束，也是根据IB的使用概念来实现的这个库，下面也有提到这一点，所以，个人认为，习惯使用IB来">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="https://github.com/MellongLau/LiteAutoLayout/raw/master/screenshot.png">
+<meta property="og:updated_time" content="2018-12-02T02:37:45.633Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自制自动布局约束开源库Lite Auto Layout">
+<meta name="twitter:description" content="首先，贴上这个库的源码地址：https://github.com/MellongLau/LiteAutoLayout 这个库也写了好长一段时间了，由于最近忙，一直都没时间把它更新好放上来，特别是文档，拖了这么久总算是补全了一点了。至于好不好用，那就见仁见智了，我之前比较习惯用IB拖auto layout的约束，也是根据IB的使用概念来实现的这个库，下面也有提到这一点，所以，个人认为，习惯使用IB来">
+<meta name="twitter:image" content="https://github.com/MellongLau/LiteAutoLayout/raw/master/screenshot.png">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34848996-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b29f4457115392934213d1aef151efff";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2699452970228638",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mellong</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">列表</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">列表</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+            <h2 id="name">Mellong</h2>
+            <h3 id="title">简单就好</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Zhuhai, China</span>
+            <a id="follow" target="_blank" href="http://github.com/MellongLau">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                53
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                33
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/MellongLau" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-lite-auto-layout-introduction" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            自制自动布局约束开源库Lite Auto Layout
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/06/07/lite-auto-layout-introduction/">
+            <time datetime="2017-06-07T14:01:32.000Z" itemprop="datePublished">2017-06-07</time>
+        </a>
+    </div>
+
+
+                    
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/iOS/">iOS</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                
+                    <div id="toc" class="toc-article">
+                    <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#示例项目"><span class="toc-number">1.</span> <span class="toc-text">示例项目</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#简介"><span class="toc-number">1.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#比较-NSLayoutConstraint-vs-NSLayoutAnchor-vs-LiteAutoLayout"><span class="toc-number">1.2.</span> <span class="toc-text">比较 NSLayoutConstraint vs NSLayoutAnchor vs LiteAutoLayout</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#如何安装"><span class="toc-number">2.</span> <span class="toc-text">如何安装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#使用-LiteAutoLayout"><span class="toc-number">2.1.</span> <span class="toc-text">使用 LiteAutoLayout?</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#贡献"><span class="toc-number">3.</span> <span class="toc-text">贡献</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#License"><span class="toc-number">3.1.</span> <span class="toc-text">License</span></a></li></ol></li></ol>
+                    </div>
+                
+            
+            <p>首先，贴上这个库的源码地址：<a href="https://github.com/MellongLau/LiteAutoLayout" target="_blank" rel="noopener">https://github.com/MellongLau/LiteAutoLayout</a></p>
+<p>这个库也写了好长一段时间了，由于最近忙，一直都没时间把它更新好放上来，特别是文档，拖了这么久总算是补全了一点了。至于好不好用，那就见仁见智了，我之前比较习惯用IB拖auto layout的约束，也是根据IB的使用概念来实现的这个库，下面也有提到这一点，所以，个人认为，习惯使用IB来布局的同学应该会比较容易上手和习惯使用吧。</p>
+<p>然后就是，如果——</p>
+<p><em>喜欢这个项目？</em> <code>点击Github 里面的 Star按钮支持我们吧!</code></p>
+<h2 id="示例项目"><a href="#示例项目" class="headerlink" title="示例项目"></a>示例项目</h2><p>可以下载 Demo 文件夹下的示例项目运行，下面是运行后的截图。</p>
+<p><img src="https://github.com/MellongLau/LiteAutoLayout/raw/master/screenshot.png" alt="Demo"></p>
+<p>这是一个使用 LiteAutoLayout 编写布局约束的登录框界面，所有的约束代码都在下面的代码截图中：</p>
+<p><img src="https://github.com/MellongLau/LiteAutoLayout/raw/master/layout_contraints.png" alt="Code"></p>
+<a id="more"></a>
+<h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>最近在用 Swift 3.0，Swift 3.0给我们带来了很多新的特性，在学习过程中发现自定义操作符这个写法很适合来写 autolayout 的约束，结合自己平时使用 IB 来创建视图之间的约束的经验，决定使用自定义操作符来让使用代码创建约束更加直观，清晰和简单。</p>
+<p>其中，<code>~&gt;</code> 这个符号被我用来作为视图约束于其同级视图或者父级视图的表达式，如 <code>(view1 ~&gt; view2)</code>, 中间需要留空格，而创建对于自身的约束，可以使用<code>(~&gt;view1)</code>来创建，中间不需要留空格，后面添加约束是用的简单方便的链式写法。</p>
+<p>当然，如果你不想使用<code>~&gt;</code>这个符号来创建约束，我还提供了startLayout()的方法直接创建约束，如：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">view1.startLayout(toView: view2)。</span><br></pre></td></tr></table></figure>
+<p>另外，因为项目中使用 IB 编写界面比较多，同时也觉得 IB 添加约束的用法比较简单和方便，所以这里使用的设置约束的方法是用了 IB 添加约束的概念，相信有用过 IB 应该都比较容易接受这种写法，在使用 LiteAutoLayout 后相信会加深对 IB 添加布局约束的理解，两种的使用相互促进，相互提高，这也是这个库的优势之一。</p>
+<h3 id="比较-NSLayoutConstraint-vs-NSLayoutAnchor-vs-LiteAutoLayout"><a href="#比较-NSLayoutConstraint-vs-NSLayoutAnchor-vs-LiteAutoLayout" class="headerlink" title="比较 NSLayoutConstraint vs NSLayoutAnchor vs LiteAutoLayout"></a>比较 NSLayoutConstraint vs NSLayoutAnchor vs LiteAutoLayout</h3><p>如设置两个视图之间垂直的距离约束<code>verticalSpacing()</code>, 值得注意的是<code>~&gt;</code>后面的视图默认是在上方，如果是添加水平距离，则~&gt;后面的视图是在左边。</p>
+<p>这个库是一个简单的封装，如果你使用过 sdk 原始创建约束的方法的话，你应该会被其繁琐的写法所吓倒。</p>
+<p>这里引用 apple 官网的一个例子：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 NSLayoutConstraint 创建约束</span></span><br><span class="line"><span class="type">NSLayoutConstraint</span>(item: subview,</span><br><span class="line">                   attribute: .<span class="type">Leading</span>,</span><br><span class="line">                   relatedBy: .<span class="type">Equal</span>,</span><br><span class="line">                   toItem: view,</span><br><span class="line">                   attribute: .<span class="type">LeadingMargin</span>,</span><br><span class="line">                   multiplier: <span class="number">1.0</span>,</span><br><span class="line">                   constant: <span class="number">0.0</span>).active = <span class="literal">true</span></span><br><span class="line"> </span><br><span class="line"><span class="type">NSLayoutConstraint</span>(item: subview,</span><br><span class="line">                   attribute: .<span class="type">Trailing</span>,</span><br><span class="line">                   relatedBy: .<span class="type">Equal</span>,</span><br><span class="line">                   toItem: view,</span><br><span class="line">                   attribute: .<span class="type">TrailingMargin</span>,</span><br><span class="line">                   multiplier: <span class="number">1.0</span>,</span><br><span class="line">                   constant: <span class="number">0.0</span>).active = <span class="literal">true</span></span><br><span class="line"> </span><br><span class="line"> </span><br><span class="line"><span class="comment">// 使用 Layout Anchors 创建相同的约束</span></span><br><span class="line"><span class="keyword">let</span> margins = view.layoutMarginsGuide</span><br><span class="line"> </span><br><span class="line">subview.leadingAnchor.constraintEqualToAnchor(margins.leadingAnchor).active = <span class="literal">true</span></span><br><span class="line">subview.trailingAnchor.constraintEqualToAnchor(margins.trailingAnchor).active = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<p>上面可以看到直接使用 NSLayoutConstraint 创建简单的布局约束需要繁复的代码，使用 NSLayoutAnchor 可以简化约束代码，那 LiteAutoLayout 到底表现如何，下面我们用 LiteAutoLayout 创建相同的布局约束：</p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用 Lite Auto Layout 创建相同的约束</span></span><br><span class="line">(subview ~&gt; view).leading().trailing()</span><br></pre></td></tr></table></figure>
+<p>显然，使用 LiteAutoLayout 甚至比 NSLayoutAnchor 还简单，并且代码阅读更加清晰易懂，而且 NSLayoutAnchor 目前只支持 iOS9+，LiteAutoLayout 目前支持 iOS7+。</p>
+<p>最后，需要注意的是：</p>
+<ul>
+<li>左边是子视图，右边为父视图(<code>subview ~&gt; view</code>, 左侧的subview 是 view 的子视图)。</li>
+<li>左边是位于右边的视图的右侧或者下方(<code>view2 ~&gt; view1</code>, 则 view2 在 view1的右侧或者下方)。</li>
+</ul>
+<p>目前支持的特性：</p>
+<ol>
+<li>支持&gt;=, &lt;=, ==操作符。</li>
+<li>支持指定优先级。</li>
+<li>支持链式写法。</li>
+</ol>
+<h2 id="如何安装"><a href="#如何安装" class="headerlink" title="如何安装"></a>如何安装</h2><p>下载文件 LiteAutoLayout.swift 并将其复制到项目文件夹下，添加引用到项目中即可。</p>
+<h3 id="使用-LiteAutoLayout"><a href="#使用-LiteAutoLayout" class="headerlink" title="使用 LiteAutoLayout?"></a>使用 LiteAutoLayout?</h3><p>如果你在你的项目中使用了 LiteAutoLayout，请发邮件(邮件地址在下面)告诉我一声，我会把你的 app 的下载链接添加到这里！</p>
+<h2 id="贡献"><a href="#贡献" class="headerlink" title="贡献"></a>贡献</h2><p>欢迎为此项目提供任何的帮助，包括意见建议，资金，代码或者精神鼓励等，为此项目贡献代码请提交 pull request, 代码经过审核后会立即合并到主分支中。</p>
+<h3 id="License"><a href="#License" class="headerlink" title="License"></a>License</h3><p>MIT License</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.devlong.com/2017/06/07/lite-auto-layout-introduction/" data-id="cjp6avtgt0032ddfy22ket2md" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="/2017/06/07/lite-auto-layout-introduction/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="/2017/06/07/lite-auto-layout-introduction/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/07/29/vim-tips/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    Vim常用操作命令
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/03/12/ios-facebook-shre/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">iOS如何跳转到Facebook指定用户界面</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/monkey/" class="title">读《别让猴子跳回背上》</a></p>
+                            <p class="item-date"><time datetime="2018-07-18T01:40:44.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/shell-study-note/" class="title">Shell 的一些笔记</a></p>
+                            <p class="item-date"><time datetime="2018-07-17T20:06:52.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/05/14/opencv-go/" class="title">使用 go 进行 OpenCV 学习与开发</a></p>
+                            <p class="item-date"><time datetime="2018-05-14T02:13:50.000Z" itemprop="datePublished">2018-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/04/29/particle-animation-ios/" class="title">iOS 物理引擎实践之模拟粒子运动</a></p>
+                            <p class="item-date"><time datetime="2018-04-29T02:13:50.000Z" itemprop="datePublished">2018-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/03/07/swift_singleton/" class="title">Swift 中定义单例</a></p>
+                            <p class="item-date"><time datetime="2018-03-07T02:13:50.000Z" itemprop="datePublished">2018-03-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/">Object C</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/iOS/">iOS</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sencha-Touch/">Sencha Touch</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode插件/">Xcode插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pi/">pi</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode插件/">Xcode插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/book/">book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firebug/">firebug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macbook/">macbook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-c/">object-c</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sourcetree/">sourcetree</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssd/">ssd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/">terminal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/">vscode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webbrowser/">webbrowser</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xcode/">xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/加密/">加密</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小车/">小车</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派/">树梅派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树莓派/">树莓派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/腾讯qq/">腾讯qq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动避障/">自动避障</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Swift/" style="font-size: 16px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 14px;">Xcode</a> <a href="/tags/Xcode插件/" style="font-size: 10px;">Xcode插件</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/firebug/" style="font-size: 10px;">firebug</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/macbook/" style="font-size: 10px;">macbook</a> <a href="/tags/object-c/" style="font-size: 10px;">object-c</a> <a href="/tags/shell/" style="font-size: 14px;">shell</a> <a href="/tags/sourcetree/" style="font-size: 10px;">sourcetree</a> <a href="/tags/ssd/" style="font-size: 10px;">ssd</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/swift/" style="font-size: 18px;">swift</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/webbrowser/" style="font-size: 10px;">webbrowser</a> <a href="/tags/xcode/" style="font-size: 10px;">xcode</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/小车/" style="font-size: 10px;">小车</a> <a href="/tags/树梅派/" style="font-size: 10px;">树梅派</a> <a href="/tags/树莓派/" style="font-size: 10px;">树莓派</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/腾讯qq/" style="font-size: 10px;">腾讯qq</a> <a href="/tags/自动避障/" style="font-size: 10px;">自动避障</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Mellong<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'mellongblog';
+    
+    
+    var disqus_url = 'http://www.devlong.com/2017/06/07/lite-auto-layout-introduction/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

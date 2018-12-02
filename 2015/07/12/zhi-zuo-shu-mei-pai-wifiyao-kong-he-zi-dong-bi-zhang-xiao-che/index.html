@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <meta charset="utf-8">
+    
+    <title>制作树莓派wifi遥控和自动避障小车 | Mellong</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="写在前面 前几年买了树莓派，当时主要是想用来做客厅多媒体盒，不过实际使用下来有点卡，速度不尽人意。虽然后来换了class10的SD卡速度有点提升，但也很少拿去看电影了，多数时间是用来做下载机。 其实之前也有听说可以做很多有趣的东西，我最感兴趣就是做个遥控小车，一直有这个想法，就是没有实际行动。最近在网上又看到类似的遥控车，突然间又来了兴致，这次决心很大，立即就找了下资料，并且在淘宝上买了配件。趁着">
+<meta name="keywords" content="树莓派,自动避障,小车">
+<meta property="og:type" content="article">
+<meta property="og:title" content="制作树莓派wifi遥控和自动避障小车">
+<meta property="og:url" content="http://www.devlong.com/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/index.html">
+<meta property="og:site_name" content="Mellong">
+<meta property="og:description" content="写在前面 前几年买了树莓派，当时主要是想用来做客厅多媒体盒，不过实际使用下来有点卡，速度不尽人意。虽然后来换了class10的SD卡速度有点提升，但也很少拿去看电影了，多数时间是用来做下载机。 其实之前也有听说可以做很多有趣的东西，我最感兴趣就是做个遥控小车，一直有这个想法，就是没有实际行动。最近在网上又看到类似的遥控车，突然间又来了兴致，这次决心很大，立即就找了下资料，并且在淘宝上买了配件。趁着">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://www.devlong.com/blogImages/car_01.jpg">
+<meta property="og:updated_time" content="2018-12-02T02:37:45.626Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="制作树莓派wifi遥控和自动避障小车">
+<meta name="twitter:description" content="写在前面 前几年买了树莓派，当时主要是想用来做客厅多媒体盒，不过实际使用下来有点卡，速度不尽人意。虽然后来换了class10的SD卡速度有点提升，但也很少拿去看电影了，多数时间是用来做下载机。 其实之前也有听说可以做很多有趣的东西，我最感兴趣就是做个遥控小车，一直有这个想法，就是没有实际行动。最近在网上又看到类似的遥控车，突然间又来了兴致，这次决心很大，立即就找了下资料，并且在淘宝上买了配件。趁着">
+<meta name="twitter:image" content="http://www.devlong.com/blogImages/car_01.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/vendor/open-sans/styles.css">
+    <link rel="stylesheet" href="/vendor/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/vendor/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/vendor/fancybox/jquery.fancybox.css">
+    
+    
+        <script type="text/javascript">
+(function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-34848996-3', 'auto');
+ga('send', 'pageview');
+
+</script>
+    
+    
+    
+        <script>
+var _hmt = _hmt || [];
+(function() {
+    var hm = document.createElement("script");
+    hm.src = "//hm.baidu.com/hm.js?b29f4457115392934213d1aef151efff";
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+    
+
+<script>
+  (adsbygoogle = window.adsbygoogle || []).push({
+    google_ad_client: "ca-pub-2699452970228638",
+    enable_page_level_ads: true
+  });
+</script>
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Mellong</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">主页</a>
+                
+                    <a class="main-nav-link" href="/archives">列表</a>
+                
+                    <a class="main-nav-link" href="/categories">分类</a>
+                
+                    <a class="main-nav-link" href="/tags">标签</a>
+                
+                    <a class="main-nav-link" href="/about">关于</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="想要查找什么..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">主页</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">列表</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">分类</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">标签</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">关于</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="搜索" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://avatars3.githubusercontent.com/u/1818296?s=460&amp;v=4" />
+            <h2 id="name">Mellong</h2>
+            <h3 id="title">简单就好</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Zhuhai, China</span>
+            <a id="follow" target="_blank" href="http://github.com/MellongLau">关注我</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                53
+                <span>文章</span>
+            </div>
+            <div class="article-info-block">
+                33
+                <span>标签</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    <td><a href="http://github.com/MellongLau" target="_blank" title="github"><i class="fa fa-github"></i></a></td>
+                    
+                    <td><a href="/atom.xml" target="_blank" title="rss"><i class="fa fa-rss"></i></a></td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            制作树莓派wifi遥控和自动避障小车
+        </h1>
+    
+
+                <div class="article-meta">
+                    
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/">
+            <time datetime="2015-07-12T14:16:06.000Z" itemprop="datePublished">2015-07-12</time>
+        </a>
+    </div>
+
+
+                    
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/pi/">pi</a>
+    </div>
+
+                    
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/小车/">小车</a>, <a class="tag-link" href="/tags/树莓派/">树莓派</a>, <a class="tag-link" href="/tags/自动避障/">自动避障</a>
+    </div>
+
+                </div>
+            </header>
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+                
+                    <div id="toc" class="toc-article">
+                    <strong class="toc-title">文章目录</strong>
+                        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#写在前面"><span class="toc-number">1.</span> <span class="toc-text">写在前面</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#视频效果"><span class="toc-number">2.</span> <span class="toc-text">视频效果</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#需要的材料"><span class="toc-number">3.</span> <span class="toc-text">需要的材料</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#材料组装"><span class="toc-number">4.</span> <span class="toc-text">材料组装</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#小车底盘"><span class="toc-number">4.1.</span> <span class="toc-text">小车底盘</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#与L298N驱动模块连线"><span class="toc-number">4.2.</span> <span class="toc-text">与L298N驱动模块连线</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#供电"><span class="toc-number">4.3.</span> <span class="toc-text">供电</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#遥控程序"><span class="toc-number">5.</span> <span class="toc-text">遥控程序</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#web版"><span class="toc-number">5.1.</span> <span class="toc-text">web版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS版"><span class="toc-number">5.2.</span> <span class="toc-text">iOS版</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#自动避障版"><span class="toc-number">5.3.</span> <span class="toc-text">自动避障版</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#最后"><span class="toc-number">6.</span> <span class="toc-text">最后</span></a></li></ol>
+                    </div>
+                
+            
+            <h2 id="写在前面"><a href="#写在前面" class="headerlink" title="写在前面"></a>写在前面</h2><hr>
+<p>前几年买了树莓派，当时主要是想用来做客厅多媒体盒，不过实际使用下来有点卡，速度不尽人意。虽然后来换了class10的SD卡速度有点提升，但也很少拿去看电影了，多数时间是用来做下载机。</p>
+<p>其实之前也有听说可以做很多有趣的东西，我最感兴趣就是做个遥控小车，一直有这个想法，就是没有实际行动。最近在网上又看到类似的遥控车，突然间又来了兴致，这次决心很大，立即就找了下资料，并且在淘宝上买了配件。趁着周末有时间，花了半天时间组装好了，又花了半天改了程序支持自动避障，还做了个iPad/iPhone的手机端遥控app。自己又是摆道具又是录视频的，忙得不亦乐乎。废话少说，现在进入正题！</p>
+<h2 id="视频效果"><a href="#视频效果" class="headerlink" title="视频效果"></a>视频效果</h2><p>这是后来做的加了三路寻轨功能的视频，后面文章会继续介绍：</p>
+<embed src="http://player.youku.com/player.php/sid/XMTI4Nzk0NjMyOA==/v.swf" allowfullscreen="true" quality="high" width="480" height="400" align="middle" allowscriptaccess="always" type="application/x-shockwave-flash">
+
+<p>看不到视频的可以点这个链接跳转到优酷看：<a href="https://v.youku.com/v_show/id_XMTI4Nzk0NjMyOA==.html" target="_blank" rel="noopener">https://v.youku.com/v_show/id_XMTI4Nzk0NjMyOA==.html</a></p>
+<a id="more"></a>
+<h2 id="需要的材料"><a href="#需要的材料" class="headerlink" title="需要的材料"></a>需要的材料</h2><ol>
+<li><code>树莓派小车底盘</code>，这个上淘宝一搜一大堆，我买的四驱的，有带亚克力两层车板。</li>
+<li><code>三种杜邦线</code>，每一种买十条就可以了，我当时怕不够用，每一种都买了20条。</li>
+<li><code>移动电源</code>，这个家里之前有一个飞毛腿的，要买双usb输出的。</li>
+<li><code>树莓派</code></li>
+<li><code>L298N电机驱动板模块</code></li>
+<li><code>红外避障模块和超声波测距模块</code>，如果想做避障功能就需要买这个传感器，买两个（开始的时候不知道，我只买了一个红外避障模块…）。</li>
+<li><code>USB无线网卡</code></li>
+</ol>
+<p>上面的花费下来，不计树莓派、USB无线网卡和移动电源，大概花了90元左右。</p>
+<h2 id="材料组装"><a href="#材料组装" class="headerlink" title="材料组装"></a>材料组装</h2><h3 id="小车底盘"><a href="#小车底盘" class="headerlink" title="小车底盘"></a>小车底盘</h3><p>材料到手之后，先组装车底盘，安装说明书把第一层组装好，马达连线见下图，线我是用杜邦线一分为二去接的。</p>
+<p><img src="/blogImages/car_01.jpg" alt="image"></p>
+<p>注意走线是上下交叉连接。</p>
+<h3 id="与L298N驱动模块连线"><a href="#与L298N驱动模块连线" class="headerlink" title="与L298N驱动模块连线"></a>与L298N驱动模块连线</h3><p>模块两边有各有两个out接口分布连接两边马达，四个IN接口连接树莓派的四个GPIO接口，连上后记得自己连接的接口编号就可以，写代码的时候需要。</p>
+<h3 id="供电"><a href="#供电" class="headerlink" title="供电"></a>供电</h3><p>我使用之前买的移动电源供电，自带有两个USB接口，一个接树莓派，一个接L298N驱动模块。也可以自己买电池盒进行串联供电。<br>接模块的电源我使用usb线剪的，其中黑线是接地，红线接VCC。</p>
+<h2 id="遥控程序"><a href="#遥控程序" class="headerlink" title="遥控程序"></a>遥控程序</h2><p>遥控主要是通过树莓派的GPIO设置高低电平信号来控制小车前进、后退、左转、右转和停止，具体可以参考代码和下面GPIO的接口说明。值得注意的是，1对应的树莓派电路板背面焊锡为方形的针脚。</p>
+<p><img src="/blogImages/pi_GPIO.png" alt="image"></p>
+<h3 id="web版"><a href="#web版" class="headerlink" title="web版"></a>web版</h3><p>web版可以直接使用王恒的版本：<br><a href="https://github.com/wujiwh/piCar" target="_blank" rel="noopener">https://github.com/wujiwh/piCar</a></p>
+<p>主要修改自己接的GPIO接口和对应的方向。</p>
+<h3 id="iOS版"><a href="#iOS版" class="headerlink" title="iOS版"></a>iOS版</h3><p>简单写了iOS客户端，服务端是用王恒的版本改的：<br><a href="https://github.com/MellongLau/RaspiCar" target="_blank" rel="noopener">RaspiCar</a></p>
+<h3 id="自动避障版"><a href="#自动避障版" class="headerlink" title="自动避障版"></a>自动避障版</h3><p>由于只买了一个红外避障模块，于是只能单边避障，这里是代码：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/user/bin/env python</span></span><br><span class="line"> </span><br><span class="line"><span class="keyword">import</span> RPi.GPIO <span class="keyword">as</span> GPIO</span><br><span class="line">GPIO.setmode(GPIO.BOARD)</span><br><span class="line">GPIO.setwarnings(<span class="keyword">False</span>)</span><br><span class="line">GPIO.setup(<span class="number">11</span>,GPIO.OUT)</span><br><span class="line">GPIO.setup(<span class="number">12</span>,GPIO.OUT)</span><br><span class="line">GPIO.setup(<span class="number">15</span>,GPIO.OUT)</span><br><span class="line">GPIO.setup(<span class="number">16</span>,GPIO.OUT)</span><br><span class="line">GPIO.setup(<span class="number">7</span>,GPIO.IN)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_stop</span><span class="params">()</span>:</span></span><br><span class="line">	GPIO.output(<span class="number">11</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">12</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">15</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">16</span>, <span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_down</span><span class="params">()</span>:</span></span><br><span class="line">	GPIO.output(<span class="number">11</span>, <span class="keyword">True</span>)</span><br><span class="line">	GPIO.output(<span class="number">12</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">15</span>, <span class="keyword">True</span>)</span><br><span class="line">	GPIO.output(<span class="number">16</span>, <span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_up</span><span class="params">()</span>:</span></span><br><span class="line">	GPIO.output(<span class="number">11</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">12</span>, <span class="keyword">True</span>)</span><br><span class="line">	GPIO.output(<span class="number">15</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">16</span>, <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_right</span><span class="params">()</span>:</span></span><br><span class="line">	GPIO.output(<span class="number">11</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">12</span>, <span class="keyword">True</span>)</span><br><span class="line">	GPIO.output(<span class="number">15</span>, <span class="keyword">True</span>)</span><br><span class="line">	GPIO.output(<span class="number">16</span>, <span class="keyword">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">t_left</span><span class="params">()</span>:</span></span><br><span class="line">	GPIO.output(<span class="number">11</span>, <span class="keyword">True</span>)</span><br><span class="line">	GPIO.output(<span class="number">12</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">15</span>, <span class="keyword">False</span>)</span><br><span class="line">	GPIO.output(<span class="number">16</span>, <span class="keyword">True</span>)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">    in_right= GPIO.input(<span class="number">7</span>)</span><br><span class="line">    <span class="keyword">if</span> in_right == <span class="keyword">False</span>:</span><br><span class="line">    	t_left()</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">   		t_up()</span><br></pre></td></tr></table></figure>
+<h2 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h2><p>完成效果图：</p>
+<p><img src="/blogImages/car_02.jpg" alt="image"></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="http://www.devlong.com/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/" data-id="cjp6avtfo001jddfyyl9b0yvx" class="article-share-link"><i class="fa fa-share"></i>分享到</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/">评论</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2016/02/20/jian-ba-dot-app-shu-chu-wei-ipa/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">上一篇</strong>
+            <div class="article-nav-title">
+                
+                    一键把.app 输出为 .ipa
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2015/07/09/ru-he-hua-qu-xian-tu/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">下一篇</strong>
+            <div class="article-nav-title">如何画曲线图</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    <section id="comments">
+    
+        
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+
+    
+    </section>
+
+</section>
+            
+                <aside id="sidebar">
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">最新文章</h3>
+        <div class="widget">
+            <ul id="recent-post" class="no-thumbnail">
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/monkey/" class="title">读《别让猴子跳回背上》</a></p>
+                            <p class="item-date"><time datetime="2018-07-18T01:40:44.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/07/18/shell-study-note/" class="title">Shell 的一些笔记</a></p>
+                            <p class="item-date"><time datetime="2018-07-17T20:06:52.000Z" itemprop="datePublished">2018-07-18</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/05/14/opencv-go/" class="title">使用 go 进行 OpenCV 学习与开发</a></p>
+                            <p class="item-date"><time datetime="2018-05-14T02:13:50.000Z" itemprop="datePublished">2018-05-14</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/04/29/particle-animation-ios/" class="title">iOS 物理引擎实践之模拟粒子运动</a></p>
+                            <p class="item-date"><time datetime="2018-04-29T02:13:50.000Z" itemprop="datePublished">2018-04-29</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"></p>
+                            <p class="item-title"><a href="/2018/03/07/swift_singleton/" class="title">Swift 中定义单例</a></p>
+                            <p class="item-date"><time datetime="2018-03-07T02:13:50.000Z" itemprop="datePublished">2018-03-07</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">分类</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/">Object C</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/Object-C/iOS/">iOS</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/Sencha-Touch/">Sencha Touch</a><span class="category-list-count">4</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode/">Xcode</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Xcode插件/">Xcode插件</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/iOS/">iOS</a><span class="category-list-count">7</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/pi/">pi</a><span class="category-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">归档</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">七月 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">四月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">三月 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">九月 2017</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a><span class="archive-list-count">5</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">十二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">十一月 2016</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">八月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/05/">五月 2016</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">四月 2016</a><span class="archive-list-count">10</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/07/">七月 2015</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2015/01/">一月 2015</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/05/">五月 2014</a><span class="archive-list-count">3</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2014/03/">三月 2014</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2013/04/">四月 2013</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/12/">十二月 2012</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2012/05/">五月 2012</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2011/05/">五月 2011</a><span class="archive-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/OpenCV/">OpenCV</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Swift/">Swift</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode/">Xcode</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Xcode插件/">Xcode插件</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/book/">book</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/cocoapods/">cocoapods</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/firebug/">firebug</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/git/">git</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/iOS/">iOS</a><span class="tag-list-count">11</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ios/">ios</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/macbook/">macbook</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/object-c/">object-c</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shell/">shell</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/sourcetree/">sourcetree</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ssd/">ssd</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/svn/">svn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/swift/">swift</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/terminal/">terminal</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vim/">vim</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vscode/">vscode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webbrowser/">webbrowser</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/xcode/">xcode</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/加密/">加密</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/小车/">小车</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树梅派/">树梅派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/树莓派/">树莓派</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/算法/">算法</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/腾讯qq/">腾讯qq</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/自动避障/">自动避障</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/随笔/">随笔</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">标签云</h3>
+        <div class="widget tagcloud">
+            <a href="/tags/OpenCV/" style="font-size: 10px;">OpenCV</a> <a href="/tags/Swift/" style="font-size: 16px;">Swift</a> <a href="/tags/Xcode/" style="font-size: 14px;">Xcode</a> <a href="/tags/Xcode插件/" style="font-size: 10px;">Xcode插件</a> <a href="/tags/book/" style="font-size: 10px;">book</a> <a href="/tags/cocoapods/" style="font-size: 10px;">cocoapods</a> <a href="/tags/docker/" style="font-size: 10px;">docker</a> <a href="/tags/firebug/" style="font-size: 10px;">firebug</a> <a href="/tags/git/" style="font-size: 12px;">git</a> <a href="/tags/go/" style="font-size: 10px;">go</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/linux/" style="font-size: 10px;">linux</a> <a href="/tags/macbook/" style="font-size: 10px;">macbook</a> <a href="/tags/object-c/" style="font-size: 10px;">object-c</a> <a href="/tags/shell/" style="font-size: 14px;">shell</a> <a href="/tags/sourcetree/" style="font-size: 10px;">sourcetree</a> <a href="/tags/ssd/" style="font-size: 10px;">ssd</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/swift/" style="font-size: 18px;">swift</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/vim/" style="font-size: 10px;">vim</a> <a href="/tags/vscode/" style="font-size: 10px;">vscode</a> <a href="/tags/webbrowser/" style="font-size: 10px;">webbrowser</a> <a href="/tags/xcode/" style="font-size: 10px;">xcode</a> <a href="/tags/加密/" style="font-size: 10px;">加密</a> <a href="/tags/小车/" style="font-size: 10px;">小车</a> <a href="/tags/树梅派/" style="font-size: 10px;">树梅派</a> <a href="/tags/树莓派/" style="font-size: 10px;">树莓派</a> <a href="/tags/算法/" style="font-size: 10px;">算法</a> <a href="/tags/腾讯qq/" style="font-size: 10px;">腾讯qq</a> <a href="/tags/自动避障/" style="font-size: 10px;">自动避障</a> <a href="/tags/随笔/" style="font-size: 10px;">随笔</a>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">链接</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-chevron-up"></div>
+</aside>
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2018 Mellong<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_shortname = 'mellongblog';
+    
+    
+    var disqus_url = 'http://www.devlong.com/2015/07/12/zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che/';
+    
+    (function() {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+
+
+
+    
+        <script src="/vendor/fancybox/jquery.fancybox.pack.js"></script>
+    
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
