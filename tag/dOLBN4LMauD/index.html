@@ -1,0 +1,181 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>自动避障 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+        <div class="current-tag-container">
+            <h2 class="title gt-c-content-color-first">
+                #自动避障
+            </h2>
+        </div>
+        <div class="post-list-container">
+    <div class="post-inner">
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2015-07-12-zhi-zuo-shu-mei-pai-wifiyao-kong-he-zi-dong-bi-zhang-xiao-che.markd/">
+                            <span class="post-title gt-c-content-color-first">制作树莓派wifi遥控和自动避障小车</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <h2 id="写在前面">写在前面</h2>
+<hr>
+<p>前几年买了树莓派，当时主要是想用来做客厅多媒体盒，不过实际使用下来有点卡，速度不尽人意。虽然后来换了class10的SD卡速度有点提升，但也很少拿去看电影了，多数时间是用来做下载机。</p>
+<p>其实之前也有听说可以做很多有趣的东西，我最感兴趣就是做个遥控小车，一直有这个想法，就是没有实际行动。最近在网上又看到类似的遥控车，突然间又来了兴致，这次决心很大，立即就找了下资料，并且在淘宝上买了配件。趁着周末有时间，花了半天时间组装好了，又花了半天改了程序支持自动避障，还做了个iPad/iPhone的手机端遥控app。自己又是摆道具又是录视频的，忙得不亦乐乎。废话少说，现在进入正题！</p>
+<h2 id="视频效果">视频效果</h2>
+<p>这是后来做的加了三路寻轨功能的视频，后面文章会继续介绍：<br>
+<embed src="http://player.youku.com/player.php/sid/XMTI4Nzk0NjMyOA==/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
+<p>看不到视频的可以点这个链接跳转到优酷看：<a href="https://v.youku.com/v_show/id_XMTI4Nzk0NjMyOA==.html">https://v.youku.com/v_show/id_XMTI4Nzk0NjMyOA==.html</a></p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2015-07-12 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/MVveVnAyQjf/" class="post-tag">
+                                # 树莓派
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/dOLBN4LMauD/" class="post-tag">
+                                # 自动避障
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/6a1BYnDulz_/" class="post-tag">
+                                # 小车
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+    </div>
+</div>
+        <div class="pagination-container">
+    
+    
+</div>
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

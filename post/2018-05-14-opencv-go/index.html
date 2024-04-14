@@ -1,0 +1,257 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>使用 go 进行 OpenCV 学习与开发 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    使用 go 进行 OpenCV 学习与开发
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2018-05-14 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/hTdg6OfVQm/" class="post-tags">
+                            # go
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/opMiY-8wvt/" class="post-tags">
+                            # OpenCV
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h3 id="前言">前言</h3>
+<p>记得开始使用 OpenCV 的时候是在大学时期，当时用的是 C 语言，OpenCV 版本好像是1.1，随着时间的推移，后面 C++逐渐代替了 C，iOS 也有整合好的 lib 可以使用 OpenCV，现在Python, go 等语言进行开发，今天主要是说一说如何使用 go 语言配置开发 OpenCV。</p>
+<!-- more -->
+<h3 id="库的选择">库的选择</h3>
+<p>使用 Opencv 2+的话，可以用这个库 <a href="https://github.com/go-opencv/go-opencv">https://github.com/go-opencv/go-opencv</a>，但这个库没有支持 OpenCV 3+, 所以想用 OpenCV 3+ 可以使用<a href="https://github.com/hybridgroup/gocv">https://github.com/hybridgroup/gocv</a>，今天主要就是介绍 gocv 的使用。</p>
+<h3 id="环境配置">环境配置</h3>
+<p>如果还没安装 OpenCV 的话， Mac OS可以通过 <code>brew install opencv</code> 进行安装OpenCV 3.4.1。<br>
+安装好 go 之后，直接运行 <code>go get -u -d gocv.io/x/gocv</code> 命令获取 gocv 库，进入该库根目录 <code>cd $GOPATH/src/gocv.io/x/gocv</code>, 运行 <code>source ./env.sh</code>，然后就可以使用 go run命令运行里面的示例了，刚开始学可以直接在示例里面修改代码运行。</p>
+<h3 id="ide-的选择">IDE 的选择</h3>
+<p>本来想使用 IDEA +  go plugin 的方式来开发，谁知 IDEA 出了 go IDE（需要收费），go plugin 就停止维护了，只能放弃，随后选择 vscode+plugin 的方式，方便快捷，感觉也不错，智能提示和代码跳转都有了，调试还没试，估计调试和 run 的话都是可以配置的。</p>
+<h3 id="示例">示例</h3>
+<p>配置好之后迫不及待就写代码了，由于 gocv 对 OpenCV 进行了封装，方法名基本都一致，但是使用上还是有些区别，不过 vscode 代码跳转很方便，不清楚直接跳到源码看看就知道了，下面贴一个查找边框的例子，看看是不是和 C++的写法很不一样。</p>
+<pre><code class="language-go">// What it does:
+//
+// This example uses the Window class to open an image file, and then display
+// the image in a Window class.
+//
+// How to run:
+//
+// 		go run ./cmd/showimage/main.go /home/ron/Pictures/mcp23017.jpg
+//
+// +build example
+
+package main
+
+import (
+	&quot;fmt&quot;
+	&quot;image&quot;
+	&quot;image/color&quot;
+	&quot;os&quot;
+
+	&quot;gocv.io/x/gocv&quot;
+)
+
+func main() {
+	if len(os.Args) &lt; 2 {
+		fmt.Println(&quot;How to run:\n\tshowimage [imgfile]&quot;)
+		return
+	}
+
+	filename := os.Args[1]
+	window := gocv.NewWindow(&quot;Hello&quot;)
+	img := gocv.IMRead(filename, gocv.IMReadColor)
+	grayImage := gocv.NewMat()
+	defer grayImage.Close()
+
+	gocv.CvtColor(img, &amp;grayImage, gocv.ColorBGRToGray)
+	destImage := gocv.NewMat()
+	gocv.Threshold(grayImage, &amp;destImage, 100, 255, gocv.ThresholdBinaryInv)
+	resultImage := gocv.NewMatWithSize(500, 400, gocv.MatTypeCV8U)
+
+	gocv.Resize(destImage, &amp;resultImage, image.Pt(resultImage.Rows(), resultImage.Cols()), 0, 0, gocv.InterpolationCubic)
+	gocv.Dilate(resultImage, &amp;resultImage, gocv.NewMat())
+	gocv.GaussianBlur(resultImage, &amp;resultImage, image.Pt(5, 5), 0, 0, gocv.BorderWrap)
+	results := gocv.FindContours(resultImage, gocv.RetrievalTree, gocv.ChainApproxSimple)
+	imageForShowing := gocv.NewMatWithSize(resultImage.Rows(), resultImage.Cols(), gocv.MatChannels4)
+	for index, element := range results {
+		fmt.Println(index)
+		gocv.DrawContours(&amp;imageForShowing, results, index, color.RGBA{R: 0, G: 0, B: 255, A: 255}, 1)
+		gocv.Rectangle(&amp;imageForShowing,
+			gocv.BoundingRect(element),
+			color.RGBA{R: 0, G: 255, B: 0, A: 100}, 1)
+	}
+
+	if img.Empty() {
+		fmt.Println(&quot;Error reading image from: %v&quot;, filename)
+		return
+	}
+
+	for {
+		window.IMShow(imageForShowing)
+		if window.WaitKey(1) &gt;= 0 {
+			break
+		}
+	}
+}
+</code></pre>
+<p>我是用 showimage.go 这个示例改的，处理顺序是：</p>
+<ul>
+<li>灰度化 CvtColor</li>
+<li>二值化 Threshold</li>
+<li>缩小图片 Resize</li>
+<li>膨胀 Dilate</li>
+<li>高斯模糊 GaussianBlur</li>
+<li>查找轮廓 FindContours</li>
+<li>绘制轮廓 DrawContours</li>
+<li>绘制轮廓的最小外接矩形 Rectangle</li>
+</ul>
+<p>从上面例子可以看到，方法都是在 package gocv下，使用的时候会有代码提示，包括参数也有提示，由于 go 没有类构造方法，都是使用 New+类型名称这样的函数还创建类型。</p>
+<p>我也是 go 的新手，这里是边看着文档边写的代码，还好有智能代码提示，用起来还算得心应手，希望这篇入门文章对想使用 go 来进行 OpenCV 开发的同学有所帮助。</p>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2018-04-28-particle-animation-ios/" class="post-title gt-a-link">
+                    iOS 物理引擎实践之模拟粒子运动
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Vim常用操作命令 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Vim常用操作命令
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2017-07-29 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/CcOxvWPZY2/" class="post-tags">
+                            # vim
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>Vim是非常强大的文本编辑器，熟练使用vim会给使用linux带来很大帮助，现在很多流行的编辑器都以插件的形式支持vim编辑模式，也从另一面说明vim非常的流行。</p>
+<p>使用 Vim 有很长一段时间了，感觉就是越熟悉越好用，刚开始用还是比较痛苦的，所以我把一些常用的命令记下来，有了下面这些命令，使用起 vim 就会更得心应手了。</p>
+<ul>
+<li>删除<br>
+dd: 删除整行。<br>
+dt+&quot;字符&quot;: 删除当前字符到指定字符，但不包含自定字符。<br>
+df+&quot;字符&quot;: 删除当前字符到指定字符，且包含自定字符。<br>
+di+&quot;括号或者双引号，单引号，方括号等&quot;: 删除当前的成对的括号内的全部字符，不包括括号。<br>
+da+&quot;括号或者双引号，单引号，方括号等&quot;: 删除当前的成对的括号内的全部字符，包括括号。<br>
+cw: 删除单词并切换为 insert 模式。<br>
+ss: 删除当前字符并切换为 insert 模式。</li>
+</ul>
+<!-- more -->
+<ul>
+<li>复制粘贴<br>
+yy: 复制当前行。<br>
+yw: 复制当前字符。<br>
+yW: 复制当前单词。<br>
+&quot;复制行数&quot;+yy: 复制当前行及以下行数的行。<br>
+p: 复制后进行粘贴,P则当前行前粘贴，p 在当前行后粘贴。<br>
+Ve 水平分割文件浏览<br>
+Ex 当前窗口文件浏览?<br>
+Se 垂直分割文件浏览<br>
+s 文件浏览中点击 s 进行切换排序模式<br>
+r 文件浏览中点击 r 进行切换为方向排序<br>
+v 文件浏览中点击 v 在新的水平窗口中打开目录或文件<br>
+ctrl+w,+hjkl 窗口间切换<br>
+:bn :bp 文件切换<br>
+[n]+&gt;&gt; 选择 n 行缩进<br>
+&quot;:ls&quot;查看当前打开的buffer（文件）<br>
+&quot;:b num&quot;切换文件（其中num为buffer list中的编号）<br>
+:split 垂直新建分割窗口 :sp<br>
+:vsplit 水平新建分割窗口 :vsp</li>
+</ul>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2017-06-07-lite-auto-layout-introduction/" class="post-title gt-a-link">
+                    自制自动布局约束开源库Lite Auto Layout
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

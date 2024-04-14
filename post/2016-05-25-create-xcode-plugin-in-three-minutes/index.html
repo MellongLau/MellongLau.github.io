@@ -1,0 +1,185 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>三分钟编写一款Xcode插件 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    三分钟编写一款Xcode插件
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2016-05-25 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/uVlbkt2-08/" class="post-tags">
+                            # xcode
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="写在前面">写在前面</h2>
+<p>从事iOS开发也比较长时间了，起初的时候用了一些Xcode插件之后感觉确实对开发帮助挺大，后来开始对Xcode插件开发感兴趣了，于是先后制作了<a href="https://github.com/MellongLau/AMMethod2Implement">AMMethod2Implement</a>, <a href="https://github.com/MellongLau/AMAppExportToIPA-Xcode-Plugin">AMAppExportToIPA</a> 和 <a href="https://github.com/MellongLau/AMLocalizedStringBuilder-Xcode-Plugin">AMLocalizedStringBuilder</a> 这三款Xcode插件，这些都是在长期使用Xcode开发中萌发出的想法，后来经过研究开发出来的。现在很开心看到越来越多的人开始在开发Xcode插件，很多很有想法的插件开发出来了。同时我相信还有很多人对Xcode插件开发很感兴趣，但是却无从下手，于是有了这一篇文章。</p>
+<!-- more -->
+<h2 id="如何开发">如何开发</h2>
+<p>插件开发用到各种各样的技术，不是一篇文章可以说得完全的，这篇文章只能算是一个引子，所用到的是最简答的技术进行开发Xcode插件，而这种方法适合的也只是某种特定的场景：在Xcode中选中代码后可以对这些代码进行处理。</p>
+<h2 id="开始">开始</h2>
+<h3 id="效果预览">效果预览</h3>
+<p>首先，我们来看一下完成的效果，在Xcode中选择一段要注释的代码，然后点击右键 <code>Services</code> -&gt; <code>Comment Selected Text</code>，我们的插件自动将这段代码用 <code>/*   */</code> 注释掉，如下面演示图片所示。</p>
+<figure data-type="image" tabindex="1"><img src="https://raw.githubusercontent.com/MellongLau/workflow-xcode-plugin/master/screenshot.gif" alt="screenshot.gif" loading="lazy"></figure>
+<h3 id="动手制作">动手制作</h3>
+<ol>
+<li>在 <code>应用程序</code> 中打开系统自带的 <code>Automator</code> 应用，在<code>选取文稿类型</code>中选择服务后点击<code>选取</code>按钮。</li>
+<li>左侧的 <code>资源库</code> 中选中实用工具，并在右侧列表拉到底部双击选择 <code>运行shell脚本</code>。</li>
+<li>按下图所示进行修改：</li>
+</ol>
+<figure data-type="image" tabindex="2"><img src="https://raw.githubusercontent.com/MellongLau/workflow-xcode-plugin/master/Comment%20Selected%20Text.workflow/Contents/QuickLook/Thumbnail.png" alt="Thumbnail" loading="lazy"></figure>
+<p>完成以上步骤后点击保存名为<code>Comment Selected Text</code>，至此，插件已经制作完成，现在打开Xcode的项目，在代码编辑界面选中一段代码，然后点击右键选择<code>Services</code>-&gt;<code>Comment Selected Text</code>，选中的代码自己被注释掉。</p>
+<figure data-type="image" tabindex="3"><img src="https://blog.xioayee.top/post-images/xcode-plugin-01.png" alt="选择文中后点击右键" loading="lazy"></figure>
+<p>我已经把这个workflow文件保存到github上，你可以到这个地址下载：<a href="https://github.com/MellongLau/workflow-xcode-plugin">https://github.com/MellongLau/workflow-xcode-plugin</a></p>
+<h2 id="最后">最后</h2>
+<p>今天介绍的是最简单实用的Xcode插件开发的方法，值得一提的是这个方法在其他的文本编辑器中也可以用，所以这个方法具有普遍的实用性。</p>
+<p>如果这篇文章对你有帮助，请分享给更多人知道，转载请注明出处。</p>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2016-05-17-library-share/" class="post-title gt-a-link">
+                    iOS开发干货 第2期
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

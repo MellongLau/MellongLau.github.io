@@ -1,0 +1,350 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>SwiftUI教程 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    SwiftUI教程
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2024-03-19 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/9xCk5Pc3G/" class="post-tags">
+                            # Swift
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/e-V_bcu66/" class="post-tags">
+                            # SwiftUI
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>先写了份SwiftUI学习教程大纲，涵盖了SwiftUI的所有关键技术和概念，后面有时间慢慢补坑。</p>
+<!-- more -->
+<ul>
+<li>
+<p>SwiftUI基础</p>
+<ul>
+<li>SwiftUI简介</li>
+<li>声明式UI编程模型</li>
+<li>Views 和 ViewBuilders</li>
+<li>预览面板(Preview)的使用</li>
+</ul>
+</li>
+<li>
+<p>常用控件及布局</p>
+<ul>
+<li>Text, Image, Button等基础控件</li>
+<li>Stacks(HStack, VStack, ZStack)布局</li>
+<li>List 和 ScrollView</li>
+<li>LazyVGrid 和 LazyHGrid 网格布局</li>
+<li>Form 表单</li>
+<li>Spacer 和 Divider</li>
+</ul>
+</li>
+<li>
+<p>Combine框架基础</p>
+<ul>
+<li>Publisher和Subscriber</li>
+<li>@Published和CurrentValueSubject</li>
+<li>Combine中的数据流和操作符</li>
+</ul>
+</li>
+<li>
+<p>状态与数据流</p>
+<ul>
+<li>@State 管理局部状态</li>
+<li>@Binding 数据双向绑定</li>
+<li>@ObservedObject 和 @StateObject</li>
+<li>@EnvironmentObject 环境对象</li>
+<li>@Published 发布属性</li>
+</ul>
+</li>
+<li>
+<p>页面导航</p>
+<ul>
+<li>NavigationView 和 NavigationLink</li>
+<li>TabView 标签导航</li>
+<li>Sheet 和 fullScreenCover 模态页面</li>
+<li>Alerts 和 Actionsheets</li>
+</ul>
+</li>
+<li>
+<p>生命周期和事件</p>
+<ul>
+<li>onAppear 和 onDisappear</li>
+<li>onChange 监听状态变化</li>
+<li>@Environment 获取环境值</li>
+</ul>
+</li>
+<li>
+<p>动画与过渡</p>
+<ul>
+<li>Animation 基础动画</li>
+<li>过渡动画(transitions)</li>
+<li>非对称过渡</li>
+<li>matchedGeometryEffect 动画</li>
+</ul>
+</li>
+<li>
+<p>手势交互</p>
+<ul>
+<li>TapGesture 点击手势</li>
+<li>LongPressGesture 长按手势</li>
+<li>DragGesture 拖动手势</li>
+<li>MagnificationGesture 缩放手势</li>
+<li>RotationGesture 旋转手势</li>
+<li>组合手势(simultaneously, sequenced)</li>
+</ul>
+</li>
+<li>
+<p>自定义布局</p>
+<ul>
+<li>自定义UIViewRepresentable</li>
+<li>自定义Layout</li>
+</ul>
+</li>
+<li>
+<p>数据持久化</p>
+<ul>
+<li>@AppStorage 轻量数据持久化</li>
+<li>Core Data 集成</li>
+</ul>
+</li>
+<li>
+<p>与UIKit集成</p>
+<ul>
+<li>UIViewControllerRepresentable</li>
+<li>UIViewRepresentable</li>
+</ul>
+</li>
+<li>
+<p>绘图与特效</p>
+<ul>
+<li>Paths &amp; Shapes绘图</li>
+<li>UIGraphicsImageRenderer绘制</li>
+<li>Core Image 滤镜</li>
+<li>Metal 渲染</li>
+</ul>
+</li>
+<li>
+<p>并发编程</p>
+<ul>
+<li>async/await异步编程</li>
+<li>Actor模型</li>
+<li>TaskGroup 和 TaskPriority</li>
+</ul>
+</li>
+<li>
+<p>辅助功能</p>
+<ul>
+<li>动态字体缩放</li>
+<li>色盲模式适配</li>
+<li>辅助功能标签(accessibilityLabel)</li>
+</ul>
+</li>
+<li>
+<p>SwiftUI 3.0+ 新特性</p>
+<ul>
+<li>AttributeGraph 自定义控件</li>
+<li>Canvas 绘图</li>
+<li>异步图片加载(AsyncImage)</li>
+<li>Tab 视图样式定制</li>
+<li>DatePicker、Gauge等新控件</li>
+<li>材料(Material)与模糊特效</li>
+<li>ShareLink 分享页面</li>
+<li>NavigationStack 和 NavigationSplitView 新页面导航方式</li>
+<li>Charts 图表绘制</li>
+<li>新的导航栏隐藏方式(toolbar/.hidden)</li>
+</ul>
+</li>
+<li>
+<p>SwiftUI最佳实践</p>
+<ul>
+<li>架构模式：MVVM在SwiftUI中的应用</li>
+<li>代码组织和模块化</li>
+<li>可维护性和可测试性</li>
+</ul>
+</li>
+<li>
+<p>实战项目</p>
+<ul>
+<li>
+<p>实战项目1: 待办事项应用</p>
+<ul>
+<li>设计UI</li>
+<li>数据模型</li>
+<li>增删改查操作</li>
+<li>状态管理</li>
+</ul>
+</li>
+<li>
+<p>实战项目2: 天气应用</p>
+<ul>
+<li>网络请求</li>
+<li>JSON解析</li>
+<li>异步图片加载</li>
+<li>复杂布局</li>
+</ul>
+</li>
+<li>
+<p>实战项目3: 新闻阅读器</p>
+<ul>
+<li>RSS解析</li>
+<li>多源合并</li>
+<li>文章阅读视图</li>
+<li>收藏与分享功能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/combine-li-mian-lei-si-flatmaplatest-de-cao-zuo-fang-fa/" class="post-title gt-a-link">
+                    Combine里面类似flatMapLatest的操作方法
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

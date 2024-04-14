@@ -1,0 +1,264 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>制作树莓派wifi遥控和自动避障小车 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    制作树莓派wifi遥控和自动避障小车
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2015-07-12 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/MVveVnAyQjf/" class="post-tags">
+                            # 树莓派
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/dOLBN4LMauD/" class="post-tags">
+                            # 自动避障
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/6a1BYnDulz_/" class="post-tags">
+                            # 小车
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="写在前面">写在前面</h2>
+<hr>
+<p>前几年买了树莓派，当时主要是想用来做客厅多媒体盒，不过实际使用下来有点卡，速度不尽人意。虽然后来换了class10的SD卡速度有点提升，但也很少拿去看电影了，多数时间是用来做下载机。</p>
+<p>其实之前也有听说可以做很多有趣的东西，我最感兴趣就是做个遥控小车，一直有这个想法，就是没有实际行动。最近在网上又看到类似的遥控车，突然间又来了兴致，这次决心很大，立即就找了下资料，并且在淘宝上买了配件。趁着周末有时间，花了半天时间组装好了，又花了半天改了程序支持自动避障，还做了个iPad/iPhone的手机端遥控app。自己又是摆道具又是录视频的，忙得不亦乐乎。废话少说，现在进入正题！</p>
+<h2 id="视频效果">视频效果</h2>
+<p>这是后来做的加了三路寻轨功能的视频，后面文章会继续介绍：<br>
+<embed src="http://player.youku.com/player.php/sid/XMTI4Nzk0NjMyOA==/v.swf" allowFullScreen="true" quality="high" width="480" height="400" align="middle" allowScriptAccess="always" type="application/x-shockwave-flash"></embed></p>
+<p>看不到视频的可以点这个链接跳转到优酷看：<a href="https://v.youku.com/v_show/id_XMTI4Nzk0NjMyOA==.html">https://v.youku.com/v_show/id_XMTI4Nzk0NjMyOA==.html</a></p>
+<!-- more -->
+<h2 id="需要的材料">需要的材料</h2>
+<ol>
+<li><code>树莓派小车底盘</code>，这个上淘宝一搜一大堆，我买的四驱的，有带亚克力两层车板。</li>
+<li><code>三种杜邦线</code>，每一种买十条就可以了，我当时怕不够用，每一种都买了20条。</li>
+<li><code>移动电源</code>，这个家里之前有一个飞毛腿的，要买双usb输出的。</li>
+<li><code>树莓派</code></li>
+<li><code>L298N电机驱动板模块</code></li>
+<li><code>红外避障模块和超声波测距模块</code>，如果想做避障功能就需要买这个传感器，买两个（开始的时候不知道，我只买了一个红外避障模块...）。</li>
+<li><code>USB无线网卡</code></li>
+</ol>
+<p>上面的花费下来，不计树莓派、USB无线网卡和移动电源，大概花了90元左右。</p>
+<h2 id="材料组装">材料组装</h2>
+<h3 id="小车底盘">小车底盘</h3>
+<p>材料到手之后，先组装车底盘，安装说明书把第一层组装好，马达连线见下图，线我是用杜邦线一分为二去接的。</p>
+<figure data-type="image" tabindex="1"><img src="https://blog.xioayee.top/post-images/car_01.jpg" alt="image" loading="lazy"></figure>
+<p>注意走线是上下交叉连接。</p>
+<h3 id="与l298n驱动模块连线">与L298N驱动模块连线</h3>
+<p>模块两边有各有两个out接口分布连接两边马达，四个IN接口连接树莓派的四个GPIO接口，连上后记得自己连接的接口编号就可以，写代码的时候需要。</p>
+<h3 id="供电">供电</h3>
+<p>我使用之前买的移动电源供电，自带有两个USB接口，一个接树莓派，一个接L298N驱动模块。也可以自己买电池盒进行串联供电。<br>
+接模块的电源我使用usb线剪的，其中黑线是接地，红线接VCC。</p>
+<h2 id="遥控程序">遥控程序</h2>
+<p>遥控主要是通过树莓派的GPIO设置高低电平信号来控制小车前进、后退、左转、右转和停止，具体可以参考代码和下面GPIO的接口说明。值得注意的是，1对应的树莓派电路板背面焊锡为方形的针脚。</p>
+<figure data-type="image" tabindex="2"><img src="https://blog.xioayee.top/post-images/pi_GPIO.png" alt="image" loading="lazy"></figure>
+<h3 id="web版">web版</h3>
+<p>web版可以直接使用王恒的版本：<br>
+<a href="https://github.com/wujiwh/piCar">https://github.com/wujiwh/piCar</a></p>
+<p>主要修改自己接的GPIO接口和对应的方向。</p>
+<h3 id="ios版">iOS版</h3>
+<p>简单写了iOS客户端，服务端是用王恒的版本改的：<br>
+<a href="https://github.com/MellongLau/RaspiCar">RaspiCar</a></p>
+<h3 id="自动避障版">自动避障版</h3>
+<p>由于只买了一个红外避障模块，于是只能单边避障，这里是代码：</p>
+<pre><code class="language-python">#!/user/bin/env python
+ 
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BOARD)
+GPIO.setwarnings(False)
+GPIO.setup(11,GPIO.OUT)
+GPIO.setup(12,GPIO.OUT)
+GPIO.setup(15,GPIO.OUT)
+GPIO.setup(16,GPIO.OUT)
+GPIO.setup(7,GPIO.IN)
+
+def t_stop():
+	GPIO.output(11, False)
+	GPIO.output(12, False)
+	GPIO.output(15, False)
+	GPIO.output(16, False)
+
+def t_down():
+	GPIO.output(11, True)
+	GPIO.output(12, False)
+	GPIO.output(15, True)
+	GPIO.output(16, False)
+
+def t_up():
+	GPIO.output(11, False)
+	GPIO.output(12, True)
+	GPIO.output(15, False)
+	GPIO.output(16, True)
+
+def t_right():
+	GPIO.output(11, False)
+	GPIO.output(12, True)
+	GPIO.output(15, True)
+	GPIO.output(16, False)
+
+def t_left():
+	GPIO.output(11, True)
+	GPIO.output(12, False)
+	GPIO.output(15, False)
+	GPIO.output(16, True)
+
+
+while True:
+    in_right= GPIO.input(7)
+    if in_right == False:
+    	t_left()
+    else:
+   		t_up()
+</code></pre>
+<h2 id="最后">最后</h2>
+<p>完成效果图：</p>
+<figure data-type="image" tabindex="3"><img src="https://blog.xioayee.top/post-images/car_02.jpg" alt="image" loading="lazy"></figure>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2015-07-09-ru-he-hua-qu-xian-tu.markd/" class="post-title gt-a-link">
+                    如何画曲线图
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

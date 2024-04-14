@@ -1,0 +1,238 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>如何通过IDA Pro跟踪按钮点击事件调用的函数地址 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    如何通过IDA Pro跟踪按钮点击事件调用的函数地址
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2024-03-10 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/VSmF_Z0HA/" class="post-tags">
+                            # asm
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>如题，这篇文章主要是讨论研究如何定位到按钮点击事件的函数地址。</p>
+<!-- more -->
+<p>一般来说点击事件主要有以下两种方式：</p>
+<ol>
+<li>
+<p>按钮点击</p>
+<ul>
+<li>
+<p>一个按钮点击事件通常会发送一个WM_COMMAND消息给主窗口的过程， WM_COMMAND的十六进制是0x111，我们可以使用0x111进行搜索。<br>
+可以使用Spy++ 进行拦截WM_COMMAND消息，Spy++ 可能不会捕获到所有类型的按钮事件，特别是如果它们是由非标准方式处理的（例如，直接使用 SendMessage 或 PostMessage API）。</p>
+</li>
+<li>
+<p>一些程序可能会使用 SendMessage 或 PostMessage API 来发送 WM_COMMAND 消息。在这些 API 调用上设置断点可以有助于找到消息发送的源头。<br>
+要捕获 SendMessage 或 PostMessage API 调用，需要一个能够监控这些函数调用的工具。Spy++ 可以监控消息，但它不会显示 API 调用的细节。我们可以使用 API Monitor 来进行拦截。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>鼠标事件</p>
+<ul>
+<li>有些事件是直接通过检测鼠标点击事件来调用对应的事件的，即使在UI上看到是个按钮，但也有可能是通过鼠标事件进行调用的。如何判断是否位鼠标调用，可以使用 API Monitor 来监测目标程序，然后勾上SetCapture函数，如果点击事件的时候会出现SetCapture的消息，那基本可以断定这个按钮事件是通过鼠标事件来调用的。</li>
+</ul>
+</li>
+</ol>
+<p>那么程序中是如何使用SetCapture来捕获并调用按钮事件的呢？我们又如何通过这些信息来定位到目标按钮事件函数呢？</p>
+<p>这是 SetCapture 函数的原型：</p>
+<pre><code class="language-c++">HWND SetCapture(HWND hWnd);
+</code></pre>
+<p>hWnd：指定要捕获鼠标输入的窗口的句柄。函数调用成功时返回之前捕获鼠标的窗口句柄，失败时返回 NULL。</p>
+<p>通过使用 SetCapture 函数，可以确保一个窗口接收到所有的鼠标输入事件，即使光标当前不在窗口内。然而，SetCapture 本身并不用于“监听”或“捕获”鼠标点击事件。要监听鼠标事件，需要结合消息处理机制来处理通过 SetCapture 获得的鼠标输入。</p>
+<p>以下是一个简化的例子，演示如何在一个 Win32 应用程序中捕获并处理鼠标点击事件：</p>
+<ul>
+<li>调用 SetCapture 来确保你的窗口可以接收鼠标事件。</li>
+</ul>
+<pre><code class="language-c">// hWnd 是目标窗口句柄
+SetCapture(hWnd);
+</code></pre>
+<ul>
+<li>在目标窗口过程中处理鼠标消息。以下是窗口过程的一个基本示例：</li>
+</ul>
+<pre><code class="language-c">LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+    case WM_LBUTTONDOWN:
+        // 当鼠标左键被按下时执行
+        break;
+
+    case WM_LBUTTONUP:
+        // 当鼠标左键被释放时执行
+        break;
+
+    case WM_RBUTTONDOWN:
+        // 当鼠标右键被按下时执行
+        break;
+
+    case WM_RBUTTONUP:
+        // 当鼠标右键被释放时执行
+        break;
+
+    // 其它消息的处理
+
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return 0;
+}
+</code></pre>
+<ul>
+<li>当完成鼠标事件处理后，调用 ReleaseCapture 来释放鼠标捕获。</li>
+</ul>
+<pre><code class="language-c">ReleaseCapture();
+</code></pre>
+<p>在上面的代码中，WM_LBUTTONDOWN, WM_LBUTTONUP, WM_RBUTTONDOWN, 和 WM_RBUTTONUP 是当鼠标左键和右键分别按下和释放时发送到窗口的消息。可以在这些消息处理代码中实现对鼠标点击的监听逻辑。</p>
+<p>接下来我们可以通过查找SetCapture，点击左侧<code>Names</code>这个tab，按Ctrl+F进行搜索<code>SetCapture</code>关键字，我们很快就可以找到SetCapture的地址，双击进入该地址，按键盘X显示xrefs来看看哪些地方引用了这个函数，一般程序很可能都只有一个地方使用这个函数，所有鼠标事件在一个地方集中处理，这个可以在xrefs窗口中的地址栏看出来，如果都是同一个地址只是加不同的偏移量的话，就是一个地方处理了。双击其中一个地址跳转到目标地址，按F5生成伪代码，可以看到Switch case伪代码，例如<code>case 0x202:</code>这个是鼠标点击被释放事件，一般是在这个事件中调用按钮事件。事实也证明是如此，成功在此处找到了对应的按钮处理事件，后续可以结合IDA Pro的动态调试功能进行验证。</p>
+<p>虽然我们已经找到事件调用的主函数地址，但是具体按钮的调用函数还需进入这个函数进行分析，通过具体代码的分析才能真正找到当前按钮点击时间调用的函数。</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/x86-hui-bian-fu-dian-yun-suan/" class="post-title gt-a-link">
+                    x86汇编浮点运算
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

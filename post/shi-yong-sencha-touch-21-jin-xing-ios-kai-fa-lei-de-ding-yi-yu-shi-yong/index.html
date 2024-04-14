@@ -1,0 +1,245 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>使用Sencha Touch 2.1进行iOS开发 —— 类的定义与使用 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    使用Sencha Touch 2.1进行iOS开发 —— 类的定义与使用
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2012-12-18 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="类的定义">类的定义</h2>
+<p>Sencha Touch有自己的类定义方式，我们先来看个例子：</p>
+<pre><code class="language-js">	Ext.define('Animal', {
+        config: {
+            name: null
+        },
+     
+        constructor: function(config) {
+            this.initConfig(config);
+        },
+     
+        speak: function() {
+            alert('grunt');
+        }
+    });
+</code></pre>
+<p>上面我们简单地定义了一个Animal类，只有一个name属性和一个方法speak();</p>
+<!-- more -->
+<h2 id="类的继承">类的继承</h2>
+<pre><code class="language-js">	Ext.define('Human', {
+	    extend: 'Animal',
+	 
+	    speak: function() {
+	        alert(this.getName());
+	    }
+	});
+</code></pre>
+<p>我们定义了一个Human类继承自Animal，并重写speak()方法。</p>
+<h2 id="类的实例化">类的实例化</h2>
+<pre><code class="language-js">	var bob = Ext.create('Human', {
+		name: 'Bob'
+    });
+ 
+	bob.speak(); //alerts 'Bob'
+</code></pre>
+<p>通过Ext.create()静态方法创建类实例。</p>
+<h2 id="getter和setter方法">getter和setter方法</h2>
+<p>对应的属性会自动生成getter和setter方法，如上面继承的例子中的this.getName()，setter方法为：this.setName('')。</p>
+<pre><code class="language-js">	Ext.define('Human', {
+	    extend: 'Animal',
+	 
+	    applyName: function(newName, oldName) {
+	        return confirm('Are you sure you want to change name to ' + newName + '?')? newName : oldName;
+	    }
+	});
+</code></pre>
+<p>applyName()方法是在调用setter方法后自动回调的方法，上面例子将在调用setter方法后弹出确认窗口询问是否修改name的值，点击no的话则不进行修改。</p>
+<pre><code class="language-js">	Ext.define('Human', {
+	    extend: 'Animal',
+	 
+	    updateName: function(newName, oldName) {
+	        alert('Name changed. New name is: ' + newName);
+	    }
+	});
+</code></pre>
+<p>updateName()方法则是在调用setter方法后并且改属性值已经修改了的情况下自动回调的。</p>
+<h2 id="依赖和动态加载">依赖和动态加载</h2>
+<p>有时候我们需要在类里面使用某个类的，这时候我们需要加入这个类的引用声明：requires: 'Ext.MessageBox'。</p>
+<pre><code class="language-js">	Ext.define('Human', {
+	    extend: 'Animal',
+	 
+	    requires: 'Ext.MessageBox',
+	 
+	    speak: function() {
+	        Ext.Msg.alert(this.getName(), &quot;Speaks...&quot;);
+	    }
+	});
+</code></pre>
+<p>加入引用声明后，Sencha Touch会自动判断是否Ext.MessageBox已经加载，如果未加载的话则会自动通过AJAX加载对应的类文件。</p>
+<h2 id="命名空间">命名空间</h2>
+<p>以上一篇文章的Main.js文件为例</p>
+<pre><code class="language-js">	Ext.define('HelloSenCha.view.Main', {
+	    extend: 'Ext.navigation.View',
+	    xtype: 'mainview',
+	
+	    requires: [
+	        'HelloSenCha.view.Contacts',
+	        'HelloSenCha.view.contact.Show',
+	        'HelloSenCha.view.contact.Edit'
+	    ],
+	...
+</code></pre>
+<p>类名规则为：项目名称.目录1.目录2...类名，也就是说，Main.js和Contacts.js文件在view文件夹下，Show.js和Edit.js在view/contact文件夹下。</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/shi-yong-sencha-touch-21-jin-xing-ios-kai-fa-kai-fa-huan-jing-da-jian/" class="post-title gt-a-link">
+                    使用Sencha Touch 2.1进行iOS开发 —— 开发环境搭建
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

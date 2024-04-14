@@ -1,0 +1,218 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>写了个iOS下拉刷新控件 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    写了个iOS下拉刷新控件
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2017-09-24 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>这个控件和<a href="https://github.com/MellongLau/LiteAutoLayout">LiteAutolayout</a>一样也写了有一段时间了，使用swift实现，尽量做到简单易用，尽可能做到一行代码搞定。</p>
+<p>先附上CocoRongPullToRefresh的源码地址：</p>
+<p><a href="https://github.com/MellongLau/CocoRongPullToRefresh">https://github.com/MellongLau/CocoRongPullToRefresh</a></p>
+<figure data-type="image" tabindex="1"><img src="https://github.com/MellongLau/CocoRongPullToRefresh/raw/master/screenshot/screenshot.gif" alt="Thumbnail" loading="lazy"></figure>
+<!-- more -->
+<p>下拉刷新功能应该是所用 app 中使用最频繁的功能了， 这个组件为你的 table view提供了最简单使用方式的下拉刷新特性。</p>
+<h3 id="用法">用法</h3>
+<ul>
+<li>下面代码是简单使用这个控件的例子</li>
+</ul>
+<pre><code class="language-swift">tableView.cr.enablePullRefresh {
+	    // 调用远程服务器的接口.
+        get(&quot;http://xxx.com/api/productlist&quot;) { dataList in
+		// 更新 table view 的数据源
+		self.tableView.datasource = dataList
+		self.tableView.reloadData()
+		// 完成刷新	
+		self.tableView.cr.stopRefresh()
+	}	
+}
+</code></pre>
+<p>如你所看到的，我们只要上面几行代码就可以为你的 table view 添加下来刷新功能，如果你想要修改下拉刷新视图的背景颜色，可以参考下面代码：</p>
+<pre><code class="language-swift">tableView.cr.tintColor = UIColor.brown
+</code></pre>
+<p>最后，别忘了在view controller 的 <code>deinit</code> 方法中调用 <code>remove()</code> 方法移除当前页面对 CocoRongPullToRefresh 的引用。</p>
+<pre><code class="language-swift">deinit {
+        tableView.cr.remove()
+}
+</code></pre>
+<h3 id="使用示例">使用示例</h3>
+<p>下载 example 文件夹下的示例项目查看具体的用法。</p>
+<h3 id="安装">安装</h3>
+<p>这里有两种方式添加 <code>CocoRongPullToRefresh</code> 到你的项目中。</p>
+<h4 id="cocoapods">CocoaPods</h4>
+<p><a href="http://www.cocoapods.org">CocoaPods</a> 推荐使用这种方式添加 CocoRongPullToRefresh 到你的项目中.</p>
+<ol>
+<li>添加 CocoRongPullToRefresh 到 podfile.</li>
+</ol>
+<pre><code class="language-ruby">pod &quot;CocoRongPullToRefresh&quot;, &quot;~&gt; 1.0&quot;
+</code></pre>
+<ol start="2">
+<li>使用命令 <code>pod install</code> 安装所有的库.</li>
+<li>引用 CocoRongPullToRefresh： <code>import CocoRongPullToRefresh </code>.</li>
+</ol>
+<h4 id="手动安装">手动安装</h4>
+<p>使用 Terminal.app 运行以下命令:</p>
+<pre><code>$ git clone https://github.com/MellongLau/CocoRongPullToRefresh.git
+</code></pre>
+<p>或者直接下载并拷贝 <code>CocoRongPullToRefresh</code> 文件夹和添加引用到你的项目中.</p>
+<h3 id="要求">要求</h3>
+<p>需要 Swift 3.0+ and iOS 8.0+ and ARC.</p>
+<h3 id="使用-cocorongpulltorefresh">使用 CocoRongPullToRefresh?</h3>
+<p>如果你在你的项目中使用了 CocoRongPullToRefresh，请发邮件(邮件地址在下面)告诉我一声，我会把你的 app 的下载链接添加到这里！</p>
+<h3 id="贡献">贡献</h3>
+<p>欢迎为此项目提供任何的帮助，包括意见建议，资金，代码或者精神鼓励等，为此项目贡献代码请提交 pull request, 代码经过审核后会立即合并到主分支中</p>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2017-08-12-swift-access-control/" class="post-title gt-a-link">
+                    Swift 之访问控制
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

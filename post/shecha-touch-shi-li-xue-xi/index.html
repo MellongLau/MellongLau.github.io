@@ -1,0 +1,254 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Shecha Touch实例学习 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Shecha Touch实例学习
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2012-12-19 ·
+                    </time>
+                    
+                </div>
+                <div class="post-content">
+                    <p>通过前几篇文章的介绍，大家应该对Sencha Touch总体有了了解，现在已经可以开始做一些简单的应用。这一次我们要做的是一个简单通讯录应用。</p>
+<!-- more -->
+<h2 id="原型图">原型图</h2>
+<p>开始工作之前我们先把思路整理一下，最好能先把原型图画一下。</p>
+<h2 id="开始编码">开始编码</h2>
+<ul>
+<li>创建名为AddressBook的Sencha Touch项目。</li>
+<li>把准备好联系人数据文件contacts.json拷贝到项目根目录下。</li>
+<li>修改app.json配置文件。</li>
+</ul>
+<p>缓存：</p>
+<pre><code class="language-js">	&quot;appCache&quot;: {
+        /**
+         * List of items in the CACHE MANIFEST section
+         */
+        &quot;cache&quot;: [
+            &quot;index.html&quot;,
+			&quot;contacts.json&quot; //加入新增的数据文件
+        ],
+</code></pre>
+<p>资源：</p>
+<pre><code>	 /**
+     * Extra resources to be copied along when build
+     */
+    &quot;resources&quot;: [
+		&quot;contacts.json&quot;, //加入新增的数据文件
+        &quot;resources/images&quot;,
+        &quot;resources/icons&quot;,
+        &quot;resources/startup&quot;
+    ],
+</code></pre>
+<h3 id="修改appviewmainjs文件">修改app/view/Main.js文件</h3>
+<pre><code>	Ext.define('AddressBook.view.Main', {
+	    extend: 'Ext.navigation.View',
+		xtype: 'mainview', //自定义xtype
+	    config: {
+	        scrollable: 'vertical',
+	        items: [
+	            {
+	                xtype: 'list',
+	                title: 'Contacts', //设置navigationView的title
+					id: 'contact-list',
+	                itemTpl: [
+	                    '&lt;div&gt;&lt;img src=\'\' /&gt; {firstName}&amp;nbsp;{lastName}&lt;/div&gt;' //自定义list cell的模版
+	                ],
+	                store: 'contacts', //指定数据仓库
+	                grouped: true,
+	                indexBar: true
+	            }
+	        ]
+	    }
+	
+	});
+</code></pre>
+<p>由于我们需要点击该列表进入对应的联系人详情页，所以应该选择navigation控件，把Main类的父类设为navigation.View:<code>extend: 'Ext.navigation.View'</code>。</p>
+<p>###新建app/store/contacts.js和app/model/ContactModel.js文件<br>
+<em>contacts.js：</em></p>
+<pre><code>	Ext.define('AddressBook.store.contacts', {
+	    extend: 'Ext.data.Store',
+	
+	    requires: [
+	        'AddressBook.model.ContactModel'
+	    ],
+	
+	    config: {
+	        autoLoad: true,
+	        model: 'AddressBook.model.ContactModel',
+	        remoteSort: false,
+	        storeId: 'contacts',
+	        proxy: {
+	            type: 'ajax',
+	            url: 'contacts.json'
+	        },
+	        sorters: 'firstName',
+			grouper: {
+	            groupFn: function(record) {
+	                return record.get('lastName')[0];
+	            }
+	        }
+	
+	    }
+	});
+</code></pre>
+<p><em>ContactModel.js：</em></p>
+<pre><code>	Ext.define('AddressBook.model.ContactModel', {
+	    extend: 'Ext.data.Model',
+	
+	    config: {
+	        fields: [
+	            'firstName',
+				'lastName',
+				'title'
+	        ]
+	    }
+	});
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/shi-yong-sencha-touch-21-jin-xing-ios-kai-fa-lei-de-ding-yi-yu-shi-yong/" class="post-title gt-a-link">
+                    使用Sencha Touch 2.1进行iOS开发 —— 类的定义与使用
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

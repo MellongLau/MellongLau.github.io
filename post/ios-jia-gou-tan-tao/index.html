@@ -1,0 +1,222 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>iOS架构探讨 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    iOS架构探讨
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-11-04 ·
+                    </time>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="前言">前言</h2>
+<p>iOS开发也比较长时间了，这么久的从业经验也积累了不少对iOS架构的经验，各种大大小小的项目，好的架构能给后期开发和团队合作带来很大的益处，其目标是构建一个结构清晰、易于维护且可扩展的系统。一个好的架构可以使得应用更加稳定，提高开发效率，降低长期维护的成本，所以在项目建立的时候就要根据项目的复杂度选择好的项目架构，这篇文章主要是来探讨总结一下iOS的架构方面的内容。</p>
+<!-- more -->
+<h3 id="设计模式">设计模式</h3>
+<p>熟悉并合理运用设计模式对于构建一个良好的架构至关重要。在iOS中，常见的架构模式包括：</p>
+<ul>
+<li>MVC (Model-View-Controller): Apple官方推荐的模式，但如果不当心，容易导致Controller过于臃肿（被称为Massive View Controller）。</li>
+<li>MVP (Model-View-Presenter): 在MVC的基础上，Presenter取代了Controller的角色，负责逻辑处理，减轻了Controller的负担。</li>
+<li>MVVM (Model-View-ViewModel): 引入ViewModel层，用于转换Model数据供View使用，减轻了Controller的责任，并有利于实现双向绑定。</li>
+<li>VIPER (View-Interactor-Presenter-Entity-Router): 一种更复杂的架构，旨在通过分离关注点来提高可测试性和可维护性，但学习曲线较陡峭。</li>
+</ul>
+<h3 id="架构原则">架构原则</h3>
+<p>理解并遵守一些基本的软件架构原则，如：</p>
+<ul>
+<li>SOLID原则：五大设计原则帮助开发者设计出易于维护和扩展的系统。</li>
+<li>DRY (Don't Repeat Yourself)：避免重复代码，减少维护成本。</li>
+<li>KISS (Keep It Simple, Stupid)：保持简单，避免过度设计。</li>
+<li>YAGNI (You Aren't Gonna Need It)：不要设计当前用不到的功能。</li>
+</ul>
+<h3 id="依赖注入">依赖注入</h3>
+<p>依赖注入（Dependency Injection，DI）是一种减少组件间耦合的技术，可以使得代码更加模块化，易于测试和维护。</p>
+<p><strong>依赖注入的主要方式：</strong></p>
+<ul>
+<li>
+<p>构造器注入（Constructor Injection）：<br>
+在创建类的实例时，通过构造器（初始化方法）将依赖项传递给该类。</p>
+</li>
+<li>
+<p>属性注入（Property Injection）：<br>
+类的实例被创建之后，通过公开的属性来设置依赖项。</p>
+</li>
+<li>
+<p>方法注入（Method Injection）：<br>
+依赖项通过方法的参数传递，通常用于传递某个方法调用所需的依赖项。</p>
+</li>
+</ul>
+<p><strong>依赖注入容器：</strong><br>
+在更复杂的应用中，可能会有多个类和多种依赖关系。在这种情况下，可以使用依赖注入容器（DI Container）来简化依赖管理。依赖注入容器是一个可以自动处理依赖关系的系统。在Swift中，我们可以手动创建一个容器，或者使用第三方库，如Swinject。</p>
+<h3 id="模块化与组件化">模块化与组件化</h3>
+<p>将应用分解为多个模块或组件，有利于代码的复用和UI统一，也有助于团队并行开发，并且使得代码更加清晰。</p>
+<h3 id="单元测试和自动化测试">单元测试和自动化测试</h3>
+<p>通过单元测试和自动化测试，提高测试覆盖率，可以确保编写的代码是符合预期的，能提升代码质量，减少Bug的产生。</p>
+<h3 id="持续集成持续部署cicd">持续集成/持续部署（CI/CD）</h3>
+<p>设置CI/CD可以自动化测试和部署过程，确保代码的集成质量，加快发布速度，减少人工操作错误。</p>
+<h4 id="持续集成ci">持续集成（CI）</h4>
+<p>持续集成是一种开发实践，开发团队成员频繁地将代码变更集成到共享仓库中。一般情况下，这意味着开发者每天至少集成一次，这样可以快速发现并解决集成错误，减少集成问题。</p>
+<p><strong>CI的关键实践包括：</strong></p>
+<ul>
+<li>版本控制：所有代码变更都应提交到版本控制系统中，如Git。</li>
+<li>自动化构建：使用自动化工具（如Xcode Server, Jenkins, GitLab CI, CircleCI, Travis CI等）来编译和构建应用。</li>
+<li>自动化测试：自动化执行单元测试和集成测试，确保代码变更没有破坏现有功能。</li>
+<li>快速反馈：如果构建或测试失败，团队成员应立即得到通知。</li>
+<li>维护构建系统：保持构建过程的速度和可靠性。</li>
+</ul>
+<h3 id="性能优化">性能优化</h3>
+<p>重视性能分析和优化，包括内存管理、线程与并发处理、网络请求优化等。</p>
+<h3 id="安全性">安全性</h3>
+<p>确保应用的安全性，包括代码混淆、数据加密、防止注入攻击、安全传输等。</p>
+<h3 id="实践建议">实践建议</h3>
+<ul>
+<li>代码审查：定期进行代码审查，可以提高代码质量并分享知识。</li>
+<li>文档与注释：保持良好的文档和代码注释习惯，有助于团队成员理解架构和代码。</li>
+<li>重构：不要害怕重构代码，持续重构是保持架构健康的重要手段。</li>
+</ul>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/tcp-lian-jie-san-ci-wo-shou/" class="post-title gt-a-link">
+                    TCP连接三次握手
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,190 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>@class vs. #import，两种方式的讨论 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    @class vs. #import，两种方式的讨论
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2012-05-22 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>很多刚开始学习iOS开发的同学可能在看别人的代码的时候会发现有部分<code>#import</code>操作写在m文件中，而h文件仅仅使用<code>@class</code>进行声明，不禁纳闷起来，为什么不直接把<code>#import</code>放到h文件中呢？</p>
+<p>这是因为h文件在修改后，所有import该h文件的所有文件必须重新build，因此，如果把<code>#import</code>写在h文件中，import该h文件的文件也就会产生不必要的编译，增加编译时间，特别是在项目文件多的情况下。想象一下，如果只是修改一个h文件而导致上百个文件不必要的编译，那是一件多么让人纠结的事情。。。</p>
+<p>对于<code>@class</code>只是告诉编译器有这个class，请不要报错或警告，因此不会给编译造成影响。</p>
+<p>什么时候用<code>@class</code>这种方式声明比<code>#import</code>好呢？</p>
+<p><code>stackoverflow</code>上的高手们给了不少建议：</p>
+<p><strong>Randy Marsh：</strong></p>
+<blockquote>
+<p>When I develop, I have only three things in mind that never cause me any problems.</p>
+</blockquote>
+<blockquote>
+<p>Import super classes<br>
+Import parent classes (when you have children and parents)<br>
+Import classes outside your project (like in frameworks and libraries)<br>
+For all other classes (subclasses and child classes in my project self), I declare them via forward-class.</p>
+</blockquote>
+<p><strong>Justin：</strong></p>
+<blockquote>
+<p>Simple answer: You #import or #include when there is a physical dependency. Otherwise, you use forward declarations (@class MONClass,struct MONStruct, @protocol MONProtocol).</p>
+</blockquote>
+<blockquote>
+<p>Here are some common examples of physical dependence:</p>
+</blockquote>
+<blockquote>
+<p>Any C or C++ value (a pointer or reference is not a physical dependency). If you have aCGPoint as an ivar or property, the compiler will need to see the declaration ofCGPoint.<br>
+Your superclass.<br>
+A method you use.</p>
+</blockquote>
+<p>最后，我建议还是养成良好的import习惯，不要偷懒都把import放在h文件中，无论参与的项目大小，养成良好的编程习惯非常重要。</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/ji-ge-wei-bo-de-tong-bu-deng-lu/" class="post-title gt-a-link">
+                    几个微博的同步——登录
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

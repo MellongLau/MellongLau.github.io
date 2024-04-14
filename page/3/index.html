@@ -1,0 +1,484 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+
+        <div class="post-list-container">
+    <div class="post-inner">
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-08-07-swift-generic/">
+                            <span class="post-title gt-c-content-color-first">Swift 之泛型</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>泛型代码允许你编写灵活，可以重用适用于任何类型的函数和类型。<br>
+大部分的Swift标准库都是用泛型代码编写。Array和Dictionary事实上都是泛型集合。你可以创建Int值的数组，或者String值的数组，以及其他swift类型的数组。Dictionary也是类似的。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-08-07 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/0W8bqlHhdK/" class="post-tag">
+                                # swift
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tag">
+                                # iOS
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-08-02-terminal-issue/">
+                            <span class="post-title gt-c-content-color-first">终端使用中遇到的问题</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <h3 id="文件出现-m-问题">文件出现 ^M 问题</h3>
+<p><code>^M</code> 是回车符，他是源于 DOS/Windows 的，但是在 Unix 的系统中这样的符号在执行的时候会报错，在使用 vim 查看文件的时候会直接看到<code>^M</code> 而不是换行。</p>
+<p>想替换掉<code>^M</code>，换成<code>\r</code>或者<code>\n</code>, 千万不要直接打上符号<code>^M</code> 进行替换，<code>^M</code> 这个符号要使用 <code>ctrl+v</code> &amp; <code>ctrl+m</code> 生成，在 vim 中使用</p>
+<blockquote>
+<p>:%s/^M/\r/g</p>
+</blockquote>
+<p>进行替换所有回车符。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-08-02 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/9Z0GN6DUlm/" class="post-tag">
+                                # shell
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/ghlEkVAqoN/" class="post-tag">
+                                # linux
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/W0QfIpNIro/" class="post-tag">
+                                # terminal
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/FN--CEXpjS/" class="post-tag">
+                                # git
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/g0TfWwHbUF/" class="post-tag">
+                                # svn
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-07-29-vim-tips/">
+                            <span class="post-title gt-c-content-color-first">Vim常用操作命令</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>Vim是非常强大的文本编辑器，熟练使用vim会给使用linux带来很大帮助，现在很多流行的编辑器都以插件的形式支持vim编辑模式，也从另一面说明vim非常的流行。</p>
+<p>使用 Vim 有很长一段时间了，感觉就是越熟悉越好用，刚开始用还是比较痛苦的，所以我把一些常用的命令记下来，有了下面这些命令，使用起 vim 就会更得心应手了。</p>
+<ul>
+<li>删除<br>
+dd: 删除整行。<br>
+dt+&quot;字符&quot;: 删除当前字符到指定字符，但不包含自定字符。<br>
+df+&quot;字符&quot;: 删除当前字符到指定字符，且包含自定字符。<br>
+di+&quot;括号或者双引号，单引号，方括号等&quot;: 删除当前的成对的括号内的全部字符，不包括括号。<br>
+da+&quot;括号或者双引号，单引号，方括号等&quot;: 删除当前的成对的括号内的全部字符，包括括号。<br>
+cw: 删除单词并切换为 insert 模式。<br>
+ss: 删除当前字符并切换为 insert 模式。</li>
+</ul>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-07-29 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/CcOxvWPZY2/" class="post-tag">
+                                # vim
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-06-07-lite-auto-layout-introduction/">
+                            <span class="post-title gt-c-content-color-first">自制自动布局约束开源库Lite Auto Layout</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>首先，贴上这个库的源码地址：<a href="https://github.com/MellongLau/LiteAutoLayout">https://github.com/MellongLau/LiteAutoLayout</a></p>
+<p>这个库也写了好长一段时间了，由于最近忙，一直都没时间把它更新好放上来，特别是文档，拖了这么久总算是补全了一点了。至于好不好用，那就见仁见智了，我之前比较习惯用IB拖auto layout的约束，也是根据IB的使用概念来实现的这个库，下面也有提到这一点，所以，个人认为，习惯使用IB来布局的同学应该会比较容易上手和习惯使用吧。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-06-07 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tag">
+                                # iOS
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-03-12-ios-facebook-shre/">
+                            <span class="post-title gt-c-content-color-first">iOS如何跳转到Facebook指定用户界面</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>第一步，先要检测Facebook是否安装，如果安装就直接跳转到app里面指定的用户主页，否则直接用浏览器打开指定的用户主页网页地址。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-03-12 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tag">
+                                # iOS
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-03-12-swift3-subscripts/">
+                            <span class="post-title gt-c-content-color-first">Swift 3.0之下标</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>类，结构体和枚举都可以定义下标，使用下标可以快速访问集合，列表或者序列的数据成员元素。可以使用<code>someArray[index]</code>来访问Array， 使用<code>someDictionary[key]</code>来访问Dictionary。</p>
+<p>一个类型可以定义多个下标。</p>
+<p>定义一个get set的下标：</p>
+<pre><code class="language-swift">subscript(index: Int) -&gt; Int {
+    get {
+        // return an appropriate subscript value here
+    }
+    set(newValue) {
+        // perform a suitable setting action here
+    }
+}
+</code></pre>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-03-12 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/9xCk5Pc3G/" class="post-tag">
+                                # Swift
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-03-12-swift-uilabel-number-color-set-to-red-color/">
+                            <span class="post-title gt-c-content-color-first">Swift中如何把UILabel数字的颜色设置为红色</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>这篇文章源于群友的一个问题：如何把**『注：此商品只能整件(12的倍数发货),已选1袋,还差11袋』**这段文字中的数字使用红色在 <strong>UILabel</strong> 中显示？</p>
+<p>大概思路是：我们可以使用<strong>UILabel</strong> 的 <strong>attribute string</strong> 属性，通过正则表达式匹配获取数字的范围，然后添加对应的 attribute。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-03-12 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/9xCk5Pc3G/" class="post-tag">
+                                # Swift
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-03-12-enumerations-swift-3/">
+                            <span class="post-title gt-c-content-color-first">Swift 3.0之枚举</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>枚举在编程中很多时候要用到，在 Swift 中，枚举具有更多的特性。</p>
+<h3 id="枚举语法">枚举语法</h3>
+<p>使用关键字 enum 定义一个枚举</p>
+<pre><code class="language-swift">enum SomeEnumeration {
+    // enumeration definition goes here
+}
+</code></pre>
+<p>例如，指南针有四个方向：</p>
+<pre><code class="language-swift">enum CompassPoint {
+    case north
+    case south
+    case east
+    case west
+}
+</code></pre>
+<p>这里跟 c 和 objective-c 不一样的是，Swift 的枚举成员在创建的时候没有给予默认的整型值。所以上面代码中的东南西北并不是0到3，相反，不同的枚举类型本身就是完全成熟的值，具有明确定义的<strong>CompassPoint</strong>类型。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-03-12 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/9xCk5Pc3G/" class="post-tag">
+                                # Swift
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2017-03-12-pod-setup-wait-too-long-time/">
+                            <span class="post-title gt-c-content-color-first">pod setup命令失败解决方法</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>最近运行pod setup出现以下问题：</p>
+<pre><code class="language-ruby">remote: Compressing objects: 100% (34/34), done.
+error: RPC failed; curl 56 SSLRead() return error -3613.00 KiB/s
+fatal: The remote end hung up unexpectedly
+fatal: early EOF
+fatal: index-pack failed
+</code></pre>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2017-03-12 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/Udgwmj5BuH/" class="post-tag">
+                                # cocoapods
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/2016-12-08-swift-3-extensions/">
+                            <span class="post-title gt-c-content-color-first">Swift 3.0之扩展</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>扩展可以为类，结构体，枚举和协议添加新的功能。包括可以对没有源码访问权限的类型进行扩展。扩展和 Objective-C 分类 的概念类似。（和 Objective-C 的分类不一样的是，Swift 扩展没有名称）。</p>
+<p>在 Swift 中，扩展可以做到：</p>
+<ul>
+<li>添加计算的实例属性和计算的类型属性</li>
+<li>定义实例方法和类型方法</li>
+<li>提供新的初始化器</li>
+<li>定义下标</li>
+<li>定义并使用新的嵌套类型</li>
+<li>使现有类型符合协议</li>
+</ul>
+<p>值得注意的是：扩展可以为类型添加功能，但是不可以重写现有的功能。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2016-12-08 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/0W8bqlHhdK/" class="post-tag">
+                                # swift
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+    </div>
+</div>
+
+        <div class="pagination-container">
+    
+        <a href="https://blog.xioayee.top/page/2/" class="prev-page gt-a-link">上一页</a>
+    
+    
+        <a href="https://blog.xioayee.top/page/4/" class="prev-page gt-a-link">下一页</a>
+    
+</div>
+
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

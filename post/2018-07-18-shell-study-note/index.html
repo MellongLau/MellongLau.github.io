@@ -1,0 +1,339 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Shell 的一些笔记 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Shell 的一些笔记
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2018-07-18 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/9Z0GN6DUlm/" class="post-tags">
+                            # shell
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h3 id="if-e-and-n的意思">if -e and -n的意思？</h3>
+<p>如果目标不为 null 则返回 true<br>
+-e returns true if the target exists. Doesn't matter if it's a file, pipe, special device, whatever. The only condition where something may exist, and -e will return false is in the case of a broken symlink.</p>
+<!-- more -->
+<p>For example:</p>
+<pre><code class="language-ruby">$ ln -s foo bar
+	
+$ [ -e foo ]; echo $?
+1
+	
+$ touch bar
+	
+$ [ -e foo ]; echo $?
+0
+</code></pre>
+<!-- more -->
+<p>In bash you can do help test to see what test options you have.</p>
+<p>[ is usually part of your shell. In bash the options and behaviors are defined by bash. It is also kind of a synonym for test. In bash you can do help test to see all the options it supports.<br>
+The only real difference between [ and test should be that [ requires a ] after your arguments, whereas test does not. They otherwise work the same, [ -e foo ] is equivalent to test -e foo.</p>
+<p>There is also /usr/bin/[ for shells which do not have [ built in. There is no man page for this though. But there is also a /usr/bin/test, and my system does have a man test which covers the options. I haven't tested, but I'd bet all the options supported by /usr/bin/test work on /usr/bin/[.</p>
+<table>
+<thead>
+<tr>
+<th>Primary</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>[ FILE1 -ef FILE2 ]</td>
+<td>True if FILE1 and FILE2 refer to the same device and inode numbers.</td>
+</tr>
+<tr>
+<td>[ -o OPTIONNAME ]</td>
+<td>True if shell option &quot;OPTIONNAME&quot; is enabled.</td>
+</tr>
+<tr>
+<td>[ -z STRING ]</td>
+<td>True of the length if &quot;STRING&quot; is zero.</td>
+</tr>
+<tr>
+<td>[ -n STRING ] or [ STRING ]</td>
+<td>True if the length of &quot;STRING&quot; is non-zero.</td>
+</tr>
+</tbody>
+</table>
+<p>More details: <a href="http://tldp.org/LDP/Bash-Beginners-Guide/html/sect_07_01.html">Introduction to if</a></p>
+<h3 id="tests">Tests</h3>
+<ul>
+<li>比较操作符</li>
+</ul>
+<p>整型比较符：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>-eq</td>
+<td>相等</td>
+<td>if [ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi mathvariant="normal">&quot;</mi><mo>−</mo><mi>e</mi><mi>q</mi><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">a&quot; -eq &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.77777em;vertical-align:-0.08333em;"></span><span class="mord mathdefault">a</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">e</span><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="mord">&quot;</span></span></span></span>b&quot; ]</td>
+</tr>
+<tr>
+<td>-ne</td>
+<td>不相等</td>
+<td></td>
+</tr>
+<tr>
+<td>-gt</td>
+<td>大于</td>
+<td></td>
+</tr>
+<tr>
+<td>-ge</td>
+<td>大于或等于</td>
+<td></td>
+</tr>
+<tr>
+<td>-lt</td>
+<td>小于</td>
+<td></td>
+</tr>
+<tr>
+<td>-le</td>
+<td>小于或等于</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td>小于</td>
+<td>((&quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi mathvariant="normal">&quot;</mi><mo>&lt;</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">a&quot; &lt; &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">a</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">&quot;</span></span></span></span>b&quot;))</td>
+</tr>
+<tr>
+<td>&lt;=</td>
+<td>小于或等于</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;</td>
+<td>小于</td>
+<td></td>
+</tr>
+<tr>
+<td>&gt;=</td>
+<td>大于或等于</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>字符串比较符：</p>
+<table>
+<thead>
+<tr>
+<th>操作符</th>
+<th>说明</th>
+<th>例子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>=</td>
+<td>等同</td>
+<td></td>
+</tr>
+<tr>
+<td>==</td>
+<td>相当于=</td>
+<td></td>
+</tr>
+<tr>
+<td>!=</td>
+<td>不相同</td>
+<td></td>
+</tr>
+<tr>
+<td>&lt;</td>
+<td></td>
+<td>if [[ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi mathvariant="normal">&quot;</mi><mo>&lt;</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">a&quot; &lt; &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.73354em;vertical-align:-0.0391em;"></span><span class="mord mathdefault">a</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">&quot;</span></span></span></span>b&quot; ]]<br /> if [ &quot;<span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>a</mi><mi mathvariant="normal">&quot;</mi><mspace linebreak="newline"></mspace><mo>&lt;</mo><mi mathvariant="normal">&quot;</mi></mrow><annotation encoding="application/x-tex">a&quot; \\&lt; &quot;</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord mathdefault">a</span><span class="mord">&quot;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mrel">&lt;</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.69444em;vertical-align:0em;"></span><span class="mord">&quot;</span></span></span></span>b&quot; ]</td>
+</tr>
+<tr>
+<td>-z</td>
+<td>字符串为 null</td>
+<td>if [ -z &quot;$s&quot; ]</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>字符串不为 null</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="how-to-exit-if-a-command-failed">How to exit if a command failed?</h3>
+<p><a href="http://stackoverflow.com/questions/3822621/how-to-exit-if-a-command-failed">http://stackoverflow.com/questions/3822621/how-to-exit-if-a-command-failed</a></p>
+<p>If you want that behavior for all commands in your script, just add</p>
+<pre><code class="language-ruby"> set -e 
+ set -o pipefail
+</code></pre>
+<p>at the beginning of the script. This pair of options tell the bash interpreter to exit whenever a command returns with a non-zero exit code.</p>
+<p>This does not allow you to print an exit message, though.</p>
+<h3 id="quoting-variables">Quoting Variables</h3>
+<p>双引号&quot;&quot; 的作用是使里面的字符除了<span class='katex-error' title='ParseError: KaTeX parse error: Undefined control sequence: \之 at position 2: `\̲之̲外都不作解析，因此在使用变量'>`\之外都不作解析，因此在使用变量</span>variable 的时候尽量加上双引号，以减少符号的解析和防止误解析。</p>
+<p>单引号'' 则不会解析里面的$字符。</p>
+<h3 id="exit-and-exit-status">Exit and Exit Status</h3>
+<p>每个命令都会返回退出状态，成功的命令返回状态0，而失败的命令则返回非零。</p>
+<p>$?获取前面最后一条命令的退出状态。</p>
+<h3 id="grep">Grep</h3>
+<p>Convert binary file to string and search string.</p>
+<pre><code>strings &lt;file_path&gt; | grep &quot;&lt;string&gt;&quot;
+</code></pre>
+<p>Find more files to search the string.</p>
+<pre><code>find . -name &quot;*.zip&quot; | xargs string | grep &quot;string&quot;
+</code></pre>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2018-05-14-opencv-go/" class="post-title gt-a-link">
+                    使用 go 进行 OpenCV 学习与开发
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

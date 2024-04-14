@@ -1,0 +1,320 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>迁移到swift3.0有用的技巧 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    迁移到swift3.0有用的技巧
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2016-11-10 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/0W8bqlHhdK/" class="post-tags">
+                            # swift
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>不久之前swift3.0发布了，新版本可以在Xcode 8中使用了，或者你可以直接从swift.org下载编译器。</p>
+<p>从代码可读性来看，新版本有很多提升，函数调用的连续性，更好的命名约定和移除了部分c风格的元素。</p>
+<p>从代码可读性来来看，<code>NS</code>前缀已经从<code>Foundation</code>类型中移除，例如<code>NSBundle.mainBundle()</code>现在改为<code>Bundle.mainBundle()</code>.</p>
+<!-- more -->
+<p>c风格的一元操作符<code>++</code>和<code>--</code>在3.0中已经不适用了：</p>
+<pre><code class="language-swift">// Only in Swift 2.2 and earlier
+var number = 10  
+number++  
+++number
+number--  
+--number
+</code></pre>
+<p>相对应的表达方式是<code>number += 1</code> or <code>number -= 1</code>.</p>
+<p>另外一个有趣的变化是移除了c风格的<code>for-loop</code>,我记得在学校中（使用c语言）写这种循环：</p>
+<pre><code class="language-swift">// Only in Swift 2.2 and earlier
+let steps = 5  
+for var step = 0; step &lt; steps; step++ {  
+  print(step)
+}
+// 0 1 2 3 4
+</code></pre>
+<p>主要的原因是存在了更好的对应写循环的方法<code>for-in</code>和<code>stride()</code>.<code>for-loop</code>在理解上比较困难和缺少<code>swift</code>风格。当新的方法出现后，<code>for-loop</code>已经很少在代码库中使用了。</p>
+<p>这篇文章将讲解典型的<code>for-loop</code>使用场景，同时说明迁移到 <code>for-in, stride()</code>或者简单的<code>while() {}</code>.</p>
+<h3 id="1-如何迁移-for-loop-到-for-in">1. 如何迁移 for-loop 到 for-in</h3>
+<p><code>for-loop</code> 应用的典型场景在一个数字区间内迭代。这些数字可以是数组的索引等.</p>
+<p>例如，让我们遍历数组的每一个元素：</p>
+<pre><code class="language-swift">// Only in Swift 2.3 and earlier
+let birds = [&quot;pigeon&quot;, &quot;sparrow&quot;, &quot;titmouse&quot;]  
+for var index = 0; index &lt; birds.count; index++ {  
+  print(birds[index])
+}
+// &quot;pigeon&quot; &quot;sparrow&quot; &quot;titmouse&quot;
+</code></pre>
+<p>可见，<code>let index = 0; index &lt; birds.count; index++</code> 的循环部分是冗长的。许多元素是多余的，整个表达式可以简化的。替换为手动的增量，整个操作可以用更具表达性的语法来自动化。</p>
+<figure data-type="image" tabindex="1"><img src="https://rainsoft.io/content/images/2016/09/1-1.png" alt="Image" loading="lazy"></figure>
+<p><code>for-in</code> 循环更简短和更具表达性。让我们迁移上面的代码：</p>
+<pre><code class="language-swift">let birds = ['pigeon', 'sparrow', 'titmouse']  
+for index in 0..&lt;birds.count {  
+  print(birds[index])
+}
+// 'pigeon', 'sparrow', 'titmouse'
+</code></pre>
+<p>现在感觉好很多了。<code>index in 0..&lt;birds.count</code> 更容易阅读和理解。<code>0..&lt;birds.count</code> 这部分定义一个半开区间的 Range 类型。for-in 循环迭代0，1和2的范围值（不包括上限3）。</p>
+<p>这不是全部！ 你甚至可以跳过索引并直接访问数组元素：</p>
+<pre><code class="language-swift">let birds = [&quot;pigeon&quot;, &quot;sparrow&quot;, &quot;titmouse&quot;]  
+for bird in birds {  
+  print(bird)
+}
+// &quot;pigeon&quot; &quot;sparrow&quot; &quot;titmouse&quot;
+</code></pre>
+<p>可以看出，对于标准数组或集合迭代<code>for-in</code>对于<code>for-loop</code>是一个更好的替代。 至少在这种情况下，在Swift 3.0中删除<code>for-loop</code>的决定是合理的。</p>
+<h3 id="2-如何迁移-for-loop-到-stride">2. 如何迁移 for-loop 到 stride</h3>
+<p>你可以合理地要求for-loop虽然是冗长的，但仍然是灵活的。 它对于更复杂的迭代是有用的。</p>
+<p>让我们尝试一个场景。你要打印一个具有奇数索引元素的元素数组。一个 for-loop 可能看起来像这样：</p>
+<pre><code class="language-swift">// Only in Swift 2.3 and earlier
+let colors = [&quot;blue&quot;, &quot;green&quot;, &quot;red&quot;, &quot;white&quot;, &quot;black&quot;]  
+for var index = 0; index &lt; colors.count; index += 2 {  
+  print(colors[index])
+}
+// =&gt; &quot;blue&quot; &quot;red&quot; &quot;black&quot;
+</code></pre>
+<p>由于索引根据表达式 index += 2而每次增加2，所以只有奇数索引的元素会被显示：&quot;blue&quot;, &quot;red&quot; and &quot;black&quot;.</p>
+<p>你可以尝试使用 for-in 并定义一个范围。但是需要奇数索引加上附加的验证：</p>
+<pre><code class="language-swift">let colors = [&quot;blue&quot;, &quot;green&quot;, &quot;red&quot;, &quot;white&quot;, &quot;black&quot;]  
+for index in 0..&lt;colors.count {  
+  if (index % 2 == 0) {
+    print(colors[index])
+  }
+}
+// =&gt; &quot;blue&quot; &quot;red&quot; &quot;black&quot;
+</code></pre>
+<p>的确， <code>if (index % 2 == 0) { ... }</code> 条件句在这里看起来怎么样。</p>
+<p>这种情况很符合使用 Swift 的stride(from: value, to: value, by: value)函数。定义开始，结束（不包括上限）和步长值，函数返回相应的数字序列。</p>
+<p>让我们在我们的场景中应用stride：</p>
+<pre><code class="language-swift">let colors = [&quot;blue&quot;, &quot;green&quot;, &quot;red&quot;, &quot;white&quot;, &quot;black&quot;]  
+for index in stride(from: 0, to: colors.count, by: 2) {  
+  print(colors[index])
+}
+// =&gt; &quot;blue&quot; &quot;red&quot; &quot;black&quot;
+</code></pre>
+<p><code>stride(from: 0, to: colors.count, by: 2)</code> 返回以0开始到5的数字（上限不包含5），步长为2。对于 for-loop，这是一个好的替代。</p>
+<p>如果上限必须包含进来，这里有另外一种函数格式：<br>
+<code>stride(from: value, through: value, by: value)</code>。第二个参数的标签是 <code>through</code>， 这个标签是用以指明是包含上限的。</p>
+<h3 id="3-其他情况坚持使用while">3. 其他情况坚持使用while</h3>
+<p>c风格for-loop的每个组件都有一个很好的属性：初始化，跳出严重和完全可配置的增量：</p>
+<pre><code class="language-swift">for &lt;initialization&gt;; &lt;verification&gt;; &lt;increment&gt; {  
+  // loop body
+}
+</code></pre>
+<p>此外，你可以省略其中的任何组件，要是你能在for-loop的循环块打破循环。</p>
+<p>例如，让我们打印一个数字数组的元素，直到数字0被遇到。可以使用C风格的for-loop:</p>
+<pre><code class="language-swift">// Only in Swift 2.2 and earlier
+let numbers = [1, 6, 2, 0, 7], nCount = numbers.count  
+for var index = 0; index &lt; nCount &amp;&amp; numbers[index] != 0; index++ {  
+  print(numbers[index])
+}
+// =&gt; 1 6 2
+</code></pre>
+<p>验证部分 <code>index &lt; nCount &amp;&amp; numbers[index] != 0</code> 是用以检查是否0在数组中出现。如果出现，则跳出循环。<br>
+所以只有0之前的数字被打印出来：1，6和2。</p>
+<p><code>for var index in 0..&lt;nCount</code> 是一个迁移选项。你只是需要使用条件 <code>if numbers[index] == 0</code> ，当0出现的时候跳出循环：</p>
+<pre><code class="language-swift">let numbers = [1, 6, 2, 0, 7], nCount = numbers.count  
+for index in 0..&lt;nCount {  
+  if (numbers[index] == 0) {
+    break
+  }
+  print(numbers[index])
+}
+// =&gt; 1 6 2 
+</code></pre>
+<p>但 break 语句出现，它会轻微减少阅读流程。但是我想要容易地阅读代码流程！</p>
+<p><code>while(&lt;condition&gt;) {...}</code> 循环可能是一个更好的替代方案。让我们看看上一个例子是如果被修改的：</p>
+<pre><code class="language-swift">let numbers = [1, 6, 2, 0, 7], nCount = numbers.count  
+var index = 0  
+while (index &lt; nCount &amp;&amp; numbers[index] != 0) {  
+  print(numbers[index])
+  index += 1
+}
+// =&gt; 1 6 2
+</code></pre>
+<p>如果你有的情况无法使用 for-in 或者 <code>stride()</code>, 那么我推荐你使用 <code>while(){}</code>。</p>
+<h3 id="4-统一参数标签行为">4. 统一参数标签行为</h3>
+<p>在Swift 2.2 和更早版本你可以在调用函数的时候忽略第一个参数的标签：</p>
+<pre><code class="language-swift">// Only in Swift 2.2 and earlier
+func sum(firstItem: Int, secondItem: Int) -&gt; Int {  
+  return firstItem + secondItem
+}
+sum(5, secondItem: 2) // =&gt; 7
+</code></pre>
+<p>对于我来说，这个忽略的做法给我带来困扰。你不得不忽略第一个参数的标签，然而剩下的参数却还保持有标签。这是一种不自然的规则。</p>
+<figure data-type="image" tabindex="2"><img src="https://rainsoft.io/content/images/2016/09/2-2.png" alt="Image" loading="lazy"></figure>
+<p>幸运的是从3.0版本开始，所有参数将强制拥有标签。<br>
+让我们来迁移上一个例子：</p>
+<pre><code class="language-swift">func sum(firstItem: Int, secondItem: Int) -&gt; Int {  
+  return firstItem + secondItem
+}
+sum(firstItem: 5, secondItem: 2) // =&gt; 7  
+</code></pre>
+<p><code>myFun(firstParam: 1, secondParam: 2)</code>看起来更好。你知道严格的参数含义。简单，一致和清晰的方式。</p>
+<p>如果你因为某些原因想在Swift 3.0中调用函数的时候忽略第一个标签，使用_ 作为那个参数的参数标签：</p>
+<pre><code class="language-swift">func sum(_ firstItem: Int, secondItem: Int) -&gt; Int {  
+  return firstItem + secondItem
+}
+sum(5, secondItem: 2) // =&gt; 7 
+</code></pre>
+<p>然而从长远来看我不推荐这种做法。他破坏了Swift代码中函数/方法调用的一致性。</p>
+<p>Swift 命名向导 有很多有用的命名方面的建议。</p>
+<h3 id="5-总结">5. 总结</h3>
+<p>Swift 3.0 做了一个很好的修改列表。其中大部分是重大的修改，所以你必须花些功夫来迁移Swift 2.3或者更旧的代码。</p>
+<p>Swift 的制造者花了很多功夫来使这门语言用起来尽可能的舒服。<br>
+有时候，这个过程产生重大更改。幸运的是相比提高代码的可读性和跨语言语法的一致性来说，这是一个相对小的代价。</p>
+<p>C风格的元素如for-loop，一元增量和减量运算被删除。对于这些结构Swift提供了更好的选择。<br>
+例如C语言风格的for循环很容易由for-in所取代。你可以使用<code>stride()</code>函数来进行更多可配置的迭代。</p>
+<p>我最喜欢的改进是Swift 3.0引入了函数参数标签的一致性和清晰度。简单易记的规则：始终指明参数的标签。</p>
+<p>我建议你也访问Swift 3.0官方的迁移向导。</p>
+<blockquote>
+<p><em>英文原文链接：<a href="https://rainsoft.io/useful-tips-for-migrating-to-swift-3-0/">https://rainsoft.io/useful-tips-for-migrating-to-swift-3-0/</a></em></p>
+</blockquote>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2016-11-06-closures/" class="post-title gt-a-link">
+                    Swift 3.0之闭包
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

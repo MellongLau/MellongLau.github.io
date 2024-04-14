@@ -1,0 +1,339 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Swift 3.0之扩展 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Swift 3.0之扩展
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2016-12-08 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/0W8bqlHhdK/" class="post-tags">
+                            # swift
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>扩展可以为类，结构体，枚举和协议添加新的功能。包括可以对没有源码访问权限的类型进行扩展。扩展和 Objective-C 分类 的概念类似。（和 Objective-C 的分类不一样的是，Swift 扩展没有名称）。</p>
+<p>在 Swift 中，扩展可以做到：</p>
+<ul>
+<li>添加计算的实例属性和计算的类型属性</li>
+<li>定义实例方法和类型方法</li>
+<li>提供新的初始化器</li>
+<li>定义下标</li>
+<li>定义并使用新的嵌套类型</li>
+<li>使现有类型符合协议</li>
+</ul>
+<p>值得注意的是：扩展可以为类型添加功能，但是不可以重写现有的功能。</p>
+<!-- more -->
+<h2 id="扩展语法">扩展语法</h2>
+<p>使用关键字 extension 定义扩展：</p>
+<pre><code class="language-swift">extension SomeType {
+    // new functionality to add to SomeType goes here
+}
+</code></pre>
+<p>扩展可以扩充现有的类型使之可以适应一个或多个协议：</p>
+<pre><code class="language-swift">extension SomeType: SomeProtocol, AnotherProtocol {
+    // implementation of protocol requirements goes here
+}
+</code></pre>
+<h2 id="计算属性">计算属性</h2>
+<p>扩展可以为现有的类型添加计算实例属性和计算类型属性:</p>
+<pre><code class="language-swift">extension Double {
+    var km: Double { return self * 1_000.0 }
+    var m: Double { return self }
+    var cm: Double { return self / 100.0 }
+    var mm: Double { return self / 1_000.0 }
+    var ft: Double { return self / 3.28084 }
+}
+let oneInch = 25.4.mm
+print(&quot;One inch is \(oneInch) meters&quot;)
+// Prints &quot;One inch is 0.0254 meters&quot;
+let threeFeet = 3.ft
+print(&quot;Three feet is \(threeFeet) meters&quot;)
+// Prints &quot;Three feet is 0.914399970739201 meters&quot;
+</code></pre>
+<p>由于这些属性是只读计算属性，所以他们不需要加入关键字 get。</p>
+<p>可以直接进行运算：</p>
+<pre><code class="language-swift">let aMarathon = 42.km + 195.m
+print(&quot;A marathon is \(aMarathon) meters long&quot;)
+// Prints &quot;A marathon is 42195.0 meters long&quot;
+</code></pre>
+<p>值得注意的是：扩展可以添加新的计算属性，但是他们不可以添加存储属性，或者为现有的属性添加属性观察器。</p>
+<h2 id="初始化器">初始化器</h2>
+<p>扩展可以向类添加新的方便初始化器，但是它们不能向类添加新的指定的初始化器或取消初始化器。 指定的初始化器和取消初始化器必须始终由原始类实现提供。</p>
+<p>下面定义几个结构体：</p>
+<pre><code class="language-swift">struct Size {
+    var width = 0.0, height = 0.0
+}
+struct Point {
+    var x = 0.0, y = 0.0
+}
+struct Rect {
+    var origin = Point()
+    var size = Size()
+}
+</code></pre>
+<p>我们可以这样来创建 Rect 实例（关于默认初始化器可以查看初始化部分的文章）：</p>
+<pre><code class="language-swift">let defaultRect = Rect()
+let memberwiseRect = Rect(origin: Point(x: 2.0, y: 2.0),
+                          size: Size(width: 5.0, height: 5.0))
+</code></pre>
+<p>这时，我们可以扩展 Rect 结构体，为其添加新的初始化器：</p>
+<pre><code class="language-swift">extension Rect {
+    init(center: Point, size: Size) {
+        let originX = center.x - (size.width / 2)
+        let originY = center.y - (size.height / 2)
+        self.init(origin: Point(x: originX, y: originY), size: size)
+    }
+}
+</code></pre>
+<p>然后我们就可以使用新的初始化方法来创建实例：</p>
+<pre><code class="language-swift">let centerRect = Rect(center: Point(x: 4.0, y: 4.0),
+                      size: Size(width: 3.0, height: 3.0))
+// centerRect's origin is (2.5, 2.5) and its size is (3.0, 3.0)
+</code></pre>
+<h2 id="方法">方法</h2>
+<p>下面是为Int 类型添加一个叫repetitions的方法：</p>
+<pre><code class="language-swift">extension Int {
+    func repetitions(task: () -&gt; Void) {
+        for _ in 0..&lt;self {
+            task()
+        }
+    }
+}
+</code></pre>
+<p>然后我们可以这样调用这个方法：</p>
+<pre><code class="language-swift">3.repetitions {
+    print(&quot;Hello!&quot;)
+}
+// Hello!
+// Hello!
+// Hello!
+</code></pre>
+<h2 id="变异实例方法">变异实例方法</h2>
+<p>添加了扩展的实例方法也可以修改（或变异）实例本身。 修改self或其属性的结构和枚举方法必须将实例方法标记为<code>mutating</code>，就像原始实现中的突变方法一样。</p>
+<p>如下面的例子：</p>
+<pre><code class="language-swift">extension Int {
+    mutating func square() {
+        self = self * self
+    }
+}
+var someInt = 3
+someInt.square()
+// someInt is now 9
+</code></pre>
+<h2 id="下标">下标</h2>
+<p>想实现</p>
+<ul>
+<li>123456789[0] 返回 9</li>
+<li>123456789[1] 返回 8</li>
+</ul>
+<p>代码如下:</p>
+<pre><code class="language-swift">extension Int {
+    subscript(digitIndex: Int) -&gt; Int {
+        var decimalBase = 1
+        for _ in 0..&lt;digitIndex {
+            decimalBase *= 10
+        }
+        return (self / decimalBase) % 10
+    }
+}
+746381295[0]
+// returns 5
+746381295[1]
+// returns 9
+746381295[2]
+// returns 2
+746381295[8]
+// returns 7
+</code></pre>
+<p>如果下标越界，则返回0：</p>
+<pre><code class="language-swift">746381295[9]
+// returns 0, as if you had requested:
+0746381295[9]
+</code></pre>
+<h2 id="嵌套类型">嵌套类型</h2>
+<p>扩展添加嵌套类型：</p>
+<pre><code class="language-swift">extension Int {
+    enum Kind {
+        case negative, zero, positive
+    }
+    var kind: Kind {
+        switch self {
+        case 0:
+            return .zero
+        case let x where x &gt; 0:
+            return .positive
+        default:
+            return .negative
+        }
+    }
+}
+</code></pre>
+<p>现在嵌套的类型可以在任何 Int 值中使用：</p>
+<pre><code class="language-swift">func printIntegerKinds(_ numbers: [Int]) {
+    for number in numbers {
+        switch number.kind {
+        case .negative:
+            print(&quot;- &quot;, terminator: &quot;&quot;)
+        case .zero:
+            print(&quot;0 &quot;, terminator: &quot;&quot;)
+        case .positive:
+            print(&quot;+ &quot;, terminator: &quot;&quot;)
+        }
+    }
+    print(&quot;&quot;)
+}
+printIntegerKinds([3, 19, -27, 0, -6, 0, 7])
+// Prints &quot;+ + - 0 - 0 + &quot;
+</code></pre>
+<p>参考英语原文：<br>
+<a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Extensions.html#//apple_ref/doc/uid/TP40014097-CH24-ID151">https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Extensions.html#//apple_ref/doc/uid/TP40014097-CH24-ID151</a></p>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2016-11-10-tips-for-migrating-to-swift3/" class="post-title gt-a-link">
+                    迁移到swift3.0有用的技巧
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

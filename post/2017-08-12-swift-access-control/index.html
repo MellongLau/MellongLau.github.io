@@ -1,0 +1,251 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Swift 之访问控制 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Swift 之访问控制
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2017-08-12 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/0W8bqlHhdK/" class="post-tags">
+                            # swift
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>访问控制对访问你的其他代码源文件和模块部分进行了约束。这个特性允许你隐藏你的代码实现，并且指定通过其可以访问和使用该代码的优选接口。</p>
+<p>class，structure 和 enumeration 都可以指定访问级别，当然，property，method，initializer 和 属于这里类型的 subscript。protocol 可以限制到某个上下文，全局变量，变量和函数也可以。</p>
+<p>另外，Swift 也提供默认的使用级别给典型的使用场景。确实，如果你编写一款单一目标的 app，你可能根本不需要明确地指定访问控制级别。</p>
+<!-- more -->
+<h3 id="模块和源文件">模块和源文件</h3>
+<p>Swift的访问控制模型是基于模块和源文件的概念。</p>
+<p>一个模块是单个的代码分布单元————一个 framework 或者应用程序是作为单个单元编译和传递的，他们能够通过 Swift 的 import 关键字被其他模块导入。</p>
+<p>在Swift 中， Xcode的每一个 build target（如 一个 app bundle 或者 framework）被当成一个单独的模块。</p>
+<p>虽然通常做法是在不同的源文件定义不同的类型，然而一个源文件事实上可以包含不同的类型，函数等的定义。</p>
+<h3 id="访问级别">访问级别</h3>
+<p>Swift 为你的代码实体提供5个不同的访问级别：</p>
+<ul>
+<li>
+<p>Open 访问和 public 访问允许实体能够被使用在任何来自起决定作用的模块的源文件，或者来自于其他被导入的模块的源文件。通常使用 open 或者 public 来指定framework 的公开接口。两者的不同点将在下面进行描述。</p>
+</li>
+<li>
+<p>Internal 访问允许实体被使用在他们定义模型的任何源文件里面，但是不能在模块外部的任何源文件使用。通常在定义一个 app 或者一个 framework 的内部结构的时候使用 internal 访问。</p>
+</li>
+<li>
+<p>File-private 访问限制了在定义源文件中实体的使用。使用 file-private 访问来隐藏特定功能的实现细节，当这些细节在整个文件中使用的时候。</p>
+</li>
+<li>
+<p>Private 访问将实体的使用限制在封闭声明中。使用 private 访问来隐藏特定功能的实现细节，当这些细节在单个声明使用时。</p>
+</li>
+</ul>
+<p>Open 访问是最高访问级别，private 是最低访问级别（最大限制性）。</p>
+<p>Open 访问只用在类和类成员，他和 publick 访问的区别如下：</p>
+<ul>
+<li>
+<p>使用 public 访问的类， 或者其他更多限制性的访问级别，只能在定义的模块内创建子类。</p>
+</li>
+<li>
+<p>使用 public 访问的类成员，或者其他更多限制性的访问级别，只能在定义的模块内被其子类重写。</p>
+</li>
+<li>
+<p>Open 类可以被定义的模块或者其他 import 该模块的地方创建子类。</p>
+</li>
+<li>
+<p>Open 类成员可以被定义的模块或者其他 import 该模块的地方创建的子类重写。</p>
+</li>
+</ul>
+<blockquote>
+<blockquote>
+<p>简单来说就是 public 和 open 的区别就是public 比 open 少了模块外的类继承和类成员重写的权限。</p>
+</blockquote>
+</blockquote>
+<h3 id="访问级别的指导原则">访问级别的指导原则</h3>
+<p>在 Swift 中，访问级别遵从总的指导原则是：没有实体可以被定义在另外一个拥有较低访问级别（更多限制）的实体之内。</p>
+<p>例如：</p>
+<ul>
+<li>
+<p>public变量不能被定义为具有internal, file-private或者 private 类型，因为这种类型可能不能用在使用公共变量的任何地方。</p>
+</li>
+<li>
+<p>函数不能具有比其他参数类型和返回类型更高的访问级别，因为该函数可以在其组成类型不可被周围代码使用的情况下使用。</p>
+</li>
+</ul>
+<p>下面会有更详细的介绍。</p>
+<h3 id="默认的访问级别">默认的访问级别</h3>
+<p>如果你自己没有指定一个明确的访问级别，所有代码中的实体都有一个默认的internal访问级别。结果，在很多情况下你不需要对你的代码指定明确的访问级别。</p>
+<h3 id="单目标应用程序的访问级别">单目标应用程序的访问级别</h3>
+<p>如果你写的是一个 i 简单的单目标应该程序，那么你的程序代码就是典型的自包含程序，并不需要在程序模块的外部进行使用。默认的访问级别 internal 已经满足这个需求。因此，你不需要去指定一个访问级别。然而，你可能需要把你部分的代码标记为文件私有或者私有，从而使得在程序模块中的其他代码隐藏他们的实现细节。</p>
+<h3 id="frameworks-的访问级别">Frameworks 的访问级别</h3>
+<p>当你开发一个 framework，标记 open 或者 public 以便它能够被其他模块访问到，例如某个程序引入这个 framework 的时候。这个面向公众的接口是framework 的程序编程接口（或者 API）。</p>
+<p>值得注意的是：任何 framework 的内部实现细节都还可以使用默认的内部访问级别，或者可以标识为私有或者文件私有级别，如果你想对framework 的其他部分内部代码隐藏他们的话。只有当你想让一个实体成为你的 framework 的 API 的一部分的话，那么你就需要把这个实体标识为 open 或者 public。</p>
+<h3 id="单元测试目标的访问级别">单元测试目标的访问级别</h3>
+<p>当你写的是一个包含单元测试目标的程序时，那么你需要让你程序中的代码可以被测试模块使用到以便于测试。一般情况下，只有被标识为 open 或者 public 的实体才可以被其他模块访问到。然而，如果你把产品的模块 import 声明前加入 @testable 属性并且在打开测试选项下编译产品模块的话，那么单元测试目标就能够访问任何的 internal 实体。</p>
+<h3 id="访问级别语法">访问级别语法</h3>
+<p>为实体定义访问级别：</p>
+<pre><code class="language-swift">public class SomePublicClass {}
+internal class SomeInternalClass {}
+fileprivate class SomeFilePrivateClass {}
+private class SomePrivateClass {}
+ 
+public var somePublicVariable = 0
+internal let someInternalConstant = 0
+fileprivate func someFilePrivateFunction() {}
+private func somePrivateFunction() {}
+</code></pre>
+<p>除非有其他的指定，否则的话默认的访问基本是 internal，这也就意味着 SomeInternalClass 和 someInternalConstant 能够在不明确访问级别修饰符的情况下也还拥有 internal 的访问级别：</p>
+<pre><code class="language-swift">class SomeInternalClass {}              //  隐式 internal
+let someInternalConstant = 0            //  隐式 internal
+</code></pre>
+<p>翻译自：<a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/AccessControl.html#//apple_ref/doc/uid/TP40014097-CH41-ID3">https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/AccessControl.html#//apple_ref/doc/uid/TP40014097-CH41-ID3</a></p>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2017-08-07-swift-generic/" class="post-title gt-a-link">
+                    Swift 之泛型
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

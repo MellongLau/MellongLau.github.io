@@ -1,0 +1,282 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>强大的Git客户端：SourceTree插件开发指南 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    强大的Git客户端：SourceTree插件开发指南
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2016-04-20 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/9Z0GN6DUlm/" class="post-tags">
+                            # shell
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/FN--CEXpjS/" class="post-tags">
+                            # git
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/kyJtIVHCcWz/" class="post-tags">
+                            # sourcetree
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="sourcetree是什么">SourceTree是什么？</h2>
+<p>简单来说SourceTree是一款免费git图形化操作软件，功能很全，使用起来非常方便，相信不少开发者已经在使用这款软件。</p>
+<p>具体还是来看看网上的介绍：</p>
+<blockquote>
+<p>SourceTree是Windows 和Mac OS X 下免费的Git 和Hg 客户端，拥有可视化界面，容易上手操作。 同时它也是Mercurial和Subversion版本控制系统工具。 支持创建、提交、clone、push、pull 和merge等操作。</p>
+</blockquote>
+<!-- more -->
+<p>简单说一下我的感受，一开始使用git的时候，基本上都是直接敲命令的，（没有好的软件，只能自我安慰使用命令行对学习git更有利，苦逼的程序猿<sub>），也不知道有什么GUI软件比较好用，直到后来知道了SourceTree，使用上一段时间就彻底离不开它了，功能强大，界面漂亮，用起来顺手，跨平台，还持续更新，最重要的是免费，你没看错，是免费（重要事情说两遍</sub>就可以了），有中文版本（虽然我不喜欢用中文版，目前还是用的英文版，原因是中文版看不出来对应的git命令是什么，个人建议大家也用英文版）。</p>
+<p><em>郑重声明一下，这篇文章不是软文。（如果SourceTree的作者看到这篇文章觉得不错的话…，可以和我联系，我这里可以接收美金，怎么联系到我？可以点击查看我的个人信息，微信，主页，邮箱都可以，好吧，我承认我想多了）。</em></p>
+<p>今天所说的插件开发，实际上是SourceTree一个叫Custom Action的功能，SourceTree从v1.3开始就增加了这个功能，这个功能可以让我们可以添加自定义的扩展动作，也就是我们经常说的插件，下面就用实际例子来让大家看看在实际中可以做些什么。</p>
+<h2 id="开始动手">开始动手</h2>
+<h3 id="加入open-in-sublime-text-2功能">加入Open In Sublime Text 2功能</h3>
+<p>举第一个栗子，我们可以使用Sublime Text 2打开当前选中的文件。</p>
+<p><em>以下下步骤以英文版为准，中文版的请自行翻译…</em></p>
+<p>Custom Actions 页面点击Add添加一个名为 <code>Open In Sublime Text 2</code> 的动作，右边的编辑框可以添加快捷键，接着拷贝下面代码到 <code>Script to run</code> 编辑框中</p>
+<blockquote>
+<p>/Applications/Sublime Text 2.app/Contents/SharedSupport/bin/subl</p>
+</blockquote>
+<p>Parameters添加 <code>$FILE</code>， 最后点击OK保存。<br>
+添加好的界面是这样子的：</p>
+<figure data-type="image" tabindex="1"><img src="https://blog.xioayee.top/post-images/sourcetree_001.png" alt="SourceTree" loading="lazy"></figure>
+<p>至此，我们已经成功实现了这个功能。使用的时候只要选中要打开的文件，点击右键 <code>Custom Actions</code> &gt;  <code>Open In Sublime Text 2</code> 即可。</p>
+<figure data-type="image" tabindex="2"><img src="https://blog.xioayee.top/post-images/sourcetree_002.png" alt="SourceTree" loading="lazy"></figure>
+<h3 id="加入open-workspace和open-xcodeproj功能">加入Open Workspace和Open Xcodeproj功能</h3>
+<p>接下来，我们再来做一个稍微复杂点的栗子。</p>
+<p>每次打开SourceTree的仓库列表或者进入仓库的时候，如果我们要打开这个仓库的项目文件，还得先去到这个项目的文件夹找到后再打开，如果有一个功能可以直接点击一个按钮就可以自动找到并打开这个仓库里面所有的xcworkspace或者xcodeproj文件就好了，值得庆幸的事，我们可以做到这样的插件，具体做法如下：</p>
+<ol>
+<li>新建一个自定义动作分别填入下面内容</li>
+</ol>
+<ul>
+<li>打开xcworkspace文件</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menu Caption</td>
+<td>Open Workspace</td>
+</tr>
+<tr>
+<td>Script to run</td>
+<td>/bin/bash</td>
+</tr>
+<tr>
+<td>Parameters</td>
+<td><code>/Users/.../open_xcode_project.sh $REPO xcworkspace</code></td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>再新建建一个自定义动作分别填入下面内容</li>
+</ol>
+<ul>
+<li>打开xcodeproj文件</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>字段名</th>
+<th>内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menu Caption</td>
+<td>Open Xcodeproj</td>
+</tr>
+<tr>
+<td>Script to run</td>
+<td>/bin/bash</td>
+</tr>
+<tr>
+<td>Parameters</td>
+<td><code>/Users/.../open_xcode_project.sh $REPO xcodeproj</code></td>
+</tr>
+</tbody>
+</table>
+<ol start="3">
+<li>新建一个名为<code>open_xcode_project.sh</code>文件，路径和上面的路径一致：<code>/Users/.../open_xcode_project.sh</code>，路径是你自己定的，不要和我一样也加<code>...</code>，内容如下：</li>
+</ol>
+<pre><code class="language-bash">#仓库路径
+REPO_PATH=$1
+#文件的类型
+OPEN_TYPE=$2
+
+#判断打开项目文件的类型，根据类型筛选出项目文件路径
+if [ $OPEN_TYPE = &quot;xcodeproj&quot; ]; then
+    LIST=`find $REPO_PATH -name &quot;*.xcodeproj&quot; | grep -v &quot;Pods.xcodeproj&quot;`
+else
+    LIST=`find $REPO_PATH -name &quot;*.xcworkspace&quot; | grep -v &quot;.xcodeproj/project.xcworkspace&quot;`
+fi
+
+for ITEM in $LIST
+do
+#打开项目文件
+open $ITEM
+
+done
+</code></pre>
+<p>上面用到的 <code>open_xcode_project.sh</code> 文件我已经上传到github，传送门：<a href="https://github.com/MellongLau/SourceTree-Custom-Action">SourceTree Custom Action</a></p>
+<p>完成上面这几步后，在仓库右键就可以看到新添加的两个功能，如下图，点击对应的功能程序就会自动打开该仓库下的项目文件，不得不说太方便了！满满的成就感有没有！</p>
+<figure data-type="image" tabindex="3"><img src="https://blog.xioayee.top/post-images/sourcetree_003.png" alt="SourceTree" loading="lazy"></figure>
+<p>不难看出，这个插件主要是通过shell脚本来完成，把仓库的路径和打开文件的类型传给脚本来进行处理，脚本过滤出目标的文件路径并依此使用默认的软件（也就是Xcode）来打开项目文件。</p>
+<h2 id="最后">最后</h2>
+<p>这篇文章只是抛砖引玉，你可以做到更多更棒的功能，只要你对shell命令足够熟悉，当然，想法最重要，如果有好的想法欢迎你共享出来，只有分享才能相互进步。</p>
+<p>另外，我建了一个SourceTree的Custom Action github仓库：<a href="https://github.com/MellongLau/SourceTree-Custom-Action">SourceTree Custom Action</a>，希望<code>有志之士</code>（说的就是你）一起来维护，来给我pull request吧。希望看到不久的将来我的SourceTree的Custom Action菜单满满的都是各种各样的功能。</p>
+<p><em>The End.</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2016-04-19-xcode-plugin-AMMethod2Implement/" class="post-title gt-a-link">
+                    Xcode自动填充方法插件：AMMethod2Implement
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

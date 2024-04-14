@@ -1,0 +1,246 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>x86 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <div class="main-content">
+        <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+        <div class="current-tag-container">
+            <h2 class="title gt-c-content-color-first">
+                #x86
+            </h2>
+        </div>
+        <div class="post-list-container">
+    <div class="post-inner">
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/x86-hui-bian-fu-dian-yun-suan/">
+                            <span class="post-title gt-c-content-color-first">x86汇编浮点运算</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>我们都知道汇编整形数加减运算可以使用add/sub来进行运算，比较简单，但是如果要进行浮点运行，就不能直接用add/sub来进行运算了，比较麻烦一些，所以今天把浮点运算方法记录一下，以免后面用到的时候又忘了。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2024-02-11 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/VSmF_Z0HA/" class="post-tag">
+                                # asm
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/-oulotQPW0/" class="post-tag">
+                                # 汇编
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/5G8YXBiu-6/" class="post-tag">
+                                # x86
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/hui-bian-zhong-ru-he-feng-zhuang-yi-you-de-han-shu/">
+                            <span class="post-title gt-c-content-color-first">汇编中如何封装已有的函数</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>有时候反编译后发现函数是类的一个方法，因此调用函数的时候有部分参数是通过eax或者esi传进来的，不是直接push进堆栈。这时候我们如果要使用c语言进行调用会比较麻烦，所以我的想法是把这种函数进行二次封装，让eax或者esi作为push的形式传进去，这样c语言调用的时候就可以直接进行函数调用。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2024-01-27 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/VSmF_Z0HA/" class="post-tag">
+                                # asm
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/-oulotQPW0/" class="post-tag">
+                                # 汇编
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/5G8YXBiu-6/" class="post-tag">
+                                # x86
+                            </a>
+                        
+                    </div>
+                </div>
+                
+            </div>
+        
+            <div class="post gt-bg-theme-color-second">
+                <div class="post-left">
+                    <div>
+                        
+                        <a href="https://blog.xioayee.top/post/x86-hui-bian-zhong-esp-he-ebp-qu-bie/">
+                            <span class="post-title gt-c-content-color-first">x86汇编中ESP和EBP区别</span>
+                        </a>
+                    </div>
+                    <div class="gt-post-content post-abstract gt-c-content-color-second">
+                        <p>我们知道ESP和EBP都是x86的CPU寄存器，在汇编中经常会用到，这两个比较容易搞混，我之前用了下，一段时间没用又记不清两者的区别和用法了，故写一篇文章记录下。</p>
+
+                    </div>
+                    <div class="post-info">
+                        <time class="post-time gt-c-content-color-first">
+                            发布于 · 2023-12-15 ·
+                        </time>
+                        
+                            <a href="https://blog.xioayee.top/tag/VSmF_Z0HA/" class="post-tag">
+                                # asm
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/-oulotQPW0/" class="post-tag">
+                                # 汇编
+                            </a>
+                        
+                            <a href="https://blog.xioayee.top/tag/5G8YXBiu-6/" class="post-tag">
+                                # x86
+                            </a>
+                        
+                    </div>
+                </div>
+                
+                    <a href="https://blog.xioayee.top/post/x86-hui-bian-zhong-esp-he-ebp-qu-bie/" class="post-feature-image"
+                       style="background-image: url('https://blog.xioayee.top/post-images/x86-hui-bian-zhong-esp-he-ebp-qu-bie.png')">
+                    </a>
+                
+            </div>
+        
+    </div>
+</div>
+        <div class="pagination-container">
+    
+    
+</div>
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

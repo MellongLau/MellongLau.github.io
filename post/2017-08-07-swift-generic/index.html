@@ -1,0 +1,360 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>Swift 之泛型 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    Swift 之泛型
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2017-08-07 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/0W8bqlHhdK/" class="post-tags">
+                            # swift
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>泛型代码允许你编写灵活，可以重用适用于任何类型的函数和类型。<br>
+大部分的Swift标准库都是用泛型代码编写。Array和Dictionary事实上都是泛型集合。你可以创建Int值的数组，或者String值的数组，以及其他swift类型的数组。Dictionary也是类似的。</p>
+<!-- more -->
+<p>一般情况我我们这样写函数</p>
+<pre><code class="language-swift">func swapTwoInts(_ a: inout Int, _ b: inout Int) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+<p>使用in-out关键字的参数可以修改外部传入的变量的值</p>
+<pre><code class="language-swift">var someInt = 3
+var anotherInt = 107
+swapTwoInts(&amp;someInt, &amp;anotherInt)
+print(&quot;someInt is now \(someInt), and anotherInt is now \(anotherInt)&quot;)
+// Prints &quot;someInt is now 107, and anotherInt is now 3&quot;
+</code></pre>
+<p>可以看到外部定义的变量经过<code>swapTwoInts(_:_:)</code>函数交换了值。这里我们直接定义的是Int类型的值交换，如果我们想交换String或者Double的类型的值，那我们还得重新写对应类型的函数：</p>
+<pre><code class="language-swift">func swapTwoStrings(_ a: inout String, _ b: inout String) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+ 
+func swapTwoDoubles(_ a: inout Double, _ b: inout Double) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+<p>从上面的代码可以看到，这几个函数的代码除了类型不一样之外，其他都是一样的，那么这时我们可以用泛型来进行定义。</p>
+<h3 id="generic-functions">Generic Functions</h3>
+<p>泛型函数可以适配任何类型。</p>
+<pre><code class="language-swift">func swapTwoValues&lt;T&gt;(_ a: inout T, _ b: inout T) {
+    let temporaryA = a
+    a = b
+    b = temporaryA
+}
+</code></pre>
+<p>看看和上面指定类型写法的区别</p>
+<pre><code class="language-swift">func swapTwoInts(_ a: inout Int, _ b: inout Int)
+func swapTwoValues&lt;T&gt;(_ a: inout T, _ b: inout T)
+</code></pre>
+<p>泛型函数定义好之后，我们就可以直接调用</p>
+<pre><code class="language-swift">var someInt = 3
+var anotherInt = 107
+swapTwoValues(&amp;someInt, &amp;anotherInt)
+// someInt is now 107, and anotherInt is now 3
+ 
+var someString = &quot;hello&quot;
+var anotherString = &quot;world&quot;
+swapTwoValues(&amp;someString, &amp;anotherString)
+// someString is now &quot;world&quot;, and anotherString is now &quot;hello&quot;
+</code></pre>
+<p>上面这个函数只是为了举例说明泛型的用法，实际使用中我们可以直接使用Swift已经存在的函数<code>swap(_:_:)</code>来交换两个变量的值。</p>
+<h3 id="类型参数">类型参数</h3>
+<p>你可以在尖括号内写多个类型参数名称, 用逗号隔开。函数被调用的时候，这些类型参数将会被替换成实际的类型。</p>
+<h3 id="类型参数的命名">类型参数的命名</h3>
+<p>可以采用类似Dictionary&lt;Key, Value&gt;, 或者Array<Element>的命名方式，如果类型参数跟实际类型没有多大搞关联，也可以使用单个字母T, U, 和 V，例如swapTwoValues(<em>:</em>:)就是用的 T 作为类型参数。</p>
+<p>另外，类型参数命名的<strong>首字母要大写</strong>，例如 T 和 MyTypeParameter，这是为了表明这些是类型的占位符，而不是一个值。</p>
+<h3 id="泛型类型">泛型类型</h3>
+<p>在Swift中，我们可以自己定义泛型类型。自定义类，结构体和枚举都可以使用和数组，字典类似的任何类型。</p>
+<p>这部分主要展示给你是一个实现泛型集合类型的栈，UINavigationController 中就有使用到栈的概念。</p>
+<p>结合下面图例更容易理解：</p>
+<figure data-type="image" tabindex="1"><img src="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Art/stackPushPop_2x.png" alt="" loading="lazy"></figure>
+<p>下面是没有使用泛型版本的栈：</p>
+<pre><code class="language-swift">struct IntStack {
+    var items = [Int]()
+    mutating func push(_ item: Int) {
+        items.append(item)
+    }
+    mutating func pop() -&gt; Int {
+        return items.removeLast()
+    }
+}
+
+</code></pre>
+<p>当然，只支持 Int 的栈并不能满足我们的项目需求，所以下面是使用泛型版本：</p>
+<pre><code class="language-swift">struct Stack&lt;Element&gt; {
+    var items = [Element]()
+    mutating func push(_ item: Element) {
+        items.append(item)
+    }
+    mutating func pop() -&gt; Element {
+        return items.removeLast()
+    }
+}
+</code></pre>
+<p>这里使用泛型参数<strong>Element</strong>代替实际类型Int, 使用尖括号<Element>写在结构名称后面。后面所有地方都可以用Element表示类型，</p>
+<p>使用的时候只需在初始化的时候写 Stack<String>(), 则表明这个是一个字符串栈:</p>
+<pre><code class="language-swift">var stackOfStrings = Stack&lt;String&gt;()
+stackOfStrings.push(&quot;uno&quot;)
+stackOfStrings.push(&quot;dos&quot;)
+stackOfStrings.push(&quot;tres&quot;)
+stackOfStrings.push(&quot;cuatro&quot;)
+// the stack now contains 4 strings
+</code></pre>
+<p>具体才栈操作相信大家已经非常熟悉了，这里就不再赘述。</p>
+<h3 id="扩展泛型类型">扩展泛型类型</h3>
+<p>下面是一个扩展泛型栈类型的例子：</p>
+<pre><code class="language-swift">extension Stack {
+    var topItem: Element? {
+        return items.isEmpty ? nil : items[items.count - 1]
+    }
+}
+</code></pre>
+<p>这里为栈添加了一个只读的 topItem 属性。</p>
+<p>topItem 这个计算属性现在可以在任何的栈实例中被使用，可以用它来获取栈的顶部元素，但不移除这个元素。</p>
+<pre><code class="language-swift">if let topItem = stackOfStrings.topItem {
+    print(&quot;The top item on the stack is \(topItem).&quot;)
+}
+// Prints &quot;The top item on the stack is tres.&quot;
+</code></pre>
+<h3 id="类型约束">类型约束</h3>
+<p>有些时候我们需要给泛型类型加上约束，例如指定类型参数必须继承某个指定的类，或者遵循某个协议或者协议组合。</p>
+<p>例如Dictionary类型对 key 做了限制， key 必须是遵循 Hashable 协议的。其中，Swift 的基本类型（String，Int，Double和 Bool）默认都是遵循 Hashable 协议的。</p>
+<p>在创建自定义泛型类型的时候，你也可以定义你自己的类型约束。</p>
+<h3 id="类型约束符号">类型约束符号</h3>
+<p>如下例所示，为类型参数添加类型约束的时候，可以在类型参数的名称后面加入一个类或者协议的约束，多个类型参数可用逗号隔开：</p>
+<pre><code class="language-swift">func someFunction&lt;T: SomeClass, U: SomeProtocol&gt;(someT: T, someU: U) {
+    // function body goes here
+}
+</code></pre>
+<p>上面例子中中，第一个类型参数 T 的类型约束是：T 必须是 SomeClass 的子类。第二个类型参数 U 则必须遵循协议 SomeProtocol。</p>
+<h3 id="类型约束实践">类型约束实践</h3>
+<p>这里有一个非泛型函数叫 findIndex(ofString:in:)，这个函数提供一个 String 值来查找一个String 数组。findIndex(ofString:in:)函数返回一个 optional Int 值，返回匹配的字符串在数组中的位置，如果不存在这个字符串则返回 nil：</p>
+<pre><code class="language-swift">func findIndex(ofString valueToFind: String, in array: [String]) -&gt; Int? {
+    for (index, value) in array.enumerated() {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+</code></pre>
+<p>findIndex(ofString:in:)函数可以用来查找数组中的字符串：</p>
+<pre><code class="language-swift">let strings = [&quot;cat&quot;, &quot;dog&quot;, &quot;llama&quot;, &quot;parakeet&quot;, &quot;terrapin&quot;]
+if let foundIndex = findIndex(ofString: &quot;llama&quot;, in: strings) {
+    print(&quot;The index of llama is \(foundIndex)&quot;)
+}
+// Prints &quot;The index of llama is 2&quot;
+</code></pre>
+<p>然而，只能查找数组中字符串值位置的理念不是很好用。你可以通过替换任何字符串为类型 T 来代替，写一个相同功能的泛型函数。</p>
+<p>这里我们把findIndex(ofString:in:) 修改为泛型版本 findIndex(of:in:)。值得注意的是，返回类型依然是 Int?，因为函数返回一个optional 索引数字，而不是 来自数组的 optional 值。下面这个函数不能编译，后面会解释原因：</p>
+<pre><code class="language-swift">func findIndex&lt;T&gt;(of valueToFind: T, in array:[T]) -&gt; Int? {
+    for (index, value) in array.enumerated() {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+</code></pre>
+<p>上面所写的这个函数不能编译。问题在于相等性的检查，&quot;if value == valueToFind&quot;。不是任何类型在 Swift 中都可以使用操作符（==）进行相等比较。例如，如果你创建你自己的类或者结构体来展现一个复杂的数据模型，那么对于这个类或结构体的&quot;equal to&quot; 的含义不是 Swift 能够帮你猜到的。正因为如此，不可能保证这些代码对于所有可能的类型 T 都可行，同时当你试图编译这些代码的时候有提示相应的错误。</p>
+<p>但是，你还没有失去一切。Swift 标准库定义一个协议叫 Equatable，这个协议要求所有遵循的类型要实现相等操作符（==）和不等操作符（!=）来比较两个不同类型的值。所有的 Swift 标准类型都自动支持 Equatable protocol。</p>
+<p>任何是 Equatable 的类型都能够安全地在findIndex(of:in:)函数中使用，因为他保证支持相等操作符。为了验证这个事实，当你定义函数的时候，你可以写一个类型约束于 Equatable 的类型参数定义：</p>
+<pre><code class="language-swift">func findIndex&lt;T: Equatable&gt;(of valueToFind: T, in array:[T]) -&gt; Int? {
+    for (index, value) in array.enumerated() {
+        if value == valueToFind {
+            return index
+        }
+    }
+    return nil
+}
+</code></pre>
+<p>findIndex(of:in:)的单一类型参数写作 T: Equatable，这样写的意思是&quot;任何遵循于协议 Equatable 的类型 T&quot;。</p>
+<p>findIndex(of:in:)函数现在可以成功编译，并能够被使用任何是 Equatable 的类型，如 Double 和 String：</p>
+<pre><code class="language-swift">let doubleIndex = findIndex(of: 9.3, in: [3.14159, 0.1, 0.25])
+// doubleIndex is an optional Int with no value, because 9.3 is not in the array
+let stringIndex = findIndex(of: &quot;Andrea&quot;, in: [&quot;Mike&quot;, &quot;Malcolm&quot;, &quot;Andrea&quot;])
+// stringIndex is an optional Int containing a value of 2
+</code></pre>
+<h3 id="关联类型">关联类型</h3>
+<p>当定义一个协议的时候，有时候声明一个或多个关联类型作为协议定义的一部分是很有用的。一个关联类型提供一个类型的占位名，这个类型被用作协议的一部分。用于关联类型的实际类型直到协议被采用时才被指定。关联类型使用associatedtype关键字指定。</p>
+<h4 id="关联类型实践">关联类型实践</h4>
+<p>这里是一个声明了一个关联类型叫 ItemType 名字为 Container 的协议示例：</p>
+<pre><code class="language-swift">protocol Container {
+    associatedtype ItemType
+    mutating func append(_ item: ItemType)
+    var count: Int { get }
+    subscript(i: Int) -&gt; ItemType { get }
+}
+</code></pre>
+<p>协议 Container 定义了任何容器必须提供的三个要求的功能：</p>
+<ul>
+<li>必须可以使用 append(_:)方法添加一个新的项目。</li>
+<li>必须可以通过使用一个返回 Int 值的 count 属性来访问容器中的项目数。</li>
+<li>必须可以通过一个 Int 索引值的下标来获取容其中每个项目。</li>
+</ul>
+<p>这个协议并没有指明容器中应该保存多少项目或者允许什么类型保存。这个协议只是指明任何看作为 Container 的类型必须提供这三种功能。一个符合的类型可以提供额外的功能，只要它满足这个三个要求就可以了。</p>
+<p>Container 协议声明一个关联类型叫 ItemType，写作 associatedtype ItemType。这个协议没有定义 ItemType 是什么，这个信息留给任何符合的类型来提供。尽管如此，ItemType 别名提供一个方法在 Container 中引用项目的类型，并且定义一个类型给 append(_:)方法和下标使用，从而确保任何 Container 期望的行为被执行。</p>
+<p>翻译自：<br>
+<a href="https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Generics.html#//apple_ref/doc/uid/TP40014097-CH26-ID179">https://developer.apple.com/library/content/documentation/Swift/Conceptual/Swift_Programming_Language/Generics.html#//apple_ref/doc/uid/TP40014097-CH26-ID179</a></p>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2017-08-02-terminal-issue/" class="post-title gt-a-link">
+                    终端使用中遇到的问题
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

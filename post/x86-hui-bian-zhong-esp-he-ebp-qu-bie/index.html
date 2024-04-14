@@ -1,0 +1,193 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>x86汇编中ESP和EBP区别 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    x86汇编中ESP和EBP区别
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2023-12-15 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/VSmF_Z0HA/" class="post-tags">
+                            # asm
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/-oulotQPW0/" class="post-tags">
+                            # 汇编
+                        </a>
+                    
+                        <a href="https://blog.xioayee.top/tag/5G8YXBiu-6/" class="post-tags">
+                            # x86
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>我们知道ESP和EBP都是x86的CPU寄存器，在汇编中经常会用到，这两个比较容易搞混，我之前用了下，一段时间没用又记不清两者的区别和用法了，故写一篇文章记录下。</p>
+<!-- more -->
+<blockquote>
+<p>ESP (Extended Stack Pointer):<br>
+ESP 寄存器是堆栈指针寄存器，它总是指向程序栈顶部的地址。在函数调用和返回过程中，ESP 用于跟踪栈上的最新数据。当数据被推送到栈上时，ESP 的值减小（因为栈在内存中向下增长），而当数据被弹出栈时，ESP 的值增加。</p>
+</blockquote>
+<blockquote>
+<p>EBP (Extended Base Pointer):<br>
+EBP 寄存器是基指针寄存器，它通常用于在函数调用期间作为参考点，来访问函数参数和局部变量。一般在函数的开始处，会将当前的 ESP 值复制到 EBP 中，这样无论栈指针如何移动，函数内部都可以通过 EBP 寄存器以一个固定的偏移量来访问其参数和局部变量。</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://blog.xioayee.top/post-images/1710688514959.png" alt="" loading="lazy"></figure>
+<p>简单来说ESP就是指向栈顶，EBP指向基址。ESP往栈底方向移动是用加偏移而不是减，栈底是高位地址（如上图），如<code>[ESP+4]</code>, 4是偏移量。</p>
+<p>以下是一个简单的例子，展示了在 x86 汇编语言中如何使用 ESP 和 EBP 寄存器：</p>
+<pre><code>push ebp            ; 将当前函数的EBP值保存到栈上
+mov ebp, esp        ; 将ESP的值复制到EBP，设置新的基点
+sub esp, 32         ; 在栈上为局部变量分配32字节的空间
+
+; 在这里可以通过EBP加上偏移量来访问函数的参数和局部变量
+
+mov esp, ebp        ; 恢复ESP的值，撤销局部变量的空间
+pop ebp             ; 恢复调用函数的EBP值
+ret                 ; 返回到调用函数的下一条指令
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/ios-jia-gou-tan-tao/" class="post-title gt-a-link">
+                    iOS架构探讨
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

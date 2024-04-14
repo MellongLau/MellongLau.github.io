@@ -1,0 +1,276 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>横屏竖屏自适应总结 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    横屏竖屏自适应总结
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2014-03-24 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>所有frame的高度和宽度应该通过superview的bounds计算。<br>
+xib中的view无法设置auto mask的必须通过代码设，不设定的话有时可以自动适应，但是有时会出现有部分黑屏的情况。<br>
+两边都不设置mask则为居中显示。</p>
+<p>以下两方法为rotate是自动调用，如果该viewController没有navigationController时，以下两方法可能不被调用，需要自己加入通知中心。</p>
+<pre><code class="language-objc">- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+</code></pre>
+<p>调用此方法时superview.bounds已经改变</p>
+<!-- more -->
+<pre><code class="language-objc">- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+</code></pre>
+<p>调用此方法时superview.bounds未改变</p>
+<p>获取当前屏幕方向</p>
+<pre><code class="language-objc">UIInterfaceOrientation currentOrient = [UIApplication  sharedApplication].statusBarOrientation;
+</code></pre>
+<p>判断当前设备是否为4寸屏</p>
+<pre><code class="language-objc">#define isIPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+</code></pre>
+<p>3.5与4寸屏高度相差88.f,宽度一样为320.f<br>
+自适应横屏一般修改automask的autowidth,导航栏和一般控件主要变化的是宽度，高度也变化的一般是可以tableView和scrollView等。</p>
+<p>有时候横屏没有正确自适应一般是superview.bounds未改变，设置subview frame的时机不对。</p>
+<ul>
+<li>如果想让某一个ViewController固定某个方向不旋转，方法如下：</li>
+</ul>
+<ol>
+<li>修改AppDelegate.m，加入下列代码，其中_enablePortrait为新增的变量，用于判断是否要进行旋转。</li>
+</ol>
+<pre><code class="language-objc">- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
+{
+    if(_enablePortrait)
+    {
+        return UIInterfaceOrientationMaskPortrait;
+    }
+        
+    return UIInterfaceOrientationMaskLandscape | UIInterfaceOrientationMaskPortrait;
+
+}
+</code></pre>
+<ol start="2">
+<li>在不需要旋转的viewController中的下列方法中加入以下代码即可。</li>
+</ol>
+<pre><code class="language-objc">-(void)viewWillAppear:(BOOL)animated
+{
+    AppDelegate *delegate = (AppDelegate *)[UIApplicationsharedApplication].delegate;
+    delegate.enablePortrait = YES;
+
+}
+
+
+
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    AppDelegate *delegate = (AppDelegate *)[UIApplicationsharedApplication].delegate;
+    delegate.enablePortrait = NO;
+}
+</code></pre>
+<p>由于使用pushViewController会导致所进入的视图会根据前一视图的方向显示，所以需要用以下方法hack一下，才能使其自动根据设定的方向旋转。</p>
+<pre><code class="language-objc">- (void)updateOrientation
+{
+    [[UIApplicationsharedApplication] setStatusBarOrientation:UIInterfaceOrientationPortraitanimated:NO];
+    UIViewController *viewController = [[UIViewControlleralloc] init];
+    [self presentModalViewController:viewController animated:NO];
+    [self dismissModalViewControllerAnimated:NO];
+    [viewController release];
+}
+</code></pre>
+<ul>
+<li>iOS6旋转发生当时屏幕不旋转的原因可能是：</li>
+</ul>
+<pre><code class="language-objc">        if (SYSTEM_VERSION_GREATER_THAN_OR_EQUAL_TO(@&quot;6.0&quot;)) {
+            self.window.rootViewController = gameNavController;
+        }else {
+            [self.window addSubview:gameNavController.view];
+
+        }
+</code></pre>
+<p>在应用中有时需要制定某些页面是Portrait或者landscape，这时需要在info.plist文件加入对这些方向的支持。<br>
+如果window的rootViewController是NavigationController则需继承该类写入：</p>
+<pre><code class="language-objc">//iOS6以下版本
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationIsLandscape(toInterfaceOrientation);
+}
+//iOS6及以上版本
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskLandscape;
+
+}
+</code></pre>
+<p>由此则全局默认情况下只支持landscape。<br>
+注意：navigationController在其子类中指定，在push进去的viewController指定则是无效。</p>
+<p>有效的情况为使用presentModalViewController或者其他形式的present，在present的viewController中重写这三个方法，可以限制其当前的方向只为portrait.</p>
+<pre><code class="language-objc">- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return UIInterfaceOrientationPortrait == toInterfaceOrientation;
+}
+
+- (BOOL)shouldAutorotate
+{
+    return YES;
+}
+
+- (NSUInteger)supportedInterfaceOrientations
+{
+    return UIInterfaceOrientationMaskPortrait;
+
+}
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/zi-ding-yi-uitextfield-bei-jing/" class="post-title gt-a-link">
+                    自定义UITextField背景
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

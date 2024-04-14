@@ -1,0 +1,184 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>iOS开发干货 第1期 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    iOS开发干货 第1期
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2016-04-30 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <h2 id="写在前面">写在前面</h2>
+<p>在网上看到很多类似的iOS开源库定期分享类文章，觉得非常实用，其实，我自己平时在开发中也不时看到有很不错的资源，但是经常是没有用到就没记录下来，后来想用的时候就可能想不起来找不到了，因此现在也用这种形式记下来方便自己查找，同时也分享给大家。</p>
+<!-- more -->
+<h2 id="开源库">开源库</h2>
+<ol>
+<li><a href="https://github.com/BradLarson/GPUImage2">GPUImage 2</a> 鼎鼎大名的图像和视频处理开源库GPUImage第二代，之前是用object-c写的，这一次全部使用swift改写，因此GPUImage 2已经支持Linux和将来所有支持swift的平台。<br>
+<img src="https://camo.githubusercontent.com/68ce8767f20b6a40f2a695c56396d30234363431/687474703a2f2f73756e7365746c616b65736f6674776172652e636f6d2f73697465732f64656661756c742f66696c65732f475055496d6167654c6f676f2e706e67" alt="GPUImage 2" loading="lazy"></li>
+<li><a href="https://github.com/mrackwitz/MRProgress">MRProgress</a> 类似SVProgressHUD的进度条和状态提示控件集，看厌了SVProgressHUD的样式的话，不妨可以试一试这一款。<br>
+<img src="https://github.com/mrackwitz/MRProgress/raw/master/Images/screenshot_004_2.jpg" alt="MRProgress" loading="lazy"><img src="https://github.com/mrackwitz/MRProgress/raw/master/Images/screenshot_005_2.jpg" alt="MRProgress" loading="lazy"><img src="https://github.com/mrackwitz/MRProgress/raw/master/Images/screenshot_006_2.jpg" alt="MRProgress" loading="lazy"><br>
+<img src="https://github.com/mrackwitz/MRProgress/raw/master/Images/screenshot_007_2.jpg" alt="MRProgress" loading="lazy"></li>
+<li><a href="https://github.com/jathu/UIImageColors">UIImageColors</a> iTunes风格的图片颜色拾取器，它能提取图片里面最主要的和最突出的颜色。<br>
+<img src="https://github.com/jathu/UIImageColors/raw/master/preview.png" alt="UIImageColors" loading="lazy"></li>
+<li><a href="https://github.com/lilei644/LLSlideMenu">LLSlideMenu</a> 一个弹性侧滑菜单，效果如下图：<br>
+<img src="https://github.com/lilei644/LLSlideMenu/raw/master/Preview/LLSlideMenuPreview.gif" alt="LLSlideMenu" loading="lazy"></li>
+<li><a href="https://github.com/me-abhinav/NumberMorphView">NumberMorphView</a> 一个挺有意思的数字转变动画。<br>
+<img src="https://raw.githubusercontent.com/me-abhinav/NumberMorphView/dev/sample.gif" alt="NumberMorphView" loading="lazy"></li>
+<li><a href="https://github.com/MellongLau/AMAnimatedNumber">AMAnimatedNumber</a> 另外一种风格的数字动画。<br>
+<img src="https://camo.githubusercontent.com/231b1f75305c55093c9f2f8e1d78a7e47b2ae401/68747470733a2f2f7261772e6769746875622e636f6d2f4d656c6c6f6e674c61752f414d416e696d617465644e756d6265722f6d61737465722f53637265656e73686f74732f73637265656e73686f742e676966" alt="AMAnimatedNumber" loading="lazy"></li>
+<li><a href="https://github.com/PhamBaTho/BTNavigationDropdownMenu">BTNavigationDropdownMenu</a> 一款比较实用的导航栏下拉菜单控件。<br>
+<img src="https://github.com/PhamBaTho/BTNavigationDropdownMenu/raw/master/Assets/Demo.gif" alt="BTNavigationDropdownMenu" loading="lazy"></li>
+</ol>
+<p><em>The End</em></p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/2016-04-30-xcode-plugin/" class="post-title gt-a-link">
+                    iOS开发大神必备的Xcode插件
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>使用Sencha Touch 2.1进行iOS开发 —— 项目文件结构及代码分析 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    使用Sencha Touch 2.1进行iOS开发 —— 项目文件结构及代码分析
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2012-12-19 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>从第一篇文章我们知道了如何通过sencha命令创建Sencha Touch项目，而创建的项目里面已经包含了不少文件，如要开始写代码，我们有必要先了解所创建项目的文件结构及代码。</p>
+<!-- more -->
+<h2 id="文件结构">文件结构</h2>
+<p>在终端输入</p>
+<pre><code>$ sencha generate app HelloWorld ~/Desktop/HelloWorld
+</code></pre>
+<p>我们创建了一个名为HelloWorld的项目，进入该文件夹可以看到文件如下：</p>
+<pre><code>app/
+	controller/
+	model/
+	profile/
+	store/
+	view/
+		Main.js
+app.js
+app.json
+build.xml
+index.html
+packager.json
+resources/
+touch/
+</code></pre>
+<ul>
+<li>packager.json 一些sencha package命令要用到的文件，里面是一些编译打包配置信息。</li>
+<li>app.js 包含了应用的初始化逻辑代码。</li>
+<li>app.json 应用部署的配置。</li>
+<li>app/ MVC结构的应用源代码文件。</li>
+<li>resources/ 资源文件夹。</li>
+<li>touch/ Sencha Touch SDK文件。</li>
+</ul>
+<h2 id="代码分析">代码分析</h2>
+<h3 id="应用入口">应用入口</h3>
+<p>app.js是应用的初始化文件，也就是意味着应用的入口在这里，打开该文件，我可以看到这一段代码：</p>
+<pre><code>launch: function() {
+    // Destroy the #appLoadingIndicator element
+    Ext.fly('appLoadingIndicator').destroy();
+
+    // Initialize the main view
+    Ext.Viewport.add(Ext.create('HelloWorld.view.Main'));
+},
+</code></pre>
+<p><code>Ext.create('HelloWorld.view.Main')</code>创建了一个HelloWorld.view.Main实例并加入到Viewport中，也就是说我们进入应用看到的主界面的代码源文件是app/view/Main.js文件。</p>
+<h2 id="xtype">xtype</h2>
+<p>打开Main.js文件，上一篇文章已经讲过类的定义了，所以HelloWorld.view.Main类的定义应该比较好理解。需要注意的是里面的<code>xtype: 'main'</code>属性，这个是定义当前类的xtype，方便被其他类用进行引用，而config下items的xtype则是对其他已定义xtype的类的引用。</p>
+<p>下面是SDK所有的xtype及其对应的类：</p>
+<pre><code>xtype                   Class
+-----------------       ---------------------
+actionsheet             Ext.ActionSheet
+audio                   Ext.Audio
+button                  Ext.Button
+component               Ext.Component
+container               Ext.Container
+image                   Ext.Img
+label                   Ext.Label
+loadmask                Ext.LoadMask
+map                     Ext.Map
+mask                    Ext.Mask
+media                   Ext.Media
+panel                   Ext.Panel
+segmentedbutton         Ext.SegmentedButton
+sheet                   Ext.Sheet
+spacer                  Ext.Spacer
+title                   Ext.Title
+titlebar                Ext.TitleBar
+toolbar                 Ext.Toolbar
+video                   Ext.Video
+carousel                Ext.carousel.Carousel
+carouselindicator       Ext.carousel.Indicator
+navigationview          Ext.navigation.View
+datepicker              Ext.picker.Date
+picker                  Ext.picker.Picker
+pickerslot              Ext.picker.Slot
+slider                  Ext.slider.Slider
+thumb                   Ext.slider.Thumb
+tabbar                  Ext.tab.Bar
+tabpanel                Ext.tab.Panel
+tab                     Ext.tab.Tab
+viewport                Ext.viewport.Default
+
+DataView Components
+---------------------------------------------
+dataview                Ext.dataview.DataView
+list                    Ext.dataview.List
+listitemheader          Ext.dataview.ListItemHeader
+nestedlist              Ext.dataview.NestedList
+dataitem                Ext.dataview.component.DataItem
+
+Form Components
+---------------------------------------------
+checkboxfield           Ext.field.Checkbox
+datepickerfield         Ext.field.DatePicker
+emailfield              Ext.field.Email
+field                   Ext.field.Field
+hiddenfield             Ext.field.Hidden
+input                   Ext.field.Input
+numberfield             Ext.field.Number
+passwordfield           Ext.field.Password
+radiofield              Ext.field.Radio
+searchfield             Ext.field.Search
+selectfield             Ext.field.Select
+sliderfield             Ext.field.Slider
+spinnerfield            Ext.field.Spinner
+textfield               Ext.field.Text
+textareafield           Ext.field.TextArea
+textareainput           Ext.field.TextAreaInput
+togglefield             Ext.field.Toggle
+urlfield                Ext.field.Url
+fieldset                Ext.form.FieldSet
+formpanel               Ext.form.Panel
+</code></pre>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/shecha-touch-shi-li-xue-xi/" class="post-title gt-a-link">
+                    Shecha Touch实例学习
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

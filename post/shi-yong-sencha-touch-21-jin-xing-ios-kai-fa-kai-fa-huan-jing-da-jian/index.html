@@ -1,0 +1,207 @@
+<html>
+<head>
+    <meta charset="utf-8"/>
+<meta name="description" content=""/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+
+<title>使用Sencha Touch 2.1进行iOS开发 —— 开发环境搭建 | Mellong的技术博客</title>
+
+<link rel="shortcut icon" href="https://blog.xioayee.top/favicon.ico?v=1713096817003">
+
+<link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://blog.xioayee.top/styles/main.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/css/bootstrap.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@highlightjs/cdn-assets/highlight.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dockerfile.min.js"></script>
+<script src="https://cdn.bootcss.com/highlight.js/9.15.10/languages/dart.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/moment@2.27.0/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.0/dist/js/bootstrap.min.js"></script>
+<!-- DEMO JS -->
+<!--<script src="media/scripts/index.js"></script>-->
+
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.css">
+</head>
+<body>
+<div class="main gt-bg-theme-color-first">
+    <nav class="navbar navbar-expand-lg">
+    <div class="navbar-brand">
+        <img class="user-avatar" src="/images/avatar.png" alt="头像">
+        <div class="site-name gt-c-content-color-first">
+            Mellong的技术博客
+        </div>
+    </div>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <i class="fas fa-bars gt-c-content-color-first" style="font-size: 18px"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="navbar-nav mr-auto" style="text-align: center">
+            
+                <div class="nav-item">
+                    
+                        <a href="/" class="menu gt-a-link">
+                            首页
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/archives" class="menu gt-a-link">
+                            归档
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/tags" class="menu gt-a-link">
+                            标签
+                        </a>
+                    
+                </div>
+            
+                <div class="nav-item">
+                    
+                        <a href="/post/about" class="menu gt-a-link">
+                            关于
+                        </a>
+                    
+                </div>
+            
+        </div>
+        <div style="text-align: center">
+            <form id="gridea-search-form" style="position: relative" data-update="1713096817003" action="/search/index.html">
+                <input class="search-input" autocomplete="off" spellcheck="false" name="q" placeholder="搜索文章" />
+                <i class="fas fa-search gt-c-content-color-first" style="position: absolute; top: 9px; left: 10px;"></i>
+            </form>
+        </div>
+    </div>
+</nav>
+
+    <div class="post-container">
+        <div class="post-detail gt-bg-theme-color-second">
+            <article class="gt-post-content">
+                <h2 class="post-title">
+                    使用Sencha Touch 2.1进行iOS开发 —— 开发环境搭建
+                </h2>
+                <div class="post-info">
+                    <time class="post-time gt-c-content-color-first">
+                        · 2012-12-14 ·
+                    </time>
+                    
+                        <a href="https://blog.xioayee.top/tag/ZtKpOTEdb/" class="post-tags">
+                            # iOS
+                        </a>
+                    
+                </div>
+                <div class="post-content">
+                    <p>最近由于要用到Sencha Touch 2.1进行项目的开发，于是开始了对Sencha Touch的学习，学习Sencha Touch第一步当然是搭建开发环境。</p>
+<h2 id="开发环境搭建">开发环境搭建</h2>
+<h3 id="sencha-ios开发基本环境">Sencha iOS开发基本环境</h3>
+<ul>
+<li>Mac OSX</li>
+<li>Xcode</li>
+<li>Sencha Touch SDK</li>
+</ul>
+<!-- more -->
+<h3 id="sencha-touch-sdk下载">Sencha Touch SDK下载</h3>
+<p>开发环境搭建的第一步当然就是下载SDK，Sencha Touch 2.1的SDK可以到官网下载：<a href="http://www.sencha.com/products/touch/download/">下载页面</a>, 这里需要填个邮箱地址，随便填一个地址就可以了，会自动跳转到下载页面。</p>
+<h3 id="创建sencha-ios项目">创建Sencha iOS项目</h3>
+<p>SDk下载好了之后就可以通过PhoneGap或者直接自己建个项目在webView里面加载Sencha页面就可以了。事实上还有第三种方法，就是Sencha Cmd，官方对Sencha Cmd的介绍是：</p>
+<blockquote>
+<p>Sencha Cmd is a cross-platform command line tool that provides many automated tasks around the full life-cycle of your applications, from generating a new project to deploying an application to production.</p>
+</blockquote>
+<p>也就是说，我们可以直接使用Sencha Cmd这个工具进行全生命周期的应用开发。另外，官网还有个Sencha SDK Tools，不过官网也建议：</p>
+<blockquote>
+<p>Please note: Sencha SDK Tools are designed to be used with Sencha Touch 2 and Ext JS 4.0 and are deprecated for the most current framework releases. For the current version of Sencha’s build tools, please refer to Sencha Cmd, our unified tool for Sencha’s JavaScript frameworks.</p>
+</blockquote>
+<p>所以还是老老实实下载Sencha Cmd吧，Sencha Cmd <a href="http://www.sencha.com/products/sencha-cmd/download">下载地址</a>。</p>
+<p>下载后安装好就可以打开终端敲命令进行创建Sencha项目了，我们把项目创建在桌面，项目名称为HelloSencha，命令如下：</p>
+<pre><code>$ sencha generate app HelloSenCha ~/Desktop/HelloSenCha
+
+Sencha Cmd v3.0.0.250
+[INF]		init-properties:
+[INF]		init-sencha-command:
+[INF]		init:
+[INF]		-before-generate-workspace:
+[INF]		generate-workspace-impl:
+[WRN]		Ignoring @require ../version/Version.js in js/String.js
+[WRN]		Ignoring @require ../Ext-more.js in js/Format.js
+[INF]		-before-copy-framework-to-workspace:
+[INF]		copy-framework-to-workspace-impl:
+</code></pre>
+<p>等命令执行完毕后，到桌面就可以看到创建好的项目了。</p>
+<h3 id="编译项目">编译项目</h3>
+<p>无需通过Xcode，我们就可以直接执行命令进行编译，编译结果将放在../build 文件夹下。</p>
+<pre><code>$ sencha package build ~/Desktop/HelloSenCha/packager.json
+</code></pre>
+<h3 id="运行项目">运行项目</h3>
+<p>同样，我们无需打开Xcode，直接通过命令就可以把我们刚才创建的项目在iOS模拟器里面运行起来：</p>
+<pre><code>$ sencha package run ~/Desktop/HelloSenCha/packager.json
+</code></pre>
+<p>现在，我们已经知道了怎么创建、编译和部署项目了，接下来就可以进行Sencha Touch SDK的学习了。</p>
+
+                </div>
+            </article>
+        </div>
+
+        
+            <div class="next-post">
+                <div class="next gt-c-content-color-first">下一篇</div>
+                <a href="https://blog.xioayee.top/post/geng-gai-navigationcontroller-push-he-pop-jie-mian-qie-huan-dong-hua/" class="post-title gt-a-link">
+                    更改navigationController push和pop界面切换动画
+                </a>
+            </div>
+        
+
+        
+
+        
+
+        
+
+        <div class="site-footer gt-c-content-color-first">
+    <div class="slogan gt-c-content-color-first">iOS开发，电子产品爱好者</div>
+    <div class="social-container">
+        
+            
+                <a href="https://github.com/MellongLau" target="_blank">
+                    <i class="fab fa-github gt-c-content-color-first"></i>
+                </a>
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+            
+        
+    </div>
+    <div class="footer-info">
+        Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+    </div>
+    <div>
+        Theme by <a href="https://imhanjie.com/" target="_blank">imhanjie</a>, Powered by <a
+                href="https://github.com/getgridea/gridea" target="_blank">Gridea | <a href="https://blog.xioayee.top/atom.xml" target="_blank">RSS</a></a>
+    </div>
+</div>
+
+<script>
+  hljs.initHighlightingOnLoad()
+</script>
+
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,628 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <id>https://blog.xioayee.top</id>
+    <title>Mellong的技术博客</title>
+    <updated>2024-04-14T12:13:40.833Z</updated>
+    <generator>https://github.com/jpmonette/feed</generator>
+    <link rel="alternate" href="https://blog.xioayee.top"/>
+    <link rel="self" href="https://blog.xioayee.top/atom.xml"/>
+    <subtitle>iOS开发，电子产品爱好者</subtitle>
+    <logo>https://blog.xioayee.top/images/avatar.png</logo>
+    <icon>https://blog.xioayee.top/favicon.ico</icon>
+    <rights>All rights reserved 2024, Mellong的技术博客</rights>
+    <entry>
+        <title type="html"><![CDATA[几种屏幕尺寸对应的iPhone型号]]></title>
+        <id>https://blog.xioayee.top/post/ji-chong-ping-mu-chi-cun-dui-ying-de-iphone-xing-hao/</id>
+        <link href="https://blog.xioayee.top/post/ji-chong-ping-mu-chi-cun-dui-ying-de-iphone-xing-hao/">
+        </link>
+        <updated>2024-04-06T12:09:25.000Z</updated>
+        <content type="html"><![CDATA[<p><strong>6.7英寸的iPhone</strong><br>
+6.7英寸的屏幕是在iPhone 12 Pro Max引入的，此后的几代高端Max模型也继续使用这个屏幕尺寸。</p>
+<ul>
+<li>iPhone 12 Pro Max (2020年发布)</li>
+<li>iPhone 13 Pro Max (2021年发布)</li>
+<li>iPhone 14 Pro Max (2022年发布)</li>
+</ul>
+<p><strong>6.5英寸的iPhone</strong><br>
+6.5英寸的屏幕首次出现在iPhone XS Max上，后来iPhone 11 Pro Max也采用了这种尺寸。</p>
+<ul>
+<li>iPhone XS Max (2018年发布)</li>
+<li>iPhone 11 Pro Max (2019年发布)</li>
+</ul>
+<p><strong>5.5英寸的iPhone</strong><br>
+5.5英寸的屏幕在苹果的Plus系列中出现过。</p>
+<ul>
+<li>iPhone 6 Plus (2014年发布)</li>
+<li>iPhone 6s Plus (2015年发布)</li>
+<li>iPhone 7 Plus (2016年发布)</li>
+<li>iPhone 8 Plus (2017年发布)</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SwiftUI如何滚动到指定的位置]]></title>
+        <id>https://blog.xioayee.top/post/swiftui-ru-he-gun-dong-dao-zhi-ding-de-wei-zhi/</id>
+        <link href="https://blog.xioayee.top/post/swiftui-ru-he-gun-dong-dao-zhi-ding-de-wei-zhi/">
+        </link>
+        <updated>2024-03-31T11:53:06.000Z</updated>
+        <summary type="html"><![CDATA[<p>在 SwiftUI 中，实现 ScrollView 滚动到底部的功能，需要一些额外的步骤，因为 SwiftUI 的 ScrollView 默认并不提供直接的滚动控制。可以通过使用 ScrollViewReader 来实现这个功能。ScrollViewReader 提供了一个环境，其中可以使用其 proxy 对象来操作滚动视图的位置。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在 SwiftUI 中，实现 ScrollView 滚动到底部的功能，需要一些额外的步骤，因为 SwiftUI 的 ScrollView 默认并不提供直接的滚动控制。可以通过使用 ScrollViewReader 来实现这个功能。ScrollViewReader 提供了一个环境，其中可以使用其 proxy 对象来操作滚动视图的位置。</p>
+<!-- more -->
+<pre><code class="language-swift">ScrollViewReader { scrollViewProxy in
+    ScrollView {
+        VStack {
+            Button(action: {
+                ...
+            }, label: {
+                ...
+            })
+            ....
+            Button(action: {
+                ...
+            }, label: {
+                ...
+            })
+        }
+    }
+}
+</code></pre>
+<p>如上面代码所示，如果需要滚动到底部的Button，只需要给底部Button加个id属性，如：</p>
+<pre><code class="language-swift">Button(action: {
+    ...
+}, label: {
+    ...
+})
+.id(&quot;lastButton&quot;)
+</code></pre>
+<p>然后就可以使用</p>
+<pre><code class="language-swift">scrollViewProxy.scrollTo(&quot;lastButton&quot;, anchor: .bottom)
+</code></pre>
+<p>将ScrollView滚动到底部了，也可以给他加个动画：</p>
+<pre><code class="language-swift">withAnimation {
+    scrollViewProxy.scrollTo(&quot;lastButton&quot;, anchor: .bottom)
+}
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[让MongoDB支持事务]]></title>
+        <id>https://blog.xioayee.top/post/rang-mongodb-zhi-chi-shi-wu/</id>
+        <link href="https://blog.xioayee.top/post/rang-mongodb-zhi-chi-shi-wu/">
+        </link>
+        <updated>2024-03-23T01:35:35.000Z</updated>
+        <summary type="html"><![CDATA[<p>从MongoDB v4.0开始已经支持事务了，可以用下面代码写事务操作：</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>从MongoDB v4.0开始已经支持事务了，可以用下面代码写事务操作：</p>
+<!-- more -->
+<pre><code class="language-typescript">const session = db.getMongo().startSession();
+session.startTransaction();
+try {
+    // 你的数据库操作
+    session.commitTransaction();
+} catch (error) {
+    console.error(&quot;Transaction failed: &quot;, error);
+    session.abortTransaction();
+} finally {
+    session.endSession();
+}
+</code></pre>
+<p>但是如果MongoDB没有配置副本集，就会报下面这个错误：<br>
+<strong>Transaction numbers are only allowed on a replica set member or mongos</strong></p>
+<p>需要修改mongod.conf文件，加入下面配置：<br>
+replication:<br>
+replSetName: &quot;rs0&quot;</p>
+<p>如果服务还在运行，先关闭服务。<br>
+首先，可以使用 ps 命令找到 MongoDB 进程的 PID：</p>
+<pre><code class="language-bash">ps aux | grep mongod
+</code></pre>
+<p>找到 MongoDB 进程后，使用 kill 命令停止它：</p>
+<pre><code class="language-bash">kill [PID]
+</code></pre>
+<p>然后，重新通过 mongod 命令启动 MongoDB</p>
+<pre><code class="language-bash">mongod --config /usr/local/etc/mongod.conf
+</code></pre>
+<p>连接到 MongoDB shell 并初始化副本集：</p>
+<pre><code class="language-bash">mongo
+rs.initiate()
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[SwiftUI教程]]></title>
+        <id>https://blog.xioayee.top/post/swiftui-jiao-cheng/</id>
+        <link href="https://blog.xioayee.top/post/swiftui-jiao-cheng/">
+        </link>
+        <updated>2024-03-19T03:47:22.000Z</updated>
+        <summary type="html"><![CDATA[<p>先写了份SwiftUI学习教程大纲，涵盖了SwiftUI的所有关键技术和概念，后面有时间慢慢补坑。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>先写了份SwiftUI学习教程大纲，涵盖了SwiftUI的所有关键技术和概念，后面有时间慢慢补坑。</p>
+<!-- more -->
+<ul>
+<li>
+<p>SwiftUI基础</p>
+<ul>
+<li>SwiftUI简介</li>
+<li>声明式UI编程模型</li>
+<li>Views 和 ViewBuilders</li>
+<li>预览面板(Preview)的使用</li>
+</ul>
+</li>
+<li>
+<p>常用控件及布局</p>
+<ul>
+<li>Text, Image, Button等基础控件</li>
+<li>Stacks(HStack, VStack, ZStack)布局</li>
+<li>List 和 ScrollView</li>
+<li>LazyVGrid 和 LazyHGrid 网格布局</li>
+<li>Form 表单</li>
+<li>Spacer 和 Divider</li>
+</ul>
+</li>
+<li>
+<p>Combine框架基础</p>
+<ul>
+<li>Publisher和Subscriber</li>
+<li>@Published和CurrentValueSubject</li>
+<li>Combine中的数据流和操作符</li>
+</ul>
+</li>
+<li>
+<p>状态与数据流</p>
+<ul>
+<li>@State 管理局部状态</li>
+<li>@Binding 数据双向绑定</li>
+<li>@ObservedObject 和 @StateObject</li>
+<li>@EnvironmentObject 环境对象</li>
+<li>@Published 发布属性</li>
+</ul>
+</li>
+<li>
+<p>页面导航</p>
+<ul>
+<li>NavigationView 和 NavigationLink</li>
+<li>TabView 标签导航</li>
+<li>Sheet 和 fullScreenCover 模态页面</li>
+<li>Alerts 和 Actionsheets</li>
+</ul>
+</li>
+<li>
+<p>生命周期和事件</p>
+<ul>
+<li>onAppear 和 onDisappear</li>
+<li>onChange 监听状态变化</li>
+<li>@Environment 获取环境值</li>
+</ul>
+</li>
+<li>
+<p>动画与过渡</p>
+<ul>
+<li>Animation 基础动画</li>
+<li>过渡动画(transitions)</li>
+<li>非对称过渡</li>
+<li>matchedGeometryEffect 动画</li>
+</ul>
+</li>
+<li>
+<p>手势交互</p>
+<ul>
+<li>TapGesture 点击手势</li>
+<li>LongPressGesture 长按手势</li>
+<li>DragGesture 拖动手势</li>
+<li>MagnificationGesture 缩放手势</li>
+<li>RotationGesture 旋转手势</li>
+<li>组合手势(simultaneously, sequenced)</li>
+</ul>
+</li>
+<li>
+<p>自定义布局</p>
+<ul>
+<li>自定义UIViewRepresentable</li>
+<li>自定义Layout</li>
+</ul>
+</li>
+<li>
+<p>数据持久化</p>
+<ul>
+<li>@AppStorage 轻量数据持久化</li>
+<li>Core Data 集成</li>
+</ul>
+</li>
+<li>
+<p>与UIKit集成</p>
+<ul>
+<li>UIViewControllerRepresentable</li>
+<li>UIViewRepresentable</li>
+</ul>
+</li>
+<li>
+<p>绘图与特效</p>
+<ul>
+<li>Paths &amp; Shapes绘图</li>
+<li>UIGraphicsImageRenderer绘制</li>
+<li>Core Image 滤镜</li>
+<li>Metal 渲染</li>
+</ul>
+</li>
+<li>
+<p>并发编程</p>
+<ul>
+<li>async/await异步编程</li>
+<li>Actor模型</li>
+<li>TaskGroup 和 TaskPriority</li>
+</ul>
+</li>
+<li>
+<p>辅助功能</p>
+<ul>
+<li>动态字体缩放</li>
+<li>色盲模式适配</li>
+<li>辅助功能标签(accessibilityLabel)</li>
+</ul>
+</li>
+<li>
+<p>SwiftUI 3.0+ 新特性</p>
+<ul>
+<li>AttributeGraph 自定义控件</li>
+<li>Canvas 绘图</li>
+<li>异步图片加载(AsyncImage)</li>
+<li>Tab 视图样式定制</li>
+<li>DatePicker、Gauge等新控件</li>
+<li>材料(Material)与模糊特效</li>
+<li>ShareLink 分享页面</li>
+<li>NavigationStack 和 NavigationSplitView 新页面导航方式</li>
+<li>Charts 图表绘制</li>
+<li>新的导航栏隐藏方式(toolbar/.hidden)</li>
+</ul>
+</li>
+<li>
+<p>SwiftUI最佳实践</p>
+<ul>
+<li>架构模式：MVVM在SwiftUI中的应用</li>
+<li>代码组织和模块化</li>
+<li>可维护性和可测试性</li>
+</ul>
+</li>
+<li>
+<p>实战项目</p>
+<ul>
+<li>
+<p>实战项目1: 待办事项应用</p>
+<ul>
+<li>设计UI</li>
+<li>数据模型</li>
+<li>增删改查操作</li>
+<li>状态管理</li>
+</ul>
+</li>
+<li>
+<p>实战项目2: 天气应用</p>
+<ul>
+<li>网络请求</li>
+<li>JSON解析</li>
+<li>异步图片加载</li>
+<li>复杂布局</li>
+</ul>
+</li>
+<li>
+<p>实战项目3: 新闻阅读器</p>
+<ul>
+<li>RSS解析</li>
+<li>多源合并</li>
+<li>文章阅读视图</li>
+<li>收藏与分享功能</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[Combine里面类似flatMapLatest的操作方法]]></title>
+        <id>https://blog.xioayee.top/post/combine-li-mian-lei-si-flatmaplatest-de-cao-zuo-fang-fa/</id>
+        <link href="https://blog.xioayee.top/post/combine-li-mian-lei-si-flatmaplatest-de-cao-zuo-fang-fa/">
+        </link>
+        <updated>2024-03-17T14:46:37.000Z</updated>
+        <summary type="html"><![CDATA[<p>在 Combine 框架中，并没有一个名为 flatMapLatest 的直接操作符，这是 ReactiveX（例如 RxSwift）中的一个术语，用于描述一个特定的 flatMap 行为：每当源发布者发出一个新的值，flatMapLatest 会切换到新的发布者，并取消订阅之前的发布者。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>在 Combine 框架中，并没有一个名为 flatMapLatest 的直接操作符，这是 ReactiveX（例如 RxSwift）中的一个术语，用于描述一个特定的 flatMap 行为：每当源发布者发出一个新的值，flatMapLatest 会切换到新的发布者，并取消订阅之前的发布者。</p>
+<!-- more -->
+<p>在 Combine 中，要实现 flatMapLatest 的行为，可以使用 map 和 switchToLatest 操作符结合起来。switchToLatest 是 Combine 提供的操作符，用于只接收最新发布者发出的值，忽略旧的发布者的值。</p>
+<p>以下是一个示例，演示如何模拟 flatMapLatest 的行为：</p>
+<pre><code class="language-swift">var cancellables = Set&lt;AnyCancellable&gt;()
+// 返回 Publisher 的函数
+func publisher(for value: Int) -&gt; AnyPublisher&lt;Int, Never&gt; {
+    // 这里我们创建一个将 Int 值封装在 Publisher 中的 Publisher
+        return Just(value)
+            .delay(for: .seconds(Double(value)), scheduler: RunLoop.main)
+            .eraseToAnyPublisher()
+}
+
+// 源 Publisher，可以是任何类型的 Publisher
+let sourcePublisher = PassthroughSubject&lt;Int, Never&gt;()
+
+// 使用 map 来处理每个发送的值，并确保在任何时刻只有一个内部 Publisher 被订阅
+sourcePublisher
+    .map { value -&gt; AnyPublisher&lt;Int, Never&gt;  in
+        return publisher(for: value)
+    }
+    .switchToLatest() // 只订阅最新的内部 Publisher
+    .sink(receiveCompletion: { completion in
+        print(&quot;Completed with: \(completion)&quot;)
+    }, receiveValue: { value in
+        print(&quot;Received value: \(value)&quot;)
+    }).store(in: &amp;cancellables)
+sourcePublisher.send(1)
+sourcePublisher.send(2) // 1 的结果会被忽略，因为 2 是最新的
+sourcePublisher.send(3) // 2 的结果会被忽略，因为 3 是最新的
+</code></pre>
+<p>在这个例子中，sourcePublisher 是一个 PassthroughSubject，它可以发送值。每当它发送一个新的值，map 操作符会根据这个值创建一个新的 Publisher。然后，switchToLatest 只会订阅最新的 Publisher，之前的订阅会被取消，从而模拟出 flatMapLatest 的行为。</p>
+<p>使用 map 和 switchToLatest 的组合是 Combine 中实现 flatMapLatest 的方式，我们也可以写一个flatMapLatest扩展操作方法。</p>
+<pre><code class="language-swift">extension Publisher {
+    func flatMapLatest&lt;T: Publisher&gt;(_ transform: @escaping (Output) -&gt; T) -&gt; Publishers.SwitchToLatest&lt;T, Publishers.Map&lt;Self, T&gt;&gt; where T.Failure == Failure {
+        return map(transform).switchToLatest()
+    }
+}
+</code></pre>
+<p>这样的话可以把之前的代码简化成：</p>
+<pre><code class="language-swift">// 使用 map 来处理每个发送的值，并确保在任何时刻只有一个内部 Publisher 被订阅
+sourcePublisher
+    .flatMapLatest { value -&gt; AnyPublisher&lt;Int, Never&gt;  in
+        return publisher(for: value)
+    }
+    .sink(receiveCompletion: { completion in
+        print(&quot;Completed with: \(completion)&quot;)
+    }, receiveValue: { value in
+        print(&quot;Received value: \(value)&quot;)
+    }).store(in: &amp;cancellables)
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[如何通过IDA Pro跟踪按钮点击事件调用的函数地址]]></title>
+        <id>https://blog.xioayee.top/post/ru-he-tong-guo-ida-pro-gen-zong-an-niu-dian-ji-shi-jian-diao-yong-de-han-shu-di-zhi/</id>
+        <link href="https://blog.xioayee.top/post/ru-he-tong-guo-ida-pro-gen-zong-an-niu-dian-ji-shi-jian-diao-yong-de-han-shu-di-zhi/">
+        </link>
+        <updated>2024-03-10T07:25:28.000Z</updated>
+        <summary type="html"><![CDATA[<p>如题，这篇文章主要是讨论研究如何定位到按钮点击事件的函数地址。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>如题，这篇文章主要是讨论研究如何定位到按钮点击事件的函数地址。</p>
+<!-- more -->
+<p>一般来说点击事件主要有以下两种方式：</p>
+<ol>
+<li>
+<p>按钮点击</p>
+<ul>
+<li>
+<p>一个按钮点击事件通常会发送一个WM_COMMAND消息给主窗口的过程， WM_COMMAND的十六进制是0x111，我们可以使用0x111进行搜索。<br>
+可以使用Spy++ 进行拦截WM_COMMAND消息，Spy++ 可能不会捕获到所有类型的按钮事件，特别是如果它们是由非标准方式处理的（例如，直接使用 SendMessage 或 PostMessage API）。</p>
+</li>
+<li>
+<p>一些程序可能会使用 SendMessage 或 PostMessage API 来发送 WM_COMMAND 消息。在这些 API 调用上设置断点可以有助于找到消息发送的源头。<br>
+要捕获 SendMessage 或 PostMessage API 调用，需要一个能够监控这些函数调用的工具。Spy++ 可以监控消息，但它不会显示 API 调用的细节。我们可以使用 API Monitor 来进行拦截。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>鼠标事件</p>
+<ul>
+<li>有些事件是直接通过检测鼠标点击事件来调用对应的事件的，即使在UI上看到是个按钮，但也有可能是通过鼠标事件进行调用的。如何判断是否位鼠标调用，可以使用 API Monitor 来监测目标程序，然后勾上SetCapture函数，如果点击事件的时候会出现SetCapture的消息，那基本可以断定这个按钮事件是通过鼠标事件来调用的。</li>
+</ul>
+</li>
+</ol>
+<p>那么程序中是如何使用SetCapture来捕获并调用按钮事件的呢？我们又如何通过这些信息来定位到目标按钮事件函数呢？</p>
+<p>这是 SetCapture 函数的原型：</p>
+<pre><code class="language-c++">HWND SetCapture(HWND hWnd);
+</code></pre>
+<p>hWnd：指定要捕获鼠标输入的窗口的句柄。函数调用成功时返回之前捕获鼠标的窗口句柄，失败时返回 NULL。</p>
+<p>通过使用 SetCapture 函数，可以确保一个窗口接收到所有的鼠标输入事件，即使光标当前不在窗口内。然而，SetCapture 本身并不用于“监听”或“捕获”鼠标点击事件。要监听鼠标事件，需要结合消息处理机制来处理通过 SetCapture 获得的鼠标输入。</p>
+<p>以下是一个简化的例子，演示如何在一个 Win32 应用程序中捕获并处理鼠标点击事件：</p>
+<ul>
+<li>调用 SetCapture 来确保你的窗口可以接收鼠标事件。</li>
+</ul>
+<pre><code class="language-c">// hWnd 是目标窗口句柄
+SetCapture(hWnd);
+</code></pre>
+<ul>
+<li>在目标窗口过程中处理鼠标消息。以下是窗口过程的一个基本示例：</li>
+</ul>
+<pre><code class="language-c">LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+{
+    switch (message)
+    {
+    case WM_LBUTTONDOWN:
+        // 当鼠标左键被按下时执行
+        break;
+
+    case WM_LBUTTONUP:
+        // 当鼠标左键被释放时执行
+        break;
+
+    case WM_RBUTTONDOWN:
+        // 当鼠标右键被按下时执行
+        break;
+
+    case WM_RBUTTONUP:
+        // 当鼠标右键被释放时执行
+        break;
+
+    // 其它消息的处理
+
+    default:
+        return DefWindowProc(hWnd, message, wParam, lParam);
+    }
+    return 0;
+}
+</code></pre>
+<ul>
+<li>当完成鼠标事件处理后，调用 ReleaseCapture 来释放鼠标捕获。</li>
+</ul>
+<pre><code class="language-c">ReleaseCapture();
+</code></pre>
+<p>在上面的代码中，WM_LBUTTONDOWN, WM_LBUTTONUP, WM_RBUTTONDOWN, 和 WM_RBUTTONUP 是当鼠标左键和右键分别按下和释放时发送到窗口的消息。可以在这些消息处理代码中实现对鼠标点击的监听逻辑。</p>
+<p>接下来我们可以通过查找SetCapture，点击左侧<code>Names</code>这个tab，按Ctrl+F进行搜索<code>SetCapture</code>关键字，我们很快就可以找到SetCapture的地址，双击进入该地址，按键盘X显示xrefs来看看哪些地方引用了这个函数，一般程序很可能都只有一个地方使用这个函数，所有鼠标事件在一个地方集中处理，这个可以在xrefs窗口中的地址栏看出来，如果都是同一个地址只是加不同的偏移量的话，就是一个地方处理了。双击其中一个地址跳转到目标地址，按F5生成伪代码，可以看到Switch case伪代码，例如<code>case 0x202:</code>这个是鼠标点击被释放事件，一般是在这个事件中调用按钮事件。事实也证明是如此，成功在此处找到了对应的按钮处理事件，后续可以结合IDA Pro的动态调试功能进行验证。</p>
+<p>虽然我们已经找到事件调用的主函数地址，但是具体按钮的调用函数还需进入这个函数进行分析，通过具体代码的分析才能真正找到当前按钮点击时间调用的函数。</p>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[x86汇编浮点运算]]></title>
+        <id>https://blog.xioayee.top/post/x86-hui-bian-fu-dian-yun-suan/</id>
+        <link href="https://blog.xioayee.top/post/x86-hui-bian-fu-dian-yun-suan/">
+        </link>
+        <updated>2024-02-11T08:04:05.000Z</updated>
+        <summary type="html"><![CDATA[<p>我们都知道汇编整形数加减运算可以使用add/sub来进行运算，比较简单，但是如果要进行浮点运行，就不能直接用add/sub来进行运算了，比较麻烦一些，所以今天把浮点运算方法记录一下，以免后面用到的时候又忘了。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>我们都知道汇编整形数加减运算可以使用add/sub来进行运算，比较简单，但是如果要进行浮点运行，就不能直接用add/sub来进行运算了，比较麻烦一些，所以今天把浮点运算方法记录一下，以免后面用到的时候又忘了。</p>
+<!-- more -->
+<p>浮点运算需要用到的几个指令：</p>
+<ul>
+<li>FLD：类似PUSH指令，把当前浮点数压入堆栈。</li>
+<li>FILD：类似FLD，只是把整形数压入堆栈。</li>
+<li>FSTP：类似POP指令，把堆栈顶部浮点数出栈。</li>
+<li>FISTP：类似FSTP，只是把浮点数出栈为整形数。</li>
+</ul>
+<p>需要注意的是FLD/FSTP不能直接压入寄存器的数据，只能压入寄存去指向的内存地址的数据。</p>
+<p>下面是浮点数减法例子，思路是先转为整形数字，作减法后再转为浮点数。</p>
+<pre><code class="language-c">fld dword ptr [edi+30]
+sub esp, 8  // 栈顶加多8位
+fistp dword ptr [esp+4]
+sub [esp+4], 70
+fild dword ptr [esp+4]
+fstp dword ptr [esp+4]
+</code></pre>
+<p>类型转换 int to float</p>
+<pre><code class="language-c">fild dword ptr [eax]
+Fstp dword ptr [eax]
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[汇编中如何封装已有的函数]]></title>
+        <id>https://blog.xioayee.top/post/hui-bian-zhong-ru-he-feng-zhuang-yi-you-de-han-shu/</id>
+        <link href="https://blog.xioayee.top/post/hui-bian-zhong-ru-he-feng-zhuang-yi-you-de-han-shu/">
+        </link>
+        <updated>2024-01-27T08:18:35.000Z</updated>
+        <summary type="html"><![CDATA[<p>有时候反编译后发现函数是类的一个方法，因此调用函数的时候有部分参数是通过eax或者esi传进来的，不是直接push进堆栈。这时候我们如果要使用c语言进行调用会比较麻烦，所以我的想法是把这种函数进行二次封装，让eax或者esi作为push的形式传进去，这样c语言调用的时候就可以直接进行函数调用。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>有时候反编译后发现函数是类的一个方法，因此调用函数的时候有部分参数是通过eax或者esi传进来的，不是直接push进堆栈。这时候我们如果要使用c语言进行调用会比较麻烦，所以我的想法是把这种函数进行二次封装，让eax或者esi作为push的形式传进去，这样c语言调用的时候就可以直接进行函数调用。</p>
+<!-- more -->
+<p>首先，我们需要扩展这个软件的内存，如果软件可以找到确定可用的内存地址块也可以直接使用，否则可以自行扩展，扩展内存后找到扩展内存的起始地址，写入汇编代码，这个汇编代码是我们封装已有函数的代码，这个起始地址则为我们调用函数的地址。</p>
+<p>这时候这里有一个坑要注意，传参堆栈中不是直接拿的esp作为第一个参数，通过push传参数，然后call+目标地址，此时传进的参数不是<code>[esp],</code> 即不是栈顶，因call的时候会相当于把call指令下一行的地址push到栈顶，所以在call的函数里面拿参数要栈顶往下4个byte，即<code>[esp+4]</code>来拿这个参数。</p>
+<p>最后，我们就可以使用c语言进行调用，但是直接调用hex地址还是不够优雅，我们需要用c函数封装一下，后面使用起来也不容易用错，例如：</p>
+<pre><code class="language-c">void createView(int viewAddr, int layerIndex, int offsetX, int offsetY)
+ {
+   ((void (*)(int, int, int, int))0x894000)(viewAddr, layerIndex, offsetX, offsetY);
+ }
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[x86汇编中ESP和EBP区别]]></title>
+        <id>https://blog.xioayee.top/post/x86-hui-bian-zhong-esp-he-ebp-qu-bie/</id>
+        <link href="https://blog.xioayee.top/post/x86-hui-bian-zhong-esp-he-ebp-qu-bie/">
+        </link>
+        <updated>2023-12-15T14:26:23.000Z</updated>
+        <summary type="html"><![CDATA[<p>我们知道ESP和EBP都是x86的CPU寄存器，在汇编中经常会用到，这两个比较容易搞混，我之前用了下，一段时间没用又记不清两者的区别和用法了，故写一篇文章记录下。</p>
+]]></summary>
+        <content type="html"><![CDATA[<p>我们知道ESP和EBP都是x86的CPU寄存器，在汇编中经常会用到，这两个比较容易搞混，我之前用了下，一段时间没用又记不清两者的区别和用法了，故写一篇文章记录下。</p>
+<!-- more -->
+<blockquote>
+<p>ESP (Extended Stack Pointer):<br>
+ESP 寄存器是堆栈指针寄存器，它总是指向程序栈顶部的地址。在函数调用和返回过程中，ESP 用于跟踪栈上的最新数据。当数据被推送到栈上时，ESP 的值减小（因为栈在内存中向下增长），而当数据被弹出栈时，ESP 的值增加。</p>
+</blockquote>
+<blockquote>
+<p>EBP (Extended Base Pointer):<br>
+EBP 寄存器是基指针寄存器，它通常用于在函数调用期间作为参考点，来访问函数参数和局部变量。一般在函数的开始处，会将当前的 ESP 值复制到 EBP 中，这样无论栈指针如何移动，函数内部都可以通过 EBP 寄存器以一个固定的偏移量来访问其参数和局部变量。</p>
+</blockquote>
+<figure data-type="image" tabindex="1"><img src="https://blog.xioayee.top/post-images/1710688514959.png" alt="" loading="lazy"></figure>
+<p>简单来说ESP就是指向栈顶，EBP指向基址。ESP往栈底方向移动是用加偏移而不是减，栈底是高位地址（如上图），如<code>[ESP+4]</code>, 4是偏移量。</p>
+<p>以下是一个简单的例子，展示了在 x86 汇编语言中如何使用 ESP 和 EBP 寄存器：</p>
+<pre><code>push ebp            ; 将当前函数的EBP值保存到栈上
+mov ebp, esp        ; 将ESP的值复制到EBP，设置新的基点
+sub esp, 32         ; 在栈上为局部变量分配32字节的空间
+
+; 在这里可以通过EBP加上偏移量来访问函数的参数和局部变量
+
+mov esp, ebp        ; 恢复ESP的值，撤销局部变量的空间
+pop ebp             ; 恢复调用函数的EBP值
+ret                 ; 返回到调用函数的下一条指令
+</code></pre>
+]]></content>
+    </entry>
+    <entry>
+        <title type="html"><![CDATA[iOS架构探讨]]></title>
+        <id>https://blog.xioayee.top/post/ios-jia-gou-tan-tao/</id>
+        <link href="https://blog.xioayee.top/post/ios-jia-gou-tan-tao/">
+        </link>
+        <updated>2023-11-04T04:12:58.000Z</updated>
+        <summary type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>iOS开发也比较长时间了，这么久的从业经验也积累了不少对iOS架构的经验，各种大大小小的项目，好的架构能给后期开发和团队合作带来很大的益处，其目标是构建一个结构清晰、易于维护且可扩展的系统。一个好的架构可以使得应用更加稳定，提高开发效率，降低长期维护的成本，所以在项目建立的时候就要根据项目的复杂度选择好的项目架构，这篇文章主要是来探讨总结一下iOS的架构方面的内容。</p>
+]]></summary>
+        <content type="html"><![CDATA[<h2 id="前言">前言</h2>
+<p>iOS开发也比较长时间了，这么久的从业经验也积累了不少对iOS架构的经验，各种大大小小的项目，好的架构能给后期开发和团队合作带来很大的益处，其目标是构建一个结构清晰、易于维护且可扩展的系统。一个好的架构可以使得应用更加稳定，提高开发效率，降低长期维护的成本，所以在项目建立的时候就要根据项目的复杂度选择好的项目架构，这篇文章主要是来探讨总结一下iOS的架构方面的内容。</p>
+<!-- more -->
+<h3 id="设计模式">设计模式</h3>
+<p>熟悉并合理运用设计模式对于构建一个良好的架构至关重要。在iOS中，常见的架构模式包括：</p>
+<ul>
+<li>MVC (Model-View-Controller): Apple官方推荐的模式，但如果不当心，容易导致Controller过于臃肿（被称为Massive View Controller）。</li>
+<li>MVP (Model-View-Presenter): 在MVC的基础上，Presenter取代了Controller的角色，负责逻辑处理，减轻了Controller的负担。</li>
+<li>MVVM (Model-View-ViewModel): 引入ViewModel层，用于转换Model数据供View使用，减轻了Controller的责任，并有利于实现双向绑定。</li>
+<li>VIPER (View-Interactor-Presenter-Entity-Router): 一种更复杂的架构，旨在通过分离关注点来提高可测试性和可维护性，但学习曲线较陡峭。</li>
+</ul>
+<h3 id="架构原则">架构原则</h3>
+<p>理解并遵守一些基本的软件架构原则，如：</p>
+<ul>
+<li>SOLID原则：五大设计原则帮助开发者设计出易于维护和扩展的系统。</li>
+<li>DRY (Don't Repeat Yourself)：避免重复代码，减少维护成本。</li>
+<li>KISS (Keep It Simple, Stupid)：保持简单，避免过度设计。</li>
+<li>YAGNI (You Aren't Gonna Need It)：不要设计当前用不到的功能。</li>
+</ul>
+<h3 id="依赖注入">依赖注入</h3>
+<p>依赖注入（Dependency Injection，DI）是一种减少组件间耦合的技术，可以使得代码更加模块化，易于测试和维护。</p>
+<p><strong>依赖注入的主要方式：</strong></p>
+<ul>
+<li>
+<p>构造器注入（Constructor Injection）：<br>
+在创建类的实例时，通过构造器（初始化方法）将依赖项传递给该类。</p>
+</li>
+<li>
+<p>属性注入（Property Injection）：<br>
+类的实例被创建之后，通过公开的属性来设置依赖项。</p>
+</li>
+<li>
+<p>方法注入（Method Injection）：<br>
+依赖项通过方法的参数传递，通常用于传递某个方法调用所需的依赖项。</p>
+</li>
+</ul>
+<p><strong>依赖注入容器：</strong><br>
+在更复杂的应用中，可能会有多个类和多种依赖关系。在这种情况下，可以使用依赖注入容器（DI Container）来简化依赖管理。依赖注入容器是一个可以自动处理依赖关系的系统。在Swift中，我们可以手动创建一个容器，或者使用第三方库，如Swinject。</p>
+<h3 id="模块化与组件化">模块化与组件化</h3>
+<p>将应用分解为多个模块或组件，有利于代码的复用和UI统一，也有助于团队并行开发，并且使得代码更加清晰。</p>
+<h3 id="单元测试和自动化测试">单元测试和自动化测试</h3>
+<p>通过单元测试和自动化测试，提高测试覆盖率，可以确保编写的代码是符合预期的，能提升代码质量，减少Bug的产生。</p>
+<h3 id="持续集成持续部署cicd">持续集成/持续部署（CI/CD）</h3>
+<p>设置CI/CD可以自动化测试和部署过程，确保代码的集成质量，加快发布速度，减少人工操作错误。</p>
+<h4 id="持续集成ci">持续集成（CI）</h4>
+<p>持续集成是一种开发实践，开发团队成员频繁地将代码变更集成到共享仓库中。一般情况下，这意味着开发者每天至少集成一次，这样可以快速发现并解决集成错误，减少集成问题。</p>
+<p><strong>CI的关键实践包括：</strong></p>
+<ul>
+<li>版本控制：所有代码变更都应提交到版本控制系统中，如Git。</li>
+<li>自动化构建：使用自动化工具（如Xcode Server, Jenkins, GitLab CI, CircleCI, Travis CI等）来编译和构建应用。</li>
+<li>自动化测试：自动化执行单元测试和集成测试，确保代码变更没有破坏现有功能。</li>
+<li>快速反馈：如果构建或测试失败，团队成员应立即得到通知。</li>
+<li>维护构建系统：保持构建过程的速度和可靠性。</li>
+</ul>
+<h3 id="性能优化">性能优化</h3>
+<p>重视性能分析和优化，包括内存管理、线程与并发处理、网络请求优化等。</p>
+<h3 id="安全性">安全性</h3>
+<p>确保应用的安全性，包括代码混淆、数据加密、防止注入攻击、安全传输等。</p>
+<h3 id="实践建议">实践建议</h3>
+<ul>
+<li>代码审查：定期进行代码审查，可以提高代码质量并分享知识。</li>
+<li>文档与注释：保持良好的文档和代码注释习惯，有助于团队成员理解架构和代码。</li>
+<li>重构：不要害怕重构代码，持续重构是保持架构健康的重要手段。</li>
+</ul>
+]]></content>
+    </entry>
+</feed>
